@@ -1,10 +1,10 @@
-# Partido MIRA · Estrategia de Crecimiento Digital 2026
+# Partido MIRA · Estrategia de Crecimiento Digital
 
 Informe estratégico y materiales de investigación para el crecimiento digital del Partido MIRA, basados en datos reales de qué busca, pregunta y comparte Colombia, con foco en llegar a públicos nuevos.
 
 ## Entregable principal
 
-**`Informe_Estrategico_MIRA_2026.html`**
+**`Informe_Estrategico.html`**
 
 Documento autocontenido (ábrelo en cualquier navegador). Incluye:
 
@@ -27,11 +27,11 @@ La investigación combina tres capas de datos reales:
 ## Estructura
 
 ```
-Informe_Estrategico_MIRA_2026.html   Informe principal
-assets/viral/                        Screenshots reales de los posts usados en el informe
-research_data/                       Matriz de tendencias de DataForSEO
-docs/                                Reportes y manuales de soporte
-.claude/skills/                      Skills de metodología reutilizable
+Informe_Estrategico.html   Informe principal
+assets/viral/              Screenshots reales de los posts usados en el informe
+research_data/             Matriz de tendencias de DataForSEO
+docs/                      Reportes y manuales de soporte
+.claude/skills/            Skills de metodología reutilizable
 ```
 
 ## Skills de metodología

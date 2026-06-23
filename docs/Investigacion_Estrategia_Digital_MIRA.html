@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Del clic al cargo — Investigación de fenómenos políticos digitales & Estrategia MIRA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1EDE3; --paper-2:#F7F4EC; --card:#FBFAF5; --ink:#1B1A16; --ink-soft:#46443c;
+  --muted:#7a766b; --line:#d8d2c4; --line-soft:#e6e1d4;
+  --navy:#1d3461; --navy-2:#2c4a86; --red:#c2402a; --red-soft:#e8d3cc;
+  --green:#2f7350; --gold:#a9802f; --amber:#cf9a3a;
+  --shadow:0 1px 2px rgba(27,26,22,.05),0 8px 28px -12px rgba(27,26,22,.18);
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:"Hanken Grotesk",system-ui,sans-serif; font-size:17px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 12% 8%,rgba(29,52,97,.05),transparent 38%),radial-gradient(circle at 88% 92%,rgba(194,64,42,.045),transparent 42%);
+  background-attachment:fixed;
+}
+::selection{background:var(--navy);color:#fff}
+.mono{font-family:"IBM Plex Mono",monospace}
+.wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+h1,h2,h3,.disp{font-family:"Fraunces",Georgia,serif;font-weight:600;line-height:1.04;letter-spacing:-.01em}
+a{color:var(--navy)}
+
+/* progress + nav */
+#progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--navy),var(--red));z-index:90;transition:width .1s linear}
+nav{position:sticky;top:0;z-index:80;background:rgba(241,237,227,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:18px}
+nav .brand{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);font-weight:600;white-space:nowrap}
+nav .brand b{color:var(--red)}
+nav ul{display:flex;gap:4px;list-style:none;flex-wrap:wrap;justify-content:flex-end}
+nav a{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--muted);padding:7px 10px;border-radius:8px;transition:.2s;white-space:nowrap}
+nav a:hover{color:var(--ink);background:var(--paper-2)}
+nav a.on{color:#fff;background:var(--navy)}
+
+/* hero */
+header.hero{padding:64px 0 40px;position:relative;overflow:hidden}
+.kick{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--red);font-weight:600;display:inline-flex;align-items:center;gap:9px}
+.kick::before{content:"";width:26px;height:1px;background:var(--red)}
+.hero h1{font-size:clamp(40px,7vw,84px);font-weight:600;margin:20px 0 8px;max-width:14ch}
+.hero h1 em{font-style:italic;color:var(--navy)}
+.hero .lede{font-size:clamp(18px,2.4vw,23px);color:var(--ink-soft);max-width:60ch;font-weight:400}
+.hero .by{margin-top:22px;font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted);letter-spacing:.04em}
+.statband{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:42px}
+.statband div{background:var(--card);padding:20px 18px}
+.statband .n{font-family:"Fraunces",serif;font-size:34px;font-weight:600;color:var(--navy);letter-spacing:-.02em;line-height:1}
+.statband .l{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+
+/* section scaffold */
+section{padding:62px 0;border-top:1px solid var(--line);position:relative;scroll-margin-top:64px}
+.sec-head{display:flex;align-items:flex-start;gap:20px;margin-bottom:8px}
+.sec-num{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;color:var(--red);border:1px solid var(--red);border-radius:50px;padding:4px 13px;letter-spacing:.1em;white-space:nowrap;margin-top:8px}
+.sec-head h2{font-size:clamp(30px,4.4vw,50px)}
+.sec-sub{color:var(--ink-soft);max-width:68ch;margin:14px 0 36px;font-size:18px}
+.sec-sub.big{font-size:20px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+/* case cards */
+.grid{display:grid;gap:18px}
+.g3{grid-template-columns:repeat(3,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;position:relative;overflow:hidden}
+.card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -16px rgba(27,26,22,.3)}
+.card .flag{font-size:22px;line-height:1}
+.card .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.card h3{font-size:23px;font-weight:600}
+.card .role{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.badge{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:50px;white-space:nowrap}
+.b-win{background:#e4efe8;color:var(--green);border:1px solid #bcdcc9}
+.b-lose{background:var(--red-soft);color:var(--red);border:1px solid #dcb9b0}
+.b-arch{background:#ede9f0;color:#5b4a78;border:1px solid #d8cfe2}
+.card p{font-size:15px;color:var(--ink-soft);margin:10px 0}
+.kv{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 4px}
+.kv span{font-family:"IBM Plex Mono",monospace;font-size:11px;background:var(--paper-2);border:1px solid var(--line-soft);border-radius:7px;padding:4px 8px;color:var(--ink-soft)}
+.kv span b{color:var(--navy)}
+.lesson{margin-top:14px;padding-top:13px;border-top:1px dashed var(--line);font-size:14px;color:var(--ink)}
+.lesson b{color:var(--red)}
+.tag{position:absolute;top:0;right:0;font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;background:var(--navy);color:#fff;padding:4px 10px;border-bottom-left-radius:10px}
+.card-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
+.watch{display:inline-flex;align-items:center;gap:6px;font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.03em;text-decoration:none;color:#fff;background:var(--red);padding:8px 14px;border-radius:50px;transition:.2s}
+.watch:hover{background:#a8331f;transform:translateY(-1px)}
+.watch.ghost{background:transparent;color:var(--navy);border:1px solid var(--line)}
+.watch.ghost:hover{background:var(--paper-2);color:var(--navy)}
+.story{margin-top:0}
+.story summary{cursor:pointer;list-style:none;font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.03em;color:var(--navy);padding:8px 14px;border:1px solid var(--line);border-radius:50px;display:inline-flex;align-items:center;gap:7px;transition:.2s;user-select:none}
+.story summary::-webkit-details-marker{display:none}
+.story summary::before{content:"+";font-size:14px;line-height:1;font-weight:700}
+.story[open] summary::before{content:"–"}
+.story summary:hover{background:var(--paper-2);border-color:var(--navy)}
+.story .sb{font-size:14px;color:var(--ink-soft);margin-top:13px;padding-top:13px;border-top:1px dashed var(--line);line-height:1.62;animation:fade .35s ease}
+.story .sb b{color:var(--ink)}
+@keyframes fade{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+.feature .story summary{color:#dbe4f5;border-color:rgba(255,255,255,.28)}
+.feature .story summary:hover{background:rgba(255,255,255,.08);border-color:#fff}
+.feature .story .sb{color:#dde3ee;border-color:rgba(255,255,255,.22)}
+
+/* anchor / feature card */
+.feature{background:linear-gradient(180deg,#1d3461,#16284a);color:#f1ede3;border:none;grid-column:1/-1}
+.feature h3{color:#fff;font-size:30px}
+.feature .role{color:#aebbd4}
+.feature p{color:#d4dbe8}
+.feature .kv span{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#cdd6e6}
+.feature .kv span b{color:#fff}
+.feature .lesson{border-color:rgba(255,255,255,.2);color:#eef1f7}
+.feature .lesson b{color:var(--amber)}
+
+/* charts */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px 26px 30px;box-shadow:var(--shadow)}
+.panel h4{font-family:"Fraunces",serif;font-size:22px;font-weight:600;margin-bottom:4px}
+.panel .cap{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:.04em;margin-bottom:20px}
+.bar-row{display:grid;grid-template-columns:160px 1fr auto;align-items:center;gap:14px;margin:11px 0;font-size:14px}
+.bar-row .nm{font-weight:600;font-size:13.5px}
+.bar-track{height:22px;background:var(--paper-2);border-radius:6px;overflow:hidden;border:1px solid var(--line-soft)}
+.bar-fill{height:100%;width:0;border-radius:6px;transition:width 1.1s cubic-bezier(.2,.7,.2,1);background:var(--navy)}
+.bar-fill.red{background:var(--red)} .bar-fill.green{background:var(--green)} .bar-fill.gold{background:var(--amber)} .bar-fill.mut{background:#b6b0a2}
+.bar-val{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;color:var(--ink);white-space:nowrap}
+
+/* paradox */
+.paradox{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--navy);border-radius:var(--r);overflow:hidden;margin-top:6px}
+.paradox>div{padding:30px}
+.paradox .a{background:var(--red-soft)} .paradox .b{background:#e4efe8}
+.paradox .big{font-family:"Fraunces",serif;font-size:46px;font-weight:600;line-height:1}
+.paradox .a .big{color:var(--red)} .paradox .b .big{color:var(--green)}
+.paradox .who{font-weight:700;margin-top:6px;font-size:18px}
+.paradox .sub{font-size:14px;color:var(--ink-soft);margin-top:8px}
+
+/* table */
+.tbl{width:100%;border-collapse:collapse;font-size:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.tbl th,.tbl td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line-soft)}
+.tbl thead th{background:var(--navy);color:#fff;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.tbl tbody tr:last-child td{border-bottom:none}
+.tbl tbody tr:hover{background:var(--paper-2)}
+.tbl td.c{text-align:center;font-family:"IBM Plex Mono",monospace}
+.yes{color:var(--green);font-weight:700} .no{color:var(--red);font-weight:700} .par{color:var(--gold);font-weight:700}
+.tbl td.first{font-weight:700;color:var(--ink)}
+
+/* laws */
+.laws{counter-reset:law;display:grid;gap:12px}
+.law{display:flex;gap:18px;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--red);border-radius:10px;padding:18px 20px;align-items:flex-start}
+.law::before{counter-increment:law;content:counter(law,decimal-leading-zero);font-family:"Fraunces",serif;font-size:30px;font-weight:600;color:var(--red);line-height:1;min-width:42px}
+.law b{font-weight:700}
+.law p{font-size:14.5px;color:var(--ink-soft);margin-top:3px}
+.law h5{font-size:16px;font-weight:700}
+
+/* viral hall */
+.viral{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.vcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;position:relative}
+.vcard .vh{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.vcard .ic{font-size:20px}
+.vcard h5{font-size:17px;font-weight:700}
+.vcard .ex{font-size:14px;color:var(--ink-soft);margin:6px 0}
+.vcard .ex b{color:var(--navy);font-family:"IBM Plex Mono",monospace;font-size:12.5px}
+.vcard .rep{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:13.5px}
+.vcard .rep b{color:var(--red)}
+
+/* MIRA */
+.mira section,#mira{}
+.crown{background:linear-gradient(135deg,#1d3461,#24407a);color:#f1ede3;border-radius:var(--r);padding:34px;position:relative;overflow:hidden}
+.crown::after{content:"★";position:absolute;right:-10px;top:-26px;font-size:160px;color:rgba(255,255,255,.05)}
+.crown .kick{color:var(--amber)} .crown .kick::before{background:var(--amber)}
+.crown h3{color:#fff;font-family:"Fraunces",serif;font-size:30px;margin:14px 0 6px;max-width:24ch}
+.crown p{color:#cdd6e6;max-width:70ch}
+.vs{display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:stretch;margin-top:20px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.18)}
+.vs>div{padding:20px}
+.vs .pay{background:rgba(194,64,42,.18)} .vs .org{background:rgba(47,115,80,.2)}
+.vs .mid{display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.15);font-family:"IBM Plex Mono",monospace;font-size:11px;color:#aebbd4}
+.vs .num{font-family:"Fraunces",serif;font-size:30px;color:#fff;font-weight:600;line-height:1}
+.vs .t{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#aebbd4;margin-top:8px}
+.vs .d{font-size:13px;color:#dde3ee;margin-top:8px}
+
+.diaggrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px}
+.dcard{border-radius:12px;padding:22px;border:1px solid}
+.dcard.bad{background:#fbf1ee;border-color:var(--red-soft)}
+.dcard.good{background:#eef5f0;border-color:#cae0d2}
+.dcard h5{font-family:"Fraunces",serif;font-size:19px;margin-bottom:10px;display:flex;align-items:center;gap:9px}
+.dcard.bad h5{color:var(--red)} .dcard.good h5{color:var(--green)}
+.dcard ul{list-style:none;display:grid;gap:9px}
+.dcard li{font-size:14.5px;padding-left:22px;position:relative;color:var(--ink-soft)}
+.dcard.bad li::before{content:"▸";position:absolute;left:0;color:var(--red)}
+.dcard.good li::before{content:"▸";position:absolute;left:0;color:var(--green)}
+.dcard li b{color:var(--ink)}
+
+/* mapping */
+.map{display:grid;gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:6px}
+.maprow{display:grid;grid-template-columns:1fr 54px 1fr;align-items:center;background:var(--card)}
+.maprow:nth-child(even){background:var(--paper-2)}
+.maprow+.maprow{border-top:1px solid var(--line-soft)}
+.maprow .from{padding:18px 20px;border-right:1px solid var(--line-soft)}
+.maprow .to{padding:18px 20px;border-left:1px solid var(--line-soft)}
+.maprow .arr{display:flex;align-items:center;justify-content:center;color:var(--red);font-size:22px}
+.maprow .who{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--navy);font-weight:600;margin-bottom:5px}
+.maprow .from p,.maprow .to p{font-size:14.5px;color:var(--ink-soft)}
+.maprow .to .who{color:var(--red)}
+.maprow .to b{color:var(--ink)}
+
+/* funnels */
+.funnels{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px}
+.funnel{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.funnel .fh{padding:16px 20px;color:#fff;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+.funnel.ret .fh{background:#4a4639} .funnel.acq .fh{background:var(--navy)}
+.funnel table{width:100%;border-collapse:collapse;font-size:14px}
+.funnel td{padding:11px 16px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+.funnel td:first-child{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);width:96px}
+.funnel tr:last-child td{border-bottom:none}
+.funnel.acq td:last-child{font-weight:600;color:var(--ink)}
+
+/* moves */
+.moves{display:grid;gap:12px;counter-reset:mv}
+.move{display:flex;gap:18px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.move::before{counter-increment:mv;content:counter(mv);font-family:"Fraunces",serif;font-size:26px;font-weight:600;color:#fff;background:var(--navy);min-width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.move h5{font-size:16.5px;font-weight:700;margin-bottom:3px}
+.move p{font-size:14.5px;color:var(--ink-soft)}
+.move .pri{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--green);border:1px solid #bcdcc9;background:#e9f2ec;padding:2px 7px;border-radius:50px;margin-left:8px}
+
+.callout{background:var(--ink);color:var(--paper);border-radius:var(--r);padding:30px 34px;margin:36px 0;position:relative}
+.callout .q{font-family:"Fraunces",serif;font-size:clamp(20px,2.6vw,28px);font-weight:500;line-height:1.3;font-style:italic}
+.callout .q b{color:var(--amber);font-style:normal;font-weight:600}
+.callout .src{font-family:"IBM Plex Mono",monospace;font-size:11px;color:#9a958a;margin-top:14px;letter-spacing:.05em}
+
+.note{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 20px;font-size:13.5px;color:var(--ink-soft);margin-top:18px}
+.note b{color:var(--ink)}
+.dont{background:#fbf1ee;border:1px solid var(--red-soft);border-radius:12px;padding:20px 24px;margin-top:16px}
+.dont h5{color:var(--red);font-family:"Fraunces",serif;font-size:19px;margin-bottom:8px}
+.dont p{font-size:14.5px;color:var(--ink-soft);margin:6px 0}
+.dont p b{color:var(--ink)}
+
+footer{border-top:1px solid var(--line);padding:48px 0 70px;color:var(--muted)}
+footer .mono{font-size:12px;line-height:1.9}
+footer h4{font-family:"Fraunces",serif;color:var(--ink);font-size:20px;margin-bottom:10px}
+footer .files{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+footer .files span{font-family:"IBM Plex Mono",monospace;font-size:11px;background:var(--card);border:1px solid var(--line);border-radius:7px;padding:6px 10px;color:var(--ink-soft)}
+
+/* archive */
+.embed{position:relative;background:#000;border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+.embed.h{aspect-ratio:16/9}
+.embed.v{aspect-ratio:9/16;max-width:300px}
+.embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vpair{display:grid;grid-template-columns:300px 1fr;gap:24px;align-items:start;margin-top:6px}
+.vmeta{font-size:14px;color:var(--ink-soft);margin-top:12px}
+.vmeta b{color:var(--navy);font-family:"IBM Plex Mono",monospace}
+.archsub{font-family:"Fraunces",serif;font-size:22px;font-weight:600;margin:40px 0 14px}
+.postgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.plink{display:block;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 38px 14px 16px;text-decoration:none;color:var(--ink);transition:.2s;position:relative}
+.plink:hover{border-color:var(--navy);transform:translateY(-2px);box-shadow:var(--shadow)}
+.plink .pf{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.plat{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:50px;font-weight:600}
+.p-yt{background:#fdeaea;color:#c4302b}.p-tt{background:#edeff1;color:#161616}.p-ig{background:#fcebf2;color:#c13584}.p-fb{background:#eaf0fb;color:#1877f2}
+.plink .own{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted)}
+.plink h6{font-size:14.5px;font-weight:600;line-height:1.3;margin-bottom:6px}
+.plink .pm{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--navy);font-weight:600}
+.plink .ext{position:absolute;top:14px;right:14px;color:var(--muted);font-size:14px}
+.plink.lose{border-left:3px solid var(--red)}
+.plink.anchor{border-left:3px solid var(--navy)}
+@media(max-width:880px){
+  .vpair,.postgrid{grid-template-columns:1fr}
+  .embed.v{max-width:100%}
+  .g3,.g2,.viral,.diaggrid,.funnels{grid-template-columns:1fr}
+  .statband{grid-template-columns:repeat(2,1fr)}
+  .paradox,.vs{grid-template-columns:1fr}
+  .vs .mid{padding:8px}
+  .bar-row{grid-template-columns:110px 1fr auto;gap:9px}
+  .maprow{grid-template-columns:1fr}
+  .maprow .arr{transform:rotate(90deg);padding:6px}
+  .maprow .from,.maprow .to{border:none}
+  nav ul{display:none}
+  .sec-head{flex-direction:column;gap:10px}
+}
+@media print{nav,#progress{display:none}body{background:#fff}.card,.panel{box-shadow:none}}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav><div class="wrap">
+  <div class="brand">DEL CLIC AL <b>CARGO</b> · DOSSIER</div>
+  <ul>
+    <li><a href="#mundo">Mundo</a></li>
+    <li><a href="#latam">LATAM</a></li>
+    <li><a href="#colombia">Colombia</a></li>
+    <li><a href="#sintesis">Síntesis</a></li>
+    <li><a href="#viralidad">Viralidad CO</a></li>
+    <li><a href="#mira-diag">MIRA · Diagnóstico</a></li>
+    <li><a href="#mira-red">MIRA · Red</a></li>
+    <li><a href="#mira-est">MIRA · Estrategia</a></li>
+    <li><a href="#aplicable">¿Qué puede hacer MIRA?</a></li>
+    <li><a href="#joyas">Las Joyas</a></li>
+    <li><a href="#trends">Trends &amp; Propuestas</a></li>
+    <li><a href="#archivo">Archivo</a></li>
+  </ul>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div class="kick">Investigación de inteligencia política digital · Junio 2026</div>
+  <h1>Del clic al <em>cargo</em>.</h1>
+  <p class="lede">Cómo personas —desconocidas, célebres o veteranas reinventadas— convirtieron <strong>creatividad en redes</strong> en poder político real. Y qué debe hacer el <strong>Partido MIRA</strong> con esa evidencia para llegar a gente nueva.</p>
+  <p class="by">Análisis de estratega + analista de datos · Mundo → LATAM → Colombia → MIRA</p>
+  <div class="statband rv">
+    <div><div class="n">30+</div><div class="l">Perfiles analizados</div></div>
+    <div><div class="n">350M</div><div class="l">Views del viral más grande (Ferreira, PIX)</div></div>
+    <div><div class="n">1.143</div><div class="l">Comentarios reales scrapeados</div></div>
+    <div><div class="n">5</div><div class="l">Plataformas auditadas en MIRA</div></div>
+  </div>
+</div></header>
+
+<!-- ============ 01 MUNDO ============ -->
+<section id="mundo"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">01</div><div><div class="kick">Fuera de LATAM</div><h2>El mundo: de don nadie a cargo público</h2></div></div>
+  <p class="sec-sub big rv">Los casos más instructivos no son las celebridades: son los <strong>desconocidos sin marca previa</strong> que fabricaron relevancia con una causa y un contenido. El arquetipo del "Elefante Blanco" existe en todo el planeta.</p>
+
+  <div class="grid g3">
+    <div class="card rv"><span class="tag">Incógnito</span>
+      <div class="top"><div><h3>AOC</h3><div class="role">🇺🇸 EE.UU. · Cámara · 2018</div></div><span class="badge b-win">Ganó</span></div>
+      <p>Mesera/bartender, sin dinero ni nombre, venció a un capo de 10 mandatos con un video tipo cine ("The Courage to Change", guion propio, su barrio real).</p>
+      <div class="kv"><span>$83K <b>vs</b> $1,5M (18:1)</span><span>Video <b>1,6M</b> vistas</span><span><b>57%</b> de voto</span></div>
+      <div class="lesson"><b>Lección:</b> un solo video-historia que parezca cine, villano nítido ("movimiento vs. máquina") y terreno disciplinado.</div>
+      <div class="card-actions">
+        <a class="watch" href="https://www.youtube.com/watch?v=rq3QXIVR0bs" target="_blank" rel="noopener">▶ Ver "The Courage to Change"</a>
+        <details class="story"><summary>La historia</summary><div class="sb">En 2017 trabajaba de mesera/bartender en una taquería de Manhattan cuando lanzó su campaña contra Joe Crowley —el #4 del Partido Demócrata, 10 mandatos, que no enfrentaba primaria desde 2004—. Un colectivo de cineastas (Means of Production) la abordó; <b>ella escribió el guion</b>, rodado en su apartamento, su metro y su bodega reales. Lo combinó con una lista de <b>75.000 votantes probables</b> tocada puerta a puerta. Ganó 57%–43% en una primaria de baja participación. La desventaja (sin dinero, sin nombre) fue su mensaje: "soy una de ustedes, sin plata corporativa".</div></details>
+      </div>
+    </div>
+
+    <div class="card rv"><span class="tag">Incógnito</span>
+      <div class="top"><div><h3>Zohran Mamdani</h3><div class="role">🇺🇸 NYC · Alcalde · 2025</div></div><span class="badge b-win">Ganó</span></div>
+      <p>Asambleísta con 1-2% de reconocimiento → Alcalde de Nueva York con contenido nativo brillante: caminó Manhattan de punta a punta, midió la inflación en el carrito halal.</p>
+      <div class="kv"><span>Walk Manhattan <b>3,1M</b></span><span>"Liam" <b>4,5M</b></span><span><b>2,19M</b> votos</span></div>
+      <div class="lesson"><b>Lección:</b> el concepto visual ES el argumento de política; el contenido alimenta el terreno (100K voluntarios, 3M de puertas).</div>
+      <div class="card-actions">
+        <a class="watch" href="https://www.tiktok.com/@zohran_k_mamdani/video/7519107375941422366" target="_blank" rel="noopener">▶ Ver "Walk Manhattan"</a>
+        <details class="story"><summary>La historia</summary><div class="sb">Asambleísta por Astoria con <b>1-2% de reconocimiento</b>, enfrentó a Andrew Cuomo (+$20M en super PAC). Su equipo creativo (Melted Solids) produjo contenido nativo a una cadencia brutal, siempre sobre UN tema: <b>la asequibilidad</b>. Caminó las ~13 millas de Manhattan ("un alcalde accesible"), midió la inflación en el pollo del carrito halal, explicó el voto por ranking con un mango lassi en hindi, saltó al mar helado por el congelamiento de renta. <b>100.000 voluntarios</b> tocaron ~3M de puertas. Ganó la primaria (56% en voto ranqueado) y la alcaldía con <b>2,19M de votos</b> —la mayor participación desde 1969—.</div></details>
+      </div>
+    </div>
+
+    <div class="card rv"><span class="tag">Marca media</span>
+      <div class="top"><div><h3>Jordan Bardella</h3><div class="role">🇫🇷 Francia · Presidente RN · MEP</div></div><span class="badge b-win">Ganó</span></div>
+      <p>Joven de suburbio, desconocido → superestrella de TikTok. Contenido "off" (backstage, cercanía) para "normalizar" una marca de partido tóxica.</p>
+      <div class="kv"><span>TikTok <b>2,3M</b></span><span><b>25–32%</b> del voto sub-25</span></div>
+      <div class="lesson"><b>Límite:</b> dependió de la maquinaria Le Pen. Las redes amplificaron; no crearon. Los likes ≠ votos.</div>
+      <div class="card-actions">
+        <a class="watch" href="https://www.tiktok.com/@jordanbardella/video/7646093623074852128" target="_blank" rel="noopener">▶ Ver en TikTok</a>
+        <details class="story"><summary>La historia</summary><div class="sb">Hijo de madre soltera en Drancy (uno de los suburbios más pobres de Francia), sin estudios superiores, desconocido hasta ~2017. Se afilió al RN a los 17 y la maquinaria Le Pen lo catapultó a <b>presidente del partido a los 27</b>. Su estrategia TikTok: contenido <b>"off"</b> (backstage, caramelos, nervios), tendencias y cercanía para "normalizar" una marca de partido tóxica con su simpatía personal. En las europeas 2024, <b>~25-32% de los sub-25</b> votó RN. Pero los académicos advierten: la causalidad TikTok→voto no está probada (abstención juvenil altísima), y sin la maquinaria Le Pen no habría plataforma. Su mérito es la ejecución; el acceso, el apadrinamiento.</div></details>
+      </div>
+    </div>
+
+    <div class="card rv"><span class="tag">Red &gt; marca</span>
+      <div class="top"><div><h3>Maxwell Frost</h3><div class="role">🇺🇸 EE.UU. · Cámara · 2022</div></div><span class="badge b-win">Ganó</span></div>
+      <p>Activista de 24, chofer de Uber, sin cargo previo → primer congresista de la Gen Z. No partió de fama: partió de una <strong>red de movimiento</strong>.</p>
+      <div class="kv"><span>Small-dollar <b>$39</b> prom.</span><span>Gen Z como puente, no eslogan</span></div>
+      <div class="lesson"><b>Lección:</b> no necesitas fama; necesitas años de relaciones reales que conviertes en voluntarios y donantes.</div>
+      <div class="card-actions">
+        <a class="watch ghost" href="https://www.instagram.com/maxwellfrostfl/" target="_blank" rel="noopener">↗ Ver su perfil</a>
+        <details class="story"><summary>La historia</summary><div class="sb">Activista de 24 años, conducía Uber para pagar facturas, sin cargo previo —su crédito estaba tan dañado que le negaron un apartamento al ganar—. Pero <b>no partió de cero: partió de una red</b>. Fue Director Nacional de Organización de March For Our Lives, con un tejido denso de activistas que convirtió en endosos (Bernie, Warren, Dolores Huerta), voluntarios y donantes (<b>$39 promedio</b>). Jugada fina: evitó venderse como "el joven" y dejó que medios y aliados pusieran la etiqueta "primer Gen Z", blindándose del tokenismo. Ganó una primaria de 10 candidatos y llegó al Congreso.</div></details>
+      </div>
+    </div>
+
+    <div class="card rv"><span class="tag">Anónimo / novedad</span>
+      <div class="top"><div><h3>"H'Angus el Mono"</h3><div class="role">🇬🇧 R.U. · Alcalde Hartlepool · 2002</div></div><span class="badge b-win">Ganó</span></div>
+      <p>Un don nadie <strong>disfrazado de mascota-mono</strong>, campaña-broma (plátanos gratis), ganó la alcaldía y fue reelegido 2 veces. El "Elefante Blanco" anglosajón, 20 años antes.</p>
+      <div class="kv"><span>Stuart Drummond</span><span><b>3</b> mandatos</span></div>
+      <div class="lesson"><b>Lección:</b> el anonimato + un símbolo memorable pueden vencer a la maquinaria. El disfraz no es chiste: es marca.</div>
+      <div class="card-actions">
+        <a class="watch ghost" href="https://en.wikipedia.org/wiki/Stuart_Drummond" target="_blank" rel="noopener">↗ Leer el caso</a>
+        <details class="story"><summary>La historia</summary><div class="sb">En 2002, Stuart Drummond era un don nadie empleado como <b>mascota</b> (el mono "H'Angus") del club de fútbol de Hartlepool. Se presentó a la alcaldía <b>disfrazado de mono</b>, con la promesa-broma de bananas gratis para escolares y sin campaña seria. Ganó. Y lo reeligieron en 2005 y 2009 (ya sin disfraz, gobernando 11 años). Es el calco anglosajón del Elefante Blanco —20 años antes—: un anónimo + un símbolo memorable que derrota a los partidos tradicionales y luego demuestra que la novedad puede convertirse en gestión real.</div></details>
+      </div>
+    </div>
+
+    <div class="card rv"><span class="tag">Anónimo / digital</span>
+      <div class="top"><div><h3>Fidias &amp; "Servidor del Pueblo"</h3><div class="role">🇨🇾 Chipre 2024 · 🇺🇦 Ucrania 2019</div></div><span class="badge b-win">Ganaron</span></div>
+      <p>Fidias: youtuber de pranks, sin partido → eurodiputado (19,4%) puro viral. Ucrania: un partido que solo admitía don nadies por <strong>formulario online</strong> tomó el 80% del parlamento.</p>
+      <div class="kv"><span>Fidias <b>~40%</b> del voto 18-24</span><span>Un fotógrafo de bodas tumbó a un magnate</span></div>
+      <div class="lesson"><b>Lección:</b> el modelo más replicable es el reclutamiento digital de gente común con una causa.</div>
+      <div class="card-actions">
+        <a class="watch ghost" href="https://www.youtube.com/channel/UC3tTW_eJTV___rSUkUMnl5w" target="_blank" rel="noopener">↗ Ver el canal de Fidias</a>
+        <details class="story"><summary>La historia</summary><div class="sb"><b>Fidias Panayiotou</b>, youtuber chipriota de pranks (~2,6M subs), sin partido y admitiendo abiertamente que no entendía la UE, hizo campaña 100% en redes (encuestas en TikTok, livestreams, pódcast) y fue elegido <b>eurodiputado en 2024 con 19,4%</b>, ganando ~40% del voto 18-24. En Ucrania (2019), el partido <b>"Servidor del Pueblo"</b> de Zelensky solo admitía gente sin experiencia: cualquiera se postulaba por un formulario online. Un fotógrafo de bodas tumbó a un magnate-diputado y ~80% del nuevo parlamento eran novatos (pizzeros, gamers). Dos formas del mismo modelo: reclutar al don nadie con una causa.</div></details>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-sub rv" style="margin-top:34px"><strong>Veteranos que se reinventaron</strong> (ya estaban en política y "renacieron" en redes):</p>
+  <div class="grid g2">
+    <div class="card rv"><span class="tag">Veterano reinventado</span>
+      <div class="top"><div><h3>Jean-Luc Mélenchon</h3><div class="role">🇫🇷 Cuadro del PS por 30 años</div></div><span class="badge b-arch">Reinvención</span></div>
+      <p>Se relanzó con <strong>holograma en 7-12 ciudades a la vez</strong>, YouTube masivo y Twitch para jóvenes. De aparato a "insumiso".</p>
+      <div class="lesson">4º (2017) → 3º (2022), a ~1 punto del balotaje · ~⅓ del voto joven.</div>
+      <div class="card-actions">
+        <a class="watch ghost" href="https://www.euronews.com/next/2022/04/06/france-election-jean-luc-melenchon-s-hologram-held-12-campaign-rallies-at-once" target="_blank" rel="noopener">↗ Leer el caso</a>
+        <details class="story"><summary>La historia</summary><div class="sb">Cuadro del Partido Socialista durante ~30 años (senador, ministro), Mélenchon se relanzó como "insumiso" con un golpe de <b>espectáculo tecnológico</b>: en 2017 apareció como holograma en 7 ciudades a la vez; en 2022 lo escaló a <b>12 ciudades simultáneas</b> —imposible de ignorar para la prensa, earned media puro—. Sumó un canal de YouTube masivo y <b>Twitch</b> con formatos largos tipo streamer para hablarle a los jóvenes. El veterano no necesita darse a conocer: necesita re-narrarse de "aparato" a "rebelde".</div></details>
+      </div>
+    </div>
+    <div class="card rv"><span class="tag">Veterano reinventado</span>
+      <div class="top"><div><h3>Bernie · Fetterman · Iglesias</h3><div class="role">🇺🇸 EE.UU. · 🇪🇸 España</div></div><span class="badge b-arch">Reinvención</span></div>
+      <p>Bernie: movimiento small-dollar ($27, 2,5M donantes, "Feel the Bern"). Fetterman: troleo del rival (Snooki en Cameo, 2M views). Iglesias: TV + "círculos", villano "la casta".</p>
+      <div class="lesson">Veteranos que copiaron el manual del outsider: villano nombrado + autenticidad + comunidad-ejército.</div>
+      <div class="card-actions">
+        <details class="story"><summary>La historia</summary><div class="sb"><b>Bernie Sanders</b>, senador marginal por décadas, se volvió un movimiento de micro-donaciones (<b>$27 promedio, 2,5M de donantes</b>) con el meme "Feel the Bern"; ganó 23 primarias en 2016. <b>John Fetterman</b>, vicegobernador, ganó el Senado "shitposteando": troleó a su rival con el caso "crudités" y pagó $393 para que Snooki (Jersey Shore) le grabara un Cameo —2M de vistas en un día—. <b>Pablo Iglesias</b> pasó de profesor de TV a 3ª fuerza de España en &lt;2 años con el villano "la casta" y los "círculos". Tres veteranos, el mismo manual del outsider.</div></details>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 02 LATAM ============ -->
+<section id="latam"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">02</div><div><div class="kick">América Latina</div><h2>LATAM: la escuela del populismo digital</h2></div></div>
+  <p class="sec-sub big rv">Aquí están los virales más grandes del estudio. La región exporta playbooks: Bardella (Francia) cita a Bukele como modelo.</p>
+
+  <div class="grid g2">
+    <div class="card rv"><span class="tag">Incógnito → récord</span>
+      <div class="top"><div><h3>Nikolás Ferreira</h3><div class="role">🇧🇷 Brasil · Diputado federal · 2022</div></div><span class="badge b-win">+ votado de Brasil</span></div>
+      <p>Influencer cristiano joven → el diputado más votado de Brasil. Su "modelo PIX": denunciar una medida que toca el bolsillo, en camiseta negra y fondo neutro, hasta forzar su reversión.</p>
+      <div class="kv"><span>Video PIX <b>350M</b> views · 9,4M likes</span><span>TikTok <b>8,9M</b></span><span><b>1,49M</b> votos</span></div>
+      <div class="lesson"><b>Lección:</b> el golpe al bolsillo + estética minimalista + comunidad evangélica movilizada.</div>
+      <div class="card-actions">
+        <a class="watch" href="https://www.instagram.com/p/DEz20G0RodB/" target="_blank" rel="noopener">▶ Ver el video del PIX</a>
+        <details class="story"><summary>La historia</summary><div class="sb">Construyó una audiencia masiva como <b>influencer cristiano conservador ANTES</b> de candidatearse; en 2022 fue el diputado más votado de Brasil (1,49M). Su "modelo PIX" (ene-2025): un video de ~4 min, en <b>camiseta negra y fondo neutro</b>, denunciando que el gobierno fiscalizaría el PIX —el medio de pago de todos los brasileños—. Superó <b>350M de vistas</b> y forzó al gobierno a revocar la medida. La fórmula: tocar el bolsillo cotidiano + vocabulario evangélico + estética de creador casero. (Carga también condenas y acusaciones de desinformación: el lado oscuro a no replicar.)</div></details>
+      </div>
+    </div>
+
+    <div class="card rv"><span class="tag">Celebridad</span>
+      <div class="top"><div><h3>Javier Milei</h3><div class="role">🇦🇷 Argentina · Presidente · 2023</div></div><span class="badge b-win">Ganó</span></div>
+      <p>Economista de TV → presidente. Con solo 67 videos en TikTok, mediana de 4,4M de vistas. La motosierra y el león como IP.</p>
+      <div class="kv"><span>"SOY PRESIDENTE" <b>34,9M</b></span><span>Mediana <b>4,4M</b> views</span><span>TikTok <b>3,1M</b></span></div>
+      <div class="lesson"><b>Lección:</b> contenido nativo "de igual a igual", símbolo memorable, ejército de cuentas afines. (Lo oscuro —bots, milicias— NO replicar.)</div>
+      <div class="card-actions">
+        <a class="watch" href="https://www.tiktok.com/@javiermileii/video/7311007641864637701" target="_blank" rel="noopener">▶ Ver "¡SOY PRESIDENTE!"</a>
+        <details class="story"><summary>La historia</summary><div class="sb">Economista gritón de la TV argentina, sus peleas en los paneles se volvieron clips virales ("Milei DESTROZA a…"). Lo clave: su equipo (Iñaki Gutiérrez) <b>no subía clips de TV a la cuenta oficial</b> —subía contenido exclusivo, sin set, "de igual a igual" con el joven—. Con solo <b>67 videos</b> en TikTok, mediana de 4,4M de vistas; "SOY PRESIDENTE" llegó a 34,9M. Símbolos: la <b>motosierra</b> (recorte) y el <b>león</b> ("no vine a guiar corderos"). ~60% de su audiencia tenía 13-21 años, que militaban el voto en sus propias familias.</div></details>
+      </div>
+    </div>
+
+    <div class="card rv"><span class="tag">Veterano reinventado</span>
+      <div class="top"><div><h3>Nayib Bukele</h3><div class="role">🇸🇻 El Salvador · Presidente · 83%</div></div><span class="badge b-win">Ganó</span></div>
+      <p>Publicista y cuadro del FMLN → "el dictador más cool del mundo". Comunicación directa sin prensa; convirtió el insulto en marca.</p>
+      <div class="kv"><span>TikTok <b>11,9M</b></span><span>Hospital <b>8,5M</b> views</span><span>1 tuit = <b>163M</b> views</span></div>
+      <div class="lesson"><b>Lección:</b> branding de Estado impecable + apropiarse del ataque del rival + resultados visibles como contenido.</div>
+      <div class="card-actions">
+        <a class="watch" href="https://www.tiktok.com/@nayibbukele/video/7646983477908294930" target="_blank" rel="noopener">▶ Ver en TikTok</a>
+        <details class="story"><summary>La historia</summary><div class="sb">Publicista de profesión y cuadro del FMLN, rompió con el partido en 2017 y se reinventó como outsider anti-sistema. <b>Gobierna por redes</b>: anuncia decisiones de Estado directo en X/TikTok, sin prensa. Su jugada maestra: cuando lo llamaron dictador, cambió su bio a <b>"el dictador más cool del mundo"</b> —convirtiendo el insulto en marca identitaria—. Producción de altísimo nivel (drones, slow-motion, el CECOT como set). Reelecto en 2024 con 83%. Un solo tuit suyo alcanzó 163M de vistas, más que casi cualquiera de Elon Musk.</div></details>
+      </div>
+    </div>
+
+    <div class="card rv"><span class="tag">El "casi"</span>
+      <div class="top"><div><h3>Xavier Hervás</h3><div class="role">🇪🇨 Ecuador · Presidencial · 2021</div></div><span class="badge b-lose">No alcanzó</span></div>
+      <p>"El candidato de TikTok": de 0,6% de notoriedad a 15,7% con bailes y retos. Pero el baile tiene techo… y luego la incoherencia (apoyó a Lasso) destruyó su marca.</p>
+      <div class="kv"><span>0,6% → <b>15,7%</b></span><span>4º de 16</span></div>
+      <div class="lesson"><b>Advertencia:</b> la frescura sin causa profunda se evapora; la incoherencia mata lo construido.</div>
+      <div class="card-actions">
+        <a class="watch" href="https://www.tiktok.com/@xhervas.ec/video/7236901058683882757" target="_blank" rel="noopener">▶ Ver en TikTok</a>
+        <details class="story"><summary>La historia</summary><div class="sb">Empresario sin trayectoria política, en 2021 fue <b>"el candidato de TikTok"</b> de Ecuador: bailes, retos virales y disfraces (la "viuda del año viejo") lo llevaron de <b>0,6% de notoriedad a 15,7%</b> y un sorpresivo 4º lugar entre 16. Pero la viralidad de baile tiene <b>techo</b> (concentró jóvenes urbanos, no el voto rural, mayor ni indígena) y —peor— su apoyo a Lasso en 2ª vuelta lo marcó como "traidor/vendido". <b>La incoherencia destruyó la marca</b> que el TikTok había construido: hoy su cuenta está prácticamente inactiva.</div></details>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 03 COLOMBIA ============ -->
+<section id="colombia"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">03</div><div><div class="kick">Colombia · 8 de marzo de 2026</div><h2>Colombia: la ola que llegó al Congreso</h2></div></div>
+  <p class="sec-sub big rv">El caso ancla y su contraste perfecto en la <strong>misma elección</strong>: un anónimo con 150K seguidores ganó; un famoso con 11,2M perdió.</p>
+
+  <div class="grid g3">
+    <div class="card feature rv" style="grid-column:1/-1">
+      <div class="top"><div><h3>🐘 El Elefante Blanco — Luis Carlos Rúa</h3><div class="role">Senador · Alianza Verde · ~120.000 votos</div></div><span class="badge b-win">Ganó · El caso ancla</span></div>
+      <p>Un ingeniero <strong>anónimo, disfrazado de elefante y con voz modificada</strong>, denunció durante 4 años obras públicas inconclusas ("elefantes blancos") parado encima de ellas. Reveló su identidad 48h antes de la elección. Sin maquinaria.</p>
+      <div class="kv"><span>TikTok <b>150,8K</b> seg.</span><span>ER <b>10,75%</b></span><span>Juanchito (baile) <b>684K</b></span><span>Sentimiento <b>70%+</b> positivo</span><span>Conversión <b>0,80</b> votos/seguidor</span></div>
+      <div class="lesson"><b>Por qué ganó:</b> causa monotemática verificable + símbolo replicable ("tú también puedes ser el elefante") + villano no partidista ("los de corbata corruptos") + prueba de resultados ANTES de pedir el voto.</div>
+      <div class="card-actions">
+        <a class="watch" href="https://www.instagram.com/p/DZGe0L5zgjI/" target="_blank" rel="noopener">▶ Ver el video viral (1,2M)</a>
+        <details class="story"><summary>La historia</summary><div class="sb">Tras la muerte de su padre en un accidente vial y amenazas por denunciar corrupción siendo contratista, Luis Carlos Rúa creó un <b>personaje-escudo</b>: un elefante blanco, voz modificada, cara oculta ("un disfraz sería mi escudo"). Durante ~4 años recorrió el país grabándose <b>encima de las obras inconclusas</b> —hasta bailando salsa sobre un puente sin terminar en Cali (~684K vistas)—. Logró que varias obras se reactivaran: prueba real antes de pedir el voto. Mantuvo el anonimato para que el símbolo fuera de todos ("tú también puedes ser el elefante") y <b>reveló su identidad 48h antes</b> de la elección "por transparencia". Sin maquinaria, hizo campaña en peajes y sacó ~120.000 votos.</div></details>
+      </div>
+    </div>
+
+    <div class="card rv">
+      <div class="top"><div><h3>JotaPe Hernández</h3><div class="role">Senado · A. Verde · reelecto</div></div><span class="badge b-win">Ganó</span></div>
+      <p>El pionero. ExYoutuber/cantante cristiano → 2ª votación más alta de su partido. "Trabajen, vagos": el dato como espectáculo, grabado dentro de la plenaria.</p>
+      <div class="kv"><span>TikTok <b>1,8M</b></span><span>Top video <b>6M</b></span><span>Sentimiento <b>88%</b> pos</span></div>
+      <div class="lesson"><b>Lección:</b> la veeduría con prueba física + confrontación grabada en el recinto del poder.</div>
+      <div class="card-actions">
+        <a class="watch" href="https://www.tiktok.com/@jotapehernandez/video/7444162486669970744" target="_blank" rel="noopener">▶ Ver en TikTok (6M)</a>
+        <details class="story"><summary>La historia</summary><div class="sb">Bumangués de familia pobre, exYoutuber y excantante cristiano. Su veeduría <b>"#TrabajenVagos"</b> rastreaba el ausentismo de los congresistas con demandas reales de pérdida de investidura. Graba <b>dentro de la plenaria</b>, se levanta de su curul y lleva pilas de documentos al atril como prueba física. En 2022 fue la 3ª votación nacional al Senado; en 2026 repitió como el más votado de Alianza Verde. Genera devoción (88% de comentarios positivos: "te necesitamos de presidente") aunque la prensa lo señala por su tono ultraconservador.</div></details>
+      </div>
+    </div>
+
+    <div class="card rv">
+      <div class="top"><div><h3>Wally · W. Rodríguez</h3><div class="role">Senado · Pacto Histórico</div></div><span class="badge b-win">Ganó</span></div>
+      <p>Premio de periodismo + YouTube como motor (546K subs). Campaña de &lt;50M COP con 4.000 voluntarios coordinados por Zoom.</p>
+      <div class="kv"><span>TikTok ER <b>13,6%</b></span><span>YouTube = motor</span></div>
+      <div class="lesson"><b>Lección:</b> YouTube largo como motor de credibilidad + clips como amplificadores + maquinaria de voluntarios digital.</div>
+      <div class="card-actions">
+        <a class="watch" href="https://www.tiktok.com/@medicenwally/video/7387883558251023622" target="_blank" rel="noopener">▶ Ver en TikTok</a>
+        <details class="story"><summary>La historia</summary><div class="sb">Abogado boyacense y <b>Premio Nacional de Periodismo Simón Bolívar</b> (eso le da una credibilidad que otros influencers no tienen). Su canal de YouTube "Wally Opina" (formato late-show, ~546K subs, ~600K vistas/semana) es el <b>motor</b>; los clips en TikTok son el embudo. Estima que el 99% de sus votos vino de YouTube. Campaña de <b>&lt;50M COP</b> apalancada en ~4.000 voluntarios coordinados por Zoom (3-4 reuniones/día). Convirtió su número de tarjetón "16" en grito de batalla. Su flanco: contratos con el Estado (RTVC) que la oposición usa en su contra.</div></details>
+      </div>
+    </div>
+
+    <div class="card rv">
+      <div class="top"><div><h3>Hernán Muriel · Cofradía</h3><div class="role">Cámara Antioquia · Pacto</div></div><span class="badge b-win">Ganó</span></div>
+      <p>"Periodismo de combate" en la calle. Su choque viral con JotaPe en el Congreso lo catapultó a nivel nacional.</p>
+      <div class="kv"><span>TikTok <b>451K</b></span><span>Top <b>5,5M</b></span></div>
+      <div class="lesson"><b>Lección:</b> confrontar a alguien más famoso (con causa) para robar su alcance.</div>
+      <div class="card-actions">
+        <a class="watch" href="https://www.tiktok.com/@cofradiacambio/video/7260657552847883525" target="_blank" rel="noopener">▶ Ver en TikTok (5,5M)</a>
+        <details class="story"><summary>La historia</summary><div class="sb">Hernán Muriel, comunicador de Medellín (~27 años), dirige <b>"Cofradía para el Cambio"</b>, un medio alternativo de "periodismo de combate" en la calle, en marchas y en el Congreso, confrontando a figuras de la derecha. Su salto a fama nacional fue un <b>choque a los gritos con el senador JotaPe</b> en el propio Congreso (ago-2025). Encabezó la lista cerrada del Pacto en Antioquia y ganó curul a Cámara con ~41.600 votos —casi el doble del segundo—, en pleno "fortín" de la derecha. Su contenido es muy polarizante (40% positivo / 30% negativo).</div></details>
+      </div>
+    </div>
+
+    <div class="card rv">
+      <div class="top"><div><h3>Lalis · L. Beltrán</h3><div class="role">Cámara Bogotá · Pacto</div></div><span class="badge b-win">Ganó</span></div>
+      <p>El engagement más alto del panel. Su jugada genial: no pidió el voto por sus propuestas, <strong>explicó EN REDES cómo votar</strong> en una consulta confusa.</p>
+      <div class="kv"><span>TikTok ER <b>15,6%</b> ⭐</span><span>&lt;2,5M COP en 20 días</span></div>
+      <div class="lesson"><b>Lección:</b> la pedagogía del voto ("cómo votar") es el truco de conversión más transferible. <em>(Clave para MIRA.)</em></div>
+      <div class="card-actions">
+        <a class="watch" href="https://www.tiktok.com/@smilelalis08/video/7553660607698881848" target="_blank" rel="noopener">▶ Ver el video de la ONU (1,6M)</a>
+        <details class="story"><summary>La historia</summary><div class="sb">Comunicadora bogotana de origen humilde ("de vender dulces en TransMilenio"), saltó del activismo estudiantil a la política. Su <b>jugada genial</b> en la consulta del Pacto: no pidió el voto por sus propuestas, sino que <b>explicó EN VIDEO cómo votar</b> en un mecanismo confuso, con ~la mitad de su presupuesto en pauta de Facebook dedicada solo a la pedagogía del procedimiento. Resultado: <b>26.718 votos en 20 días con &lt;2,5M COP</b>. Tiene el engagement rate más alto del panel (15,6%). Su flanco, igual que Wally: contratos estatales y una posible inhabilidad.</div></details>
+      </div>
+    </div>
+
+    <div class="card rv"><span class="tag">Causa de bolsillo</span>
+      <div class="top"><div><h3>Sr Biter · G. Vargas</h3><div class="role">🇨🇴 Senado · P. Liberal · ~122K votos</div></div><span class="badge b-win">Ganó</span></div>
+      <p>Creador de contenido sobre <strong>tránsito</strong> (defensa de conductores vs. fotomultas y comparendos) → Senador por <strong>"voto de opinión"</strong>, sin maquinaria. Ex-policía de tránsito de Bogotá.</p>
+      <div class="kv"><span>TikTok <b>2,0M</b></span><span>"No pagues multas" <b>3,2M</b></span><span><b>~122K</b> votos</span><span>Gremio nacional</span></div>
+      <div class="lesson"><b>Lección (clave para MIRA):</b> causa monotemática de BOLSILLO + gremio vota-ble nacional + villano claro ("las fotomultas que te roban"). El embudo de adquisición hecho realidad.</div>
+      <div class="card-actions">
+        <a class="watch" href="https://www.tiktok.com/@senorbiter/video/7468455274907536645" target="_blank" rel="noopener">▶ Ver "No pagues multas" (3,2M)</a>
+        <details class="story"><summary>La historia</summary><div class="sb">Gersson Vargas Valdeleón fue <b>policía de tránsito de Bogotá</b> y gerente de una empresa de transporte; de ahí su autoridad sobre el tema. Construyó una comunidad de millones explicando cómo defenderse de fotomultas, comparendos e inmovilizaciones —contenido de servicio puro, de bolsillo—. Al candidatearse (n.º 6 del Partido Liberal) pidió "transformar la inconformidad en redes en votos" y sacó <b>~122.000</b> (5º más votado del partido) <b>sin maquinaria</b>. Ganó donde Saruma (11M seguidores) perdió, porque su causa toca el bolsillo de un <b>gremio vota-ble en todo el país</b>, con un villano claro. ⚠️ Matiz: ColombiaCheck lo señaló por un video engañoso de "peajes a motos" y su consejo de "no pagar multas" es jurídicamente discutido — justo el flanco que MIRA debe evitar: la causa de bolsillo funciona, pero <b>con rigor y sin desinformación</b>.</div></details>
+      </div>
+    </div>
+    <div class="card rv" style="border:2px solid var(--red)"><span class="tag" style="background:var(--red)">El contraste</span>
+      <div class="top"><div><h3>Felipe Saruma</h3><div class="role">Cámara Atlántico · Cambio Radical</div></div><span class="badge b-lose">PERDIÓ</span></div>
+      <p>Influencer de comedia con <strong>11,2 millones</strong> de seguidores, apoyado por la maquinaria del clan Char. Sacó 44.075 votos y quedó fuera por un puesto.</p>
+      <div class="kv"><span>TikTok <b>11,2M</b></span><span>Conversión <b>0,004</b></span><span>Comentarios juzgan el <b>producto</b>, no la causa</span></div>
+      <div class="lesson"><b>Por qué perdió:</b> audiencia de entretenimiento, no vota-ble; fama prestada montada en maquinaria; sin causa diferenciadora. <b>Seguidores ≠ votos.</b></div>
+      <div class="card-actions">
+        <a class="watch" href="https://www.tiktok.com/@sarumaoficial/video/7649557424243936530" target="_blank" rel="noopener">▶ Ver "La Cajonera"</a>
+        <details class="story"><summary>La historia</summary><div class="sb">Andrés Felipe Camargo, creador de comedia barranquillero con <b>11,2M de seguidores</b> en TikTok, aspiró a la Cámara por el Atlántico de la mano del <b>clan Char</b> y Cambio Radical. Sacó 44.075 votos y quedó fuera por un puesto. La autopsia es la lección más valiosa del estudio: (1) su audiencia es de entretenimiento —no vota-ble, dispersa por el país y el mundo—; (2) montó su "renovación" sobre una maquinaria clientelista (incoherencia: La Silla Vacía lo llamó "el influencer clientelista"); (3) sus propios comentarios juzgaban la <b>calidad de sus videos</b>, no su causa. Nadie quería que fuera congresista; querían mejores videos.</div></details>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel rv" style="margin-top:26px">
+    <h4>La paradoja que lo resume todo</h4>
+    <p class="cap">Misma elección · 8-mar-2026 · datos scrapeados</p>
+    <div class="paradox">
+      <div class="a"><div class="big">11,2M → 44K</div><div class="who">Felipe Saruma · PERDIÓ</div><div class="sub">75× más seguidores que el Elefante… y 2,7× menos votos. Convirtió el 0,4% de su tamaño.</div></div>
+      <div class="b"><div class="big">150K → 120K</div><div class="who">Elefante Blanco · GANÓ (Senado)</div><div class="sub">Convirtió el ~80% de su tamaño en votos. Audiencia chica, local y movilizada por una causa.</div></div>
+    </div>
+  </div>
+
+  <div class="panel rv" style="margin-top:18px">
+    <h4>Engagement rate por perfil (TikTok)</h4>
+    <p class="cap">El engagement no sigue al tamaño — los perfiles más chicos rinden más</p>
+    <div class="chart" data-chart>
+      <div class="bar-row"><span class="nm">Lalis</span><div class="bar-track"><div class="bar-fill gold" data-w="100"></div></div><span class="bar-val">15,6%</span></div>
+      <div class="bar-row"><span class="nm">Wally</span><div class="bar-track"><div class="bar-fill" data-w="87"></div></div><span class="bar-val">13,6%</span></div>
+      <div class="bar-row"><span class="nm">N. Ferreira</span><div class="bar-track"><div class="bar-fill" data-w="87"></div></div><span class="bar-val">13,6%</span></div>
+      <div class="bar-row"><span class="nm">JotaPe</span><div class="bar-track"><div class="bar-fill" data-w="79"></div></div><span class="bar-val">12,4%</span></div>
+      <div class="bar-row"><span class="nm">Elefante Blanco</span><div class="bar-track"><div class="bar-fill green" data-w="69"></div></div><span class="bar-val">10,75%</span></div>
+      <div class="bar-row"><span class="nm">Milei</span><div class="bar-track"><div class="bar-fill" data-w="64"></div></div><span class="bar-val">9,98%</span></div>
+      <div class="bar-row"><span class="nm">Saruma (perdió)</span><div class="bar-track"><div class="bar-fill red" data-w="77"></div></div><span class="bar-val">12,1%</span></div>
+      <div class="bar-row"><span class="nm">Hervás (no alcanzó)</span><div class="bar-track"><div class="bar-fill mut" data-w="18"></div></div><span class="bar-val">2,81%</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 04 SINTESIS ============ -->
+<section id="sintesis"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">04</div><div><div class="kick">Síntesis</div><h2>El playbook universal</h2></div></div>
+  <p class="sec-sub big rv">Cruzando los tres arquetipos —<strong>incógnito</strong>, <strong>celebridad</strong> y <strong>veterano reinventado</strong>— las mismas tácticas aparecen en casi todos. Esto es lo replicable.</p>
+
+  <div class="rv" style="overflow-x:auto">
+  <table class="tbl">
+    <thead><tr><th>Táctica</th><th style="text-align:center">Incógnitos</th><th style="text-align:center">Celebridades</th><th style="text-align:center">Veteranos</th></tr></thead>
+    <tbody>
+      <tr><td class="first">Villano con nombre</td><td class="c yes">Sí</td><td class="c yes">Sí</td><td class="c yes">Sí</td></tr>
+      <tr><td class="first">Causa monotemática</td><td class="c yes">Sí</td><td class="c yes">Sí</td><td class="c par">Parcial</td></tr>
+      <tr><td class="first">Símbolo / IP visual</td><td class="c yes">Sí</td><td class="c yes">Sí</td><td class="c par">Parcial</td></tr>
+      <tr><td class="first">Autenticidad low-fi</td><td class="c yes">Sí</td><td class="c par">Parcial</td><td class="c yes">Sí</td></tr>
+      <tr><td class="first">Contenido como embudo</td><td class="c yes">Sí</td><td class="c yes">Sí</td><td class="c yes">Sí</td></tr>
+      <tr><td class="first">Conversión explícita a voto</td><td class="c yes">Sí</td><td class="c no">Falla (Saruma)</td><td class="c yes">Sí</td></tr>
+      <tr><td class="first">Comunidad como ejército</td><td class="c yes">Sí</td><td class="c par">Parcial</td><td class="c yes">Sí</td></tr>
+      <tr><td class="first">Framing anti-establishment</td><td class="c yes">Genuino</td><td class="c yes">Adoptado</td><td class="c yes">Reconstruido</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="rv" style="font-size:26px;margin:40px 0 18px">Las 7 Leyes Universales</h3>
+  <div class="laws">
+    <div class="law rv"><div><h5>Ley del villano nombrado</h5><p>Sin un enemigo concreto y repetible no hay narrativa. "La casta", la corrupción, "el de Nueva Jersey".</p></div></div>
+    <div class="law rv"><div><h5>Ley del símbolo &gt; el programa</h5><p>Una IP visual (elefante, motosierra, hoodie, holograma) viaja más lejos que cualquier propuesta.</p></div></div>
+    <div class="law rv"><div><h5>Ley monotemática</h5><p>Un solo eje claro vence a la dispersión: vivienda, inflación, obras inconclusas.</p></div></div>
+    <div class="law rv"><div><h5>Ley de la autenticidad performada</h5><p>Lo crudo (cámara + celular, sin guion) genera confianza; lo pulido genera sospecha.</p></div></div>
+    <div class="law rv"><div><h5>Ley del contenido-embudo</h5><p>El viral es la puerta, no el fin. Hay que cerrar en voto, donación o voluntario.</p></div></div>
+    <div class="law rv"><div><h5>Ley de la comunidad-ejército</h5><p>El alcance pasivo no gana; la comunidad activada (voluntarios, donantes) sí.</p></div></div>
+    <div class="law rv"><div><h5>Ley del outsider universal</h5><p>Todos —incluso veteranos de 30 años— se posicionan como insurgentes. Nadie quiere ser el establishment.</p></div></div>
+  </div>
+
+  <h3 class="rv" style="font-size:26px;margin:44px 0 6px">Hall of Fame: los virales y cómo replicarlos</h3>
+  <p class="cap mono rv" style="color:var(--muted);margin-bottom:18px">10 mecanismos transferibles · cifras reales</p>
+  <div class="viral">
+    <div class="vcard rv"><div class="vh"><span class="ic">🎬</span><h5>La metáfora física</h5></div><div class="ex">Mamdani camina Manhattan <b>3,1M</b>; el Elefante baila sobre el puente inconcluso <b>684K</b>.</div><div class="rep"><b>Réplica:</b> una acción que ENCARNE la promesa o el problema, grabada en el lugar real.</div></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">💸</span><h5>El golpe al bolsillo</h5></div><div class="ex">Ferreira y el PIX <b>350M views</b>; Mamdani "halalflation".</div><div class="rep"><b>Réplica:</b> una medida que toca el bolsillo diario, vuelta agravio con un objeto cotidiano.</div></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">🔥</span><h5>El clímax / catarsis</h5></div><div class="ex">Milei "¡SOY PRESIDENTE!" <b>34,9M</b>; la revelación del Elefante 48h antes.</div><div class="rep"><b>Réplica:</b> un momento-cumbre con una frase-grito repetible.</div></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">🥊</span><h5>El insulto → marca</h5></div><div class="ex">Bukele "el dictador más cool"; Fetterman + Snooki en Cameo <b>2M</b>.</div><div class="rep"><b>Réplica:</b> toma el ataque del rival y devuélvelo como bandera o meme.</div></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">📑</span><h5>La prueba física del poder</h5></div><div class="ex">JotaPe lleva pilas de documentos al atril del Senado <b>5–6M</b>.</div><div class="rep"><b>Réplica:</b> lleva la evidencia tangible al escenario del poder y grábate usándola.</div></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">🎙️</span><h5>La voz del ciudadano</h5></div><div class="ex">Mamdani "Liam" <b>4,5M</b>: graba a un ciudadano contando su historia, no a sí mismo.</div><div class="rep"><b>Réplica:</b> cede el protagonismo a una persona real. <em>(Clave para MIRA.)</em></div></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">🎥</span><h5>El video-cine de origen</h5></div><div class="ex">AOC "The Courage to Change" <b>1,6M</b>, guion propio, su mundo real.</div><div class="rep"><b>Réplica:</b> UN video narrativo con tu historia real, sin pinta de spot.</div></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">✨</span><h5>El golpe de novedad</h5></div><div class="ex">Mélenchon holograma en 12 ciudades; el disfraz del Elefante; H'Angus el mono.</div><div class="rep"><b>Réplica:</b> un truco visual que la prensa no pueda ignorar (cobertura gratis).</div></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">⚔️</span><h5>La confrontación que roba alcance</h5></div><div class="ex">Cofradía vs. JotaPe en el Congreso.</div><div class="rep"><b>Réplica:</b> confronta —con causa— a alguien más famoso que tú.</div></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">🎓</span><h5>La pedagogía del voto</h5></div><div class="ex">Lalis explicó "cómo votar" → 26.718 votos en 20 días.</div><div class="rep"><b>Réplica:</b> enseña el "cómo" (votar, o acceder a un beneficio). <em>(Clave para MIRA.)</em></div></div>
+  </div>
+</div></section>
+
+<!-- ============ 04B VIRALIDAD ============ -->
+<section id="viralidad"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">04·B</div><div><div class="kick">Benchmark Colombia · sin sesgo ideológico</div><h2>La fórmula de viralidad</h2></div></div>
+  <p class="sec-sub big rv">Auditamos en vivo TODOS los partidos + las figuras políticas más virales (Petro, Polo Polo, Cabal, Abelardo, Vicky, Briceño…) + 100 videos de hashtags políticos + 180 comentarios. La pregunta no es izquierda o derecha: es <strong>qué viraliza</strong>, para darle alcance a la estrategia.</p>
+
+  <div class="callout rv"><div class="q">En Colombia, <b>los partidos son irrelevantes en viralidad</b>: el de más seguidores (Centro Democrático, 158K) es <b>70× más chico</b> que un influencer y su mejor video apenas llega a 57K vistas. El alcance vive en <b>personas, no en logos</b>. El único partido que viraliza es el <b>Pacto Histórico</b> —y lo hace hablando como el pueblo, no como institución.</div><div class="src">Scraping TikTok en vivo · jun-2026</div></div>
+
+  <h3 class="rv" style="font-size:23px;margin:32px 0 12px">Partidos: quién viraliza y quién está muerto</h3>
+  <div class="rv" style="overflow-x:auto"><table class="tbl">
+    <thead><tr><th>Partido</th><th>Seguidores</th><th>Mejor video</th><th>Lectura</th></tr></thead>
+    <tbody>
+      <tr><td class="first">Pacto Histórico</td><td>49K · <b>solo 31 videos</b></td><td class="c"><span class="yes">756K · 649K · 378K</span></td><td>El MÁS viral. Lenguaje coloquial ("en esta mondá") + identidad de pueblo + CTA</td></tr>
+      <tr><td class="first">Centro Democrático</td><td>158K (el mayor)</td><td class="c">57K</td><td>Muchos seguidores, bajo virón. Ataque institucional que no viaja</td></tr>
+      <tr><td class="first">Cambio Radical</td><td>16K</td><td class="c">759K (2023) · 174K</td><td>Vira con megaviral anti-Petro + montándose en trends ("las hadas")</td></tr>
+      <tr><td class="first">Alianza Verde · U · Liberal</td><td>0,5–2,7K</td><td class="c no">&lt;3K</td><td>Digitalmente muertos</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="rv" style="font-size:23px;margin:34px 0 12px">Figuras: seguidores ≠ alcance</h3>
+  <div class="rv" style="overflow-x:auto"><table class="tbl">
+    <thead><tr><th>Figura</th><th>Seguidores</th><th>Views máx</th><th>Engagement</th></tr></thead>
+    <tbody>
+      <tr><td class="first">Gustavo Petro</td><td>2,9M</td><td class="c"><b>11,9M</b></td><td class="c yes">ER 18% (base hiperleal)</td></tr>
+      <tr><td class="first">Polo Polo</td><td>385K</td><td class="c">9,5M</td><td class="c">4,1%</td></tr>
+      <tr><td class="first">M. F. Cabal</td><td>218K</td><td class="c">6,3M</td><td class="c">8,7%</td></tr>
+      <tr><td class="first">Abelardo de la Espriella</td><td>1,5M</td><td class="c">5,6M</td><td class="c">8,7%</td></tr>
+      <tr><td class="first">Vicky Dávila</td><td>785K</td><td class="c">3,0M</td><td class="c">8,0%</td></tr>
+      <tr><td class="first">Dr. Rawdy <span class="mono" style="font-size:10px;color:var(--muted)">(médico)</span></td><td>7,4M (el mayor)</td><td class="c no">1,5M</td><td class="c">5,5%</td></tr>
+      <tr><td class="first">Daniel Briceño</td><td>258K</td><td class="c">1,2M</td><td class="c yes">ER 15,7% (chico pero combativo)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note rv"><b>La lección del tamaño:</b> Dr. Rawdy tiene <b>7,4M</b> de seguidores y el <b>menor techo viral</b> (contenido de salud); Briceño tiene 258K y el mayor engagement. <b>El tamaño de la cuenta no manda — manda el contenido.</b> (Igual que Saruma: 11M y perdió.)</div>
+
+  <h3 class="rv" style="font-size:23px;margin:34px 0 12px">🔥 Top virales de Colombia (clic para verlos)</h3>
+  <div class="postgrid rv">
+    <a class="plink" href="https://www.tiktok.com/@gustavopetrooficial/video/7600973131359997202" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">Gustavo Petro</span></div><h6>"Grandes noticias sobre el Salario Vital" 💸</h6><div class="pm">11.900.000 vistas · 1M likes — el #1 absoluto</div></a>
+    <a class="plink" href="https://www.tiktok.com/@miguelpolopolo/video/7210505662189571334" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">Polo Polo</span></div><h6>"RESPONDIENDO A FRANCIA MÁRQUEZ 👊🏾"</h6><div class="pm">9.500.000 vistas · 535K likes</div></a>
+    <a class="plink" href="https://www.tiktok.com/@mariafernandacabal/video/7394995227896974598" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">M. F. Cabal</span></div><h6>"¿Ya tomaron nota de la receta? #FueraPetro"</h6><div class="pm">6.300.000 vistas · 142K likes</div></a>
+    <a class="plink" href="https://www.tiktok.com/@delaespriella_style/video/7645073088790482183" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">A. de la Espriella</span></div><h6>"…se convierte en un monstruo" (indignación)</h6><div class="pm">5.600.000 vistas · 317K likes</div></a>
+    <a class="plink" href="https://www.tiktok.com/@noticiascaracol/video/7649763817555037460" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">Noticias Caracol</span></div><h6>"#LOÚLTIMO | suspenden provisionalmente a Petro"</h6><div class="pm">5.400.000 vistas — el "ALERTA" de los medios</div></a>
+    <a class="plink" href="https://www.tiktok.com/@vickydavilaperiodista/video/7646612317278358805" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">Vicky Dávila</span></div><h6>"¡Cepeda, jódete! …la camiseta de la Selección"</h6><div class="pm">3.000.000 vistas — pero el público la corrigió (ver abajo)</div></a>
+  </div>
+
+  <h3 class="rv" style="font-size:23px;margin:36px 0 10px">🎯 En detalle: Daniel Briceño — el más eficiente</h3>
+  <p class="cap rv" style="color:var(--ink-soft);font-family:inherit;font-size:15px;margin-bottom:14px">Concejal de Bogotá → <b>Representante a la Cámara MÁS VOTADO por Bogotá (2026)</b>. Solo 258K seguidores pero <b>ER 15,7% — el mayor del benchmark</b>. Su fórmula: <b>denuncia con DATOS y casos concretos</b>, sin floritura ("El Tribunal le ordenó…", "Denunciamos presiones en…").</p>
+  <div class="postgrid rv">
+    <a class="plink anchor" href="https://www.tiktok.com/@daniel.bricen/video/7646450302173924628" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">@daniel.bricen</span></div><h6>"Iván Cepeda no quiere que usemos la camiseta de la Selección"</h6><div class="pm">1.200.000 vistas · 111K likes — su #1</div></a>
+    <a class="plink" href="https://www.tiktok.com/@daniel.bricen/video/7649392252904819989" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">@daniel.bricen</span></div><h6>"Con un orangután incluido en un proyecto de ley…"</h6><div class="pm">368.200 vistas · 9K shares — la denuncia con dato</div></a>
+    <a class="plink" href="https://www.tiktok.com/@daniel.bricen/video/7649807201862896917" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">@daniel.bricen</span></div><h6>"La representante Gloria Arizabaleta, ex de Roy Barreras…"</h6><div class="pm">359.200 vistas · 51K likes</div></a>
+    <a class="plink" href="https://www.tiktok.com/@daniel.bricen/video/7646222124004183316" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">@daniel.bricen</span></div><h6>"Petro quiere quedarse en el poder a toda costa…"</h6><div class="pm">353.900 vistas · 60K likes</div></a>
+    <a class="plink" href="https://www.tiktok.com/@daniel.bricen/video/7649541613655575829" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">@daniel.bricen</span></div><h6>"El Tribunal le ordenó a De la Espriella retirar publicidad…"</h6><div class="pm">285.400 vistas · el dato como prueba</div></a>
+    <a class="plink" href="https://www.tiktok.com/@daniel.bricen/video/7647336800507268372" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">@daniel.bricen</span></div><h6>"Denunciamos presiones en el SENA, ICBF, ANI y Banco Agrario"</h6><div class="pm">116.400 vistas — denuncia documentada</div></a>
+  </div>
+  <div class="note rv"><b>Por qué importa para MIRA:</b> Briceño prueba que <b>no necesitas millones de seguidores</b> — necesitas el <b>"dato como prueba"</b>. Es control político con evidencia (no insulto), justo lo que MIRA puede hacer con su denuncia de servicio: la mecánica viral sin la pelea partidista.</div>
+
+  <h3 class="rv" style="font-size:23px;margin:38px 0 6px">🎣 Taxonomía de HOOKS — lo que abre el video</h3>
+  <p class="cap mono rv" style="color:var(--muted);margin-bottom:16px">Analizado sobre los ~40 captions más virales · ejemplos reales</p>
+  <div class="viral">
+    <div class="vcard rv"><div class="vh"><span class="ic">💸</span><h5>El golpe al bolsillo / la cifra</h5></div><div class="ex">El hook más viral de todos. <b>"Grandes noticias sobre el Salario Vital"</b> (Petro, 11,9M); "4 millones fuera de la pobreza" (7,9M).</div><div class="rep"><b>Por qué:</b> toca el interés material; la cifra concreta da sensación de prueba.</div><a href="https://www.tiktok.com/@gustavopetrooficial/video/7600973131359997202" target="_blank" rel="noopener" style="display:inline-block;margin-top:9px;font-size:10.5px;font-weight:600;color:var(--navy);text-decoration:none;font-family:'IBM Plex Mono',monospace">▶ ver el video ↗</a></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">😈</span><h5>El villano nombrado</h5></div><div class="ex">29 de 40 captions. <b>"RESPONDIENDO A FRANCIA MÁRQUEZ"</b> (9,5M); "¡Cepeda, jódete!" (3M).</div><div class="rep"><b>Por qué:</b> personaliza el conflicto en un rostro = comment-bait de defensores y atacantes.</div><a href="https://www.tiktok.com/@miguelpolopolo/video/7210505662189571334" target="_blank" rel="noopener" style="display:inline-block;margin-top:9px;font-size:10.5px;font-weight:600;color:var(--navy);text-decoration:none;font-family:'IBM Plex Mono',monospace">▶ ver el video ↗</a></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">🚨</span><h5>ALERTA / "LO ÚLTIMO"</h5></div><div class="ex"><b>"#LOÚLTIMO | suspenden a Petro"</b> (Caracol, 5,4M); "Boletín 1: 56,76%".</div><div class="rep"><b>Por qué:</b> urgencia + FOMO; el formato de mayor share (lo usan los medios).</div><a href="https://www.tiktok.com/@noticiascaracol/video/7649763817555037460" target="_blank" rel="noopener" style="display:inline-block;margin-top:9px;font-size:10.5px;font-weight:600;color:var(--navy);text-decoration:none;font-family:'IBM Plex Mono',monospace">▶ ver el video ↗</a></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">🇨🇴</span><h5>Identidad / pertenencia (pueblo)</h5></div><div class="ex">29 de 40. <b>"La decisión del pueblo es lo único firme"</b> (4,5M); "Capital de la resistencia".</div><div class="rep"><b>Por qué:</b> convierte política en tribu; orgullo compartido.</div><a href="https://www.tiktok.com/@gustavopetrooficial/video/7648472056555769096" target="_blank" rel="noopener" style="display:inline-block;margin-top:9px;font-size:10.5px;font-weight:600;color:var(--navy);text-decoration:none;font-family:'IBM Plex Mono',monospace">▶ ver el video ↗</a></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">⚽</span><h5>Montarse en un trend (fútbol/meme)</h5></div><div class="ex"><b>"El último será el primero #mundial"</b> (Petro, 4,3M); la camiseta de la Selección como arma transversal.</div><div class="rep"><b>Por qué:</b> secuestra audiencias masivas no-políticas; entra por la puerta de atrás.</div><a href="https://www.tiktok.com/@gustavopetrooficial/video/7647681292632476935" target="_blank" rel="noopener" style="display:inline-block;margin-top:9px;font-size:10.5px;font-weight:600;color:var(--navy);text-decoration:none;font-family:'IBM Plex Mono',monospace">▶ ver el video ↗</a></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">😤</span><h5>Indignación moral / "el monstruo"</h5></div><div class="ex"><b>"…se convierte en un monstruo"</b> (Abelardo, 5,6M); "derrotar la tiranía".</div><div class="rep"><b>Por qué:</b> la emoción de mayor velocidad de propagación. ⚠️ Riesgo de backlash.</div><a href="https://www.tiktok.com/@delaespriella_style/video/7645073088790482183" target="_blank" rel="noopener" style="display:inline-block;margin-top:9px;font-size:10.5px;font-weight:600;color:var(--navy);text-decoration:none;font-family:'IBM Plex Mono',monospace">▶ ver el video ↗</a></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">🩺</span><h5>El truco / tip de servicio</h5></div><div class="ex"><b>"Truco dolor de cabeza"</b> (Dr. Rawdy, 1,5M · 32K shares). El único hook 100% apolítico que viralizó solo.</div><div class="rep"><b>Por qué:</b> utilidad pura = guardable y compartible. Cero costo reputacional. <em>(Clave para MIRA.)</em></div><a href="https://www.tiktok.com/@dr.rawdy/video/7649003543818505480" target="_blank" rel="noopener" style="display:inline-block;margin-top:9px;font-size:10.5px;font-weight:600;color:var(--navy);text-decoration:none;font-family:'IBM Plex Mono',monospace">▶ ver el video ↗</a></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">🍳</span><h5>La pregunta-gancho / suspenso</h5></div><div class="ex"><b>"¿Ya tomaron nota de la receta?"</b> (Cabal, 6,3M); envuelve el mensaje en curiosidad.</div><div class="rep"><b>Por qué:</b> la curiosidad fuerza el clic y el comentario.</div><a href="https://www.tiktok.com/@mariafernandacabal/video/7394995227896974598" target="_blank" rel="noopener" style="display:inline-block;margin-top:9px;font-size:10.5px;font-weight:600;color:var(--navy);text-decoration:none;font-family:'IBM Plex Mono',monospace">▶ ver el video ↗</a></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">⚖️</span><h5>La acción confrontativa</h5></div><div class="ex"><b>"MOCIÓN DE CENSURA AL MINISTRO"</b> (Polo Polo, 2,5M). Postura de "yo enfrento al poder".</div><div class="rep"><b>Por qué:</b> verbo de acción + mayúsculas = sensación de combate concreto.</div><a href="https://www.tiktok.com/@miguelpolopolo/video/7345644363369745669" target="_blank" rel="noopener" style="display:inline-block;margin-top:9px;font-size:10.5px;font-weight:600;color:var(--navy);text-decoration:none;font-family:'IBM Plex Mono',monospace">▶ ver el video ↗</a></div>
+    <div class="vcard rv"><div class="vh"><span class="ic">🙏</span><h5>Fe / emoción personal (la lágrima)</h5></div><div class="ex"><b>"Gracias, Colombia 🥹"</b> (Petro, ER 25%); "Gloria a Dios".</div><div class="rep"><b>Por qué:</b> la vulnerabilidad genera cercanía y el engagement más alto entre la base.</div><a href="https://www.tiktok.com/@gustavopetrooficial/video/7653660158240820498" target="_blank" rel="noopener" style="display:inline-block;margin-top:9px;font-size:10.5px;font-weight:600;color:var(--navy);text-decoration:none;font-family:'IBM Plex Mono',monospace">▶ ver el video ↗</a></div>
+  </div>
+
+  <h3 class="rv" style="font-size:23px;margin:38px 0 14px">🧪 La fórmula (lo que comparten izquierda y derecha)</h3>
+  <div class="laws">
+    <div class="law rv"><div><h5>Un nombre propio en el centro</h5><p>Casi todo viral tiene un villano o héroe nombrado. El conflicto personalizado vence al argumento abstracto.</p></div></div>
+    <div class="law rv"><div><h5>Emoción de alta velocidad</h5><p>Indignación, orgullo o esperanza — nunca tibieza. La izquierda gana con esperanza/orgullo ("sacamos de la pobreza"); la derecha con indignación/miedo ("monstruo", "Venezuela"). Ambas funcionan.</p></div></div>
+    <div class="law rv"><div><h5>Identidad de tribu + símbolo compartido</h5><p>"Pueblo/patria" y la camiseta de la Selección como tótem que ambos bandos pelearon.</p></div></div>
+    <div class="law rv"><div><h5>Una cifra o un hecho como prueba</h5><p>Salario mínimo, "4 millones", "Boletín 56,76%". El dato duro da munición y credibilidad al sentimiento.</p></div></div>
+    <div class="law rv"><div><h5>El bolsillo manda</h5><p>El post #1 absoluto (11,9M) es sobre el salario. El servicio/plata supera a la pelea pura en alcance sostenido.</p></div></div>
+    <div class="law rv"><div><h5>Montarse en un trend masivo</h5><p>Fútbol, memes, sonidos del momento multiplican el alcance fuera de la burbuja política.</p></div></div>
+    <div class="law rv"><div><h5>Caption corto y declarativo</h5><p>Frases-grito en mayúsculas + bandera/puño (🇨🇴✊👊🏾) + cluster de hashtags. Lo crudo y veloz gana a lo pulido.</p></div></div>
+  </div>
+
+  <h3 class="rv" style="font-size:23px;margin:38px 0 14px">💬 Lo que revela el sentimiento (180 comentarios de los virales top)</h3>
+  <div class="diaggrid">
+    <div class="dcard good rv">
+      <h5>✅ Lo que MIRA SÍ puede replicar</h5>
+      <ul>
+        <li><b>Devoción para-social:</b> el bolsillo + gratitud genera amor ("gracias por subirle el sueldo a mi mamá 🥹", "valió viajar 17h en moto para votar"). Petro: 85% positivo.</li>
+        <li><b>Humor / juego de palabras:</b> el público convirtió "responder a Francia" en chiste ("Mbappé traicionó a Francia", 17K likes) — co-creación que dispara shares.</li>
+        <li><b>El testimonio "primera vez que voto":</b> en el Pacto, decenas de "estrené mi cédula, MIRA/Pacto fue mi motivación" — oro de movilización.</li>
+        <li><b>El tip de servicio</b> (Dr. Rawdy): utilidad pura, máximo share, cero riesgo.</li>
+      </ul>
+    </div>
+    <div class="dcard bad rv">
+      <h5>⚠️ Lo que NO replicar (genera alcance, pero se devuelve)</h5>
+      <ul>
+        <li><b>Usar el dolor/tragedia:</b> el video de Abelardo viralizó, pero el comentario top fue <em>"no haga política con el dolor de la familia, respete"</em> (4,7K likes). Backlash reputacional.</li>
+        <li><b>El gancho engañoso:</b> Vicky atacó a Cepeda sacando de contexto; el comentario #1 (12,5K) la corrigió: <em>"él jamás dijo que no la usaran, dijo que no la politizaran"</em>. El público volteó el ataque.</li>
+        <li><b>La burla pura</b> (Cabal): mitad fans, mitad mofa ("ya puede ir a Sábados Felices"). Alcance por ridículo, no por respeto.</li>
+        <li><b>Bots y copypasta</b> ("Iván Cepeda presidente" ×500): inflan, no convencen.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="rv" style="font-size:23px;margin:40px 0 6px">🗣️ Comentarios destacables — los patrones que se repiten</h3>
+  <p class="cap mono rv" style="color:var(--muted);margin-bottom:16px">De los 1.143 comentarios reales scrapeados · lo más likeado y lo que más se repite · feedback directo de la calle</p>
+  <div class="panel rv" style="margin-bottom:16px">
+    <h4>Los comentarios verbatim más destacados (tal cual los escribió la gente)</h4>
+    <div style="display:grid;gap:9px;margin-top:14px">
+      <div style="border-left:3px solid var(--green);padding:9px 14px;background:var(--paper-2);border-radius:8px">💚 <b>"Gracias por subirle el sueldo a mi mamá 🥹"</b> <span class="mono" style="font-size:11px;color:var(--muted)">— Petro · el bolsillo se vuelve amor</span></div>
+      <div style="border-left:3px solid var(--green);padding:9px 14px;background:var(--paper-2);border-radius:8px">💚 <b>"Valió la pena viajar 17 horas en moto para votar por mi presidente"</b> <span class="mono" style="font-size:11px;color:var(--muted)">— Petro · 12,5K likes · identidad/sacrificio</span></div>
+      <div style="border-left:3px solid var(--green);padding:9px 14px;background:var(--paper-2);border-radius:8px">💚 <b>"Por primera vez este hombre dice algo verdadero"</b> <span class="mono" style="font-size:11px;color:var(--muted)">— Polo Polo · 7,3K · está captando NUEVOS</span></div>
+      <div style="border-left:3px solid var(--green);padding:9px 14px;background:var(--paper-2);border-radius:8px">💚 <b>"Primera vez que voto… el Pacto fue mi motivación"</b> <span class="mono" style="font-size:11px;color:var(--muted)">— Pacto · movilización de primerizos</span></div>
+      <div style="border-left:3px solid var(--gold);padding:9px 14px;background:var(--paper-2);border-radius:8px">😄 <b>"No esperaba que Mbappé traicionara a Francia"</b> <span class="mono" style="font-size:11px;color:var(--muted)">— Polo Polo · 17,3K · humor co-creado</span></div>
+      <div style="border-left:3px solid var(--gold);padding:9px 14px;background:var(--paper-2);border-radius:8px">🙏 <b>"Que el Señor Jesucristo te bendiga, mi futuro presidente"</b> <span class="mono" style="font-size:11px;color:var(--muted)">— Abelardo · 15K · lenguaje de fe (la base)</span></div>
+      <div style="border-left:3px solid var(--red);padding:9px 14px;background:#fbf1ee;border-radius:8px">🔴 <b>"No haga política con el dolor de la familia, respete"</b> <span class="mono" style="font-size:11px;color:var(--muted)">— Abelardo · 4,7K · backlash por usar la tragedia</span></div>
+      <div style="border-left:3px solid var(--red);padding:9px 14px;background:#fbf1ee;border-radius:8px">🔴 <b>"Él jamás dijo que no la usaran, dijo que no la politizaran"</b> <span class="mono" style="font-size:11px;color:var(--muted)">— Vicky · 12,5K (¡el comentario #1!) · el gancho engañoso se voltea</span></div>
+    </div>
+  </div>
+  <div class="rv" style="overflow-x:auto"><table class="tbl">
+    <thead><tr><th>Patrón que se repite</th><th>Ejemplo real</th><th>Qué le dice a MIRA (feedback)</th></tr></thead>
+    <tbody>
+      <tr><td class="first">"Deberías ser presidente / postúlate"</td><td>"Te necesitamos como PRESIDENTE" (JotaPe, 1,2K)</td><td>Hay demanda de liderazgo: proyecta a una figura propia.</td></tr>
+      <tr><td class="first">Gratitud por el bolsillo</td><td>"Gracias por subirle el sueldo a mi mamá"</td><td>El beneficio tangible se vuelve amor. Muestra logros concretos.</td></tr>
+      <tr><td class="first">"Primera vez que te apoyo / que voto"</td><td>"Por primera vez dice algo verdadero"</td><td>Señal de que captas NUEVOS. Amplifícalo con testimonios.</td></tr>
+      <tr><td class="first">Sacrificio / identidad</td><td>"Viajé 17h en moto"; "me echaron de casa por defenderlo"</td><td>La causa como identidad genera lealtad extrema.</td></tr>
+      <tr><td class="first">Humor / juego de palabras</td><td>"Mbappé traicionó a Francia"; "marbelle perdóname"</td><td>El humor convierte los comentarios en juego = shares masivos.</td></tr>
+      <tr><td class="first">El fact-check que voltea</td><td>"Él jamás dijo eso, deje de confundir"</td><td>Los ganchos engañosos se devuelven. Sé verificable.</td></tr>
+      <tr><td class="first">El backlash moral</td><td>"Respete el dolor, no haga política con esto"</td><td>No explotes tragedias ni golpes bajos.</td></tr>
+      <tr><td class="first">Burla + defensa ("no la funen")</td><td>"Ya puede ir a Sábados Felices"</td><td>La controversia divide; alcance sin respeto.</td></tr>
+      <tr><td class="first">Lenguaje de fe</td><td>"Dios te bendiga, mi futuro presidente"</td><td>Es tu base. Úsalo en RETENCIÓN, no en el embudo de adquisición.</td></tr>
+      <tr><td class="first">La objeción sustantiva</td><td>"Sube el sueldo y sube el mercado"; "más propuestas, menos desprestigio"</td><td>Lo que dicen los escépticos = la respuesta que debes preparar.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="rv" style="font-size:23px;margin:40px 0 6px">💎 Las JOYAS para MIRA</h3>
+  <p class="cap mono rv" style="color:var(--muted);margin-bottom:16px">Replicar · Responder · Reinventar · Ejecutar desde 0 — con foco en servicio/bolsillo, sin pelea sucia ni desinformación (la ventaja de MIRA es la credibilidad)</p>
+  <div class="viral">
+    <div class="vcard rv" style="border-left:3px solid var(--green)"><div class="vh"><span class="ic">💸</span><h5>"Tu plata esta semana" · Ejecutar de 0</h5></div><div class="ex">Serie semanal: una cifra que toca el bolsillo (gasolina, mínimo, servicios, una multa) + qué puede hacer la gente, con la cifra grande en pantalla.</div><div class="rep"><b>Inspira:</b> Petro salario (11,9M) + Sr Biter "No pagues multas" (3,2M).</div></div>
+    <div class="vcard rv" style="border-left:3px solid var(--green)"><div class="vh"><span class="ic">🩺</span><h5>"Truco MIRA" · Ejecutar de 0</h5></div><div class="ex">Tip práctico de 15s: cómo reclamar a tu EPS, devolver el IVA, sacar una cita, evitar una multa. Sin política.</div><div class="rep"><b>Inspira:</b> Dr. Rawdy "Truco dolor de cabeza" (1,5M · 32K shares). El formato de mayor share orgánico.</div></div>
+    <div class="vcard rv" style="border-left:3px solid var(--navy)"><div class="vh"><span class="ic">⚽</span><h5>"Todos somos la Selección" · Reinventar</h5></div><div class="ex">Tomar el tótem de la camiseta en clave de UNIÓN (deporte barrial, hinchada, jóvenes), no de pelea.</div><div class="rep"><b>Inspira:</b> Vicky/Briceño volvieron la camiseta tema viral (3M) — pero sin el "jódete".</div></div>
+    <div class="vcard rv" style="border-left:3px solid var(--navy)"><div class="vh"><span class="ic">😄</span><h5>El guiño/humor que se comenta · Reinventar</h5></div><div class="ex">Contenido con un juego de palabras o remate cómico que invite a la gente a comentar y co-crear.</div><div class="rep"><b>Inspira:</b> Polo Polo "Francia" → festival de chistes en comentarios (9,5M).</div></div>
+    <div class="vcard rv" style="border-left:3px solid var(--gold)"><div class="vh"><span class="ic">🗳️</span><h5>"Mi primera vez con MIRA" · Replicar</h5></div><div class="ex">Testimonios reales de personas que votaron/se sumaron por primera vez gracias a una gestión concreta de MIRA.</div><div class="rep"><b>Inspira:</b> los "estrené mi cédula" del Pacto (movilización pura).</div></div>
+    <div class="vcard rv" style="border-left:3px solid var(--gold)"><div class="vh"><span class="ic">⚖️</span><h5>"Lo que MIRA propuso esta semana" · Reinventar</h5></div><div class="ex">La estética de acción de "Moción de censura" (mayúsculas, verbo de combate) pero sobre SOLUCIONES, no censura personal.</div><div class="rep"><b>Inspira:</b> Polo Polo "MOCIÓN DE CENSURA" (2,5M).</div></div>
+    <div class="vcard rv" style="border-left:3px solid var(--red)"><div class="vh"><span class="ic">🔁</span><h5>El trend de la semana con remate de servicio · Ejecutar</h5></div><div class="ex">Un community manager adapta cada semana el sonido/meme top de TikTok Colombia a un mensaje de servicio. Rapidez &gt; producción perfecta.</div><div class="rep"><b>Inspira:</b> los memes apolíticos que colaron por #petro (2,1M, 1,8M).</div></div>
+    <div class="vcard rv" style="border-left:3px solid var(--red)"><div class="vh"><span class="ic">🔍</span><h5>"¿Te dijeron que…?" — el dato como prueba · Responder</h5></div><div class="ex">Pregunta-gancho + cifra real + fuente, para responder a un bulo sin insultar. La curiosidad sin desinformar.</div><div class="rep"><b>Inspira:</b> "¿Ya tomaron nota de la receta?" (Cabal, 6,3M) — pero limpio y verificable.</div></div>
+  </div>
+</div></section>
+
+<!-- ============ 05 MIRA DIAGNOSTICO ============ -->
+<section id="mira-diag" class="mira"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">05</div><div><div class="kick">Partido MIRA · Diagnóstico de datos</div><h2>Lo que dicen tus propias redes</h2></div></div>
+  <p class="sec-sub big rv">Auditamos en vivo YouTube, Facebook, Instagram y TikTok del partido y sus figuras, más 228 comentarios reales. Esto es lo que la data —fría— revela.</p>
+
+  <div class="crown rv">
+    <div class="kick">El video más viral de MIRA, en todas las redes</div>
+    <h3>YouTube Short de Ana Paola Agudelo — "Subsidio para Independientes y Contratistas"</h3>
+    <p>Es el #1 por reproducciones. Pero un analista no puede ignorar el matiz: <strong>2,5M de vistas con solo 1.537 likes (0,06%)</strong> es la firma del <strong>alcance pagado</strong>, no de viralidad real.</p>
+    <div class="vs">
+      <div class="pay"><div class="num">2.545.652</div><div class="t">Vistas (pauta) · like-rate 0,06%</div><div class="d">"Subsidio Independientes" — alcance comprado en campaña.</div></div>
+      <div class="mid">VS</div>
+      <div class="org"><div class="num">211.829</div><div class="t">Vistas orgánicas · like-rate 9,4%</div><div class="d">"Creencias religiosas" — <b>19.905 likes · 4.233 comentarios</b>. Resonancia REAL.</div></div>
+    </div>
+    <p style="margin-top:18px"><strong style="color:#fff">Ana Paola Agudelo</strong> firma el #1 de YouTube (2,5M), el #1 de Facebook (877K) y el #1 orgánico. Es, por lejos, <strong style="color:var(--amber)">tu activo digital más valioso</strong> — pero su TikTok (@anapaolaagudelo) está <strong style="color:var(--amber)">subdesarrollado</strong>: ~14,7K seguidores, sin verificar, frente a sus cifras enormes en Facebook (877K) y YouTube.</p>
+  </div>
+
+  <div class="panel rv" style="margin-top:20px">
+    <h4>Alcance por plataforma: la mejor pieza de cada red</h4>
+    <p class="cap">YouTube es tu único canal de alcance masivo real. TikTok —donde está la gente nueva— es el más débil.</p>
+    <div class="chart" data-chart>
+      <div class="bar-row"><span class="nm">YouTube</span><div class="bar-track"><div class="bar-fill" data-w="100"></div></div><span class="bar-val">2,55M</span></div>
+      <div class="bar-row"><span class="nm">Facebook</span><div class="bar-track"><div class="bar-fill" data-w="34"></div></div><span class="bar-val">877K</span></div>
+      <div class="bar-row"><span class="nm">Instagram</span><div class="bar-track"><div class="bar-fill" data-w="11"></div></div><span class="bar-val">281K</span></div>
+      <div class="bar-row"><span class="nm">TikTok</span><div class="bar-track"><div class="bar-fill red" data-w="3.2"></div></div><span class="bar-val">81K</span></div>
+    </div>
+    <div class="note"><b>Dato crudo:</b> de 100 videos de TikTok scrapeados, solo <b>uno</b> pasa de 30K vistas. La plataforma de la gente joven y no-creyente es la más floja → el mayor margen de crecimiento.</div>
+  </div>
+
+  <div class="diaggrid" style="margin-top:20px">
+    <div class="dcard good rv">
+      <h5>✅ Lo que funciona</h5>
+      <ul>
+        <li><b>Base ultra-fiel:</b> ER de TikTok 17–21%, reacciones de FB 7–17K, like orgánico 9–12%.</li>
+        <li><b>Dos narrativas viralizan:</b> "libertad religiosa" y "víctima/persecución".</li>
+        <li><b>Beneficios tangibles:</b> "Mi Casa en Colombia" es tu techo en FB (877K) e IG (281K).</li>
+        <li><b>Ana Paola Agudelo</b> como figura relatable y de alto engagement.</li>
+      </ul>
+    </div>
+    <div class="dcard bad rv">
+      <h5>⚠️ El problema central</h5>
+      <ul>
+        <li><b>Le hablas casi solo a tu base.</b> El 29% de los comentarios usa lenguaje de iglesia ("Dios", "hermano/a", "bendiciones").</li>
+        <li><b>La narrativa que más viraliza es la que más amuralla:</b> "persecución/víctima" energiza a la base pero repele al de afuera y alimenta el frame "secta".</li>
+        <li><b>El embudo está roto:</b> en "Mi Casa", el 52% de comentarios son preguntas de gente nueva ("¿requisitos?")… sin una sola respuesta.</li>
+        <li><b>TikTok desperdiciado</b> y el contenido de bolsillo/impuestos (el más universal) está peor empacado.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panel rv" style="margin-top:20px">
+    <h4>Sentimiento real — 228 comentarios</h4>
+    <p class="cap">Predomina el apoyo, pero el negativo es el más argumentado y el más "likeado"</p>
+    <div class="chart" data-chart>
+      <div class="bar-row"><span class="nm">Positivo</span><div class="bar-track"><div class="bar-fill green" data-w="100"></div></div><span class="bar-val">61%</span></div>
+      <div class="bar-row"><span class="nm">Neutro (preguntas)</span><div class="bar-track"><div class="bar-fill gold" data-w="39"></div></div><span class="bar-val">24%</span></div>
+      <div class="bar-row"><span class="nm">Negativo</span><div class="bar-track"><div class="bar-fill red" data-w="25"></div></div><span class="bar-val">15%</span></div>
+    </div>
+    <div class="note"><b>Señal clave:</b> el único contenido que atrajo público NUEVO fue "Mi Casa en Colombia" (52% de comentarios = preguntas reales de acceso) y "Nohora Cano" (candidata local, foco cívico, 90% positivo / 0% rechazo, casi sin lenguaje de iglesia). <b>El contenido de servicio/beneficio convierte; el de identidad religiosa solo confirma a la base.</b> El post más tóxico fue el respaldo a Abelardo de la Espriella (32% negativo, y dividió a la propia base).</div>
+  </div>
+</div></section>
+
+<!-- ============ 05B RED ============ -->
+<section id="mira-red" class="mira"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">05·B</div><div><div class="kick">Cobertura completa</div><h2>El mapa de la red MIRA — ¿están todos los representantes?</h2></div></div>
+  <p class="sec-sub big rv">El alcance de un partido es la <strong>suma coordinada de TODAS sus cuentas</strong>, no de 3 senadores. Inventario completo de los representantes de MIRA y su huella digital real, verificada en vivo.</p>
+
+  <div class="rv" style="overflow-x:auto">
+  <table class="tbl">
+    <thead><tr><th>Nivel</th><th>Representantes de MIRA</th><th style="text-align:center">Activos digitales</th><th>Mejor activo (verificado)</th></tr></thead>
+    <tbody>
+      <tr><td class="first">Senado</td><td>3 — Agudelo, Virgüez, Guevara</td><td class="c yes">3</td><td>Ana Paola Agudelo</td></tr>
+      <tr><td class="first">Cámara de Representantes</td><td><b>0 propios</b> · Irma Luz Herrera <b>sale</b> (no reelecta)</td><td class="c no">0</td><td>Curules de coalición → CD / Cambio Radical / N. Liberalismo</td></tr>
+      <tr><td class="first">Diputados deptales.</td><td>~8 (4 confirmados militantes)</td><td class="c par">Débil</td><td>M. I. Gaviria · pdta. Asamblea Caldas</td></tr>
+      <tr><td class="first">Concejales Bogotá</td><td>2 — Bedoya, Puentes</td><td class="c yes">2 · activos</td><td>Samir Bedoya · TikTok <b>5,4K</b></td></tr>
+      <tr><td class="first">Concejales regionales</td><td>~3 (Pereira, Ibagué, Popayán)</td><td class="c par">Bajo (1–4K)</td><td>Anyeline Sandoval · Pereira</td></tr>
+      <tr><td class="first">Ediles / JAL</td><td>~8 en Bogotá + long tail nacional</td><td class="c no">Casi nulo</td><td>—</td></tr>
+      <tr><td class="first">Consejeros de Juventud</td><td><b>16 en Bogotá (2ª fuerza) · ~50K votos</b></td><td class="c no">0 como creadores</td><td>Sin desarrollar</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="diaggrid" style="margin-top:18px">
+    <div class="dcard good rv">
+      <h5>✅ El hallazgo bueno (estaba oculto)</h5>
+      <ul>
+        <li><b>Tus concejales YA hacen el contenido correcto.</b> Bedoya y Puentes (Bogotá) hacen denuncia de servicio —basura, seguridad, agua, salud, <b>fotomultas</b>, su serie "Un café con los concejales de MIRA"— con <b>engagement altísimo (~12–20% de likes)</b>. Son "proto-Biters".</li>
+        <li><b>Disciplina de producción</b> heredada del IDMJI: saben hacer y sostener video.</li>
+        <li><b>Capital juvenil real:</b> 16 consejeros, 2ª fuerza en Bogotá. La tropa existe.</li>
+      </ul>
+    </div>
+    <div class="dcard bad rv">
+      <h5>⚠️ El problema de red</h5>
+      <ul>
+        <li><b>Alcance diminuto y sin coordinar.</b> Bedoya y Puentes tienen solo <b>~5,4K</b> seguidores cada uno (menos que el partido): el contenido correcto, sin escala.</li>
+        <li><b>0 en Cámara</b> e Irma Luz sale: fuera del Senado, el poder propio vive en Asambleas con huella digital débil.</li>
+        <li><b>El banquillo joven está sin activar:</b> los 16 consejeros NO son creadores; no existe TikTok juvenil. Materia prima excepcional sin sacar a la cancha.</li>
+        <li><b>La red no se amplifica entre sí</b> — la "ley de la comunidad-ejército" sin aplicar.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note rv"><b>Respuesta directa a "¿están todos?":</b> el análisis inicial cubría el tope de la pirámide (partido + 3 senadores). El alcance real de MIRA está concentrado en <b>la cuenta del partido + 3 senadores + 2 concejales</b>. La oportunidad de crecimiento no es de descubrimiento, es de <b>activación y coordinación</b>: amplificar desde @partidomira el contenido de servicio que Bedoya y Puentes ya hacen, y convertir a los 16 consejeros de juventud en el equipo del embudo de adquisición. <em>(Verificación: el research inicial reportó 67K para Bedoya; el scraping en vivo lo corrigió a 5,4K.)</em></div>
+</div></section>
+
+<!-- ============ 06 MIRA ESTRATEGIA ============ -->
+<section id="mira-est" class="mira"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">06</div><div><div class="kick">Partido MIRA · Estrategia</div><h2>Lo que yo haría, como estratega</h2></div></div>
+  <p class="sec-sub big rv">Soluciones claras, ancladas a <strong>lo que hacen los que sí crecieron</strong>. El objetivo: llegar a gente nueva sin perder a la base.</p>
+
+  <div class="callout rv">
+    <div class="q">El dato ya marcó el camino: hay <b>un tema que funciona Y es transversal</b> — el bolsillo y los servicios concretos del ciudadano. Le importa al cristiano y al no cristiano por igual. Fue lo único que atrajo público nuevo.</div>
+    <div class="src">Conclusión del análisis de 228 comentarios + alcance por plataforma</div>
+  </div>
+
+  <div class="panel rv" style="margin:0 0 32px;border:2px solid var(--navy)">
+    <div class="kick">Lo más accionable</div>
+    <h4 style="margin-top:10px">Tus dos modelos a imitar — y ambos ganaron sin maquinaria</h4>
+    <p class="cap">El Elefante Blanco y el Sr Biter (Senado, misma elección de 2026) son los casos más replicables para MIRA: causa de servicio/bolsillo + comunidad vota-ble + villano claro, no fama de entretenimiento.</p>
+    <div class="grid g2" style="margin-top:6px">
+      <div style="background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:20px">
+        <h5 style="font-family:'Fraunces',serif;font-size:19px;font-weight:600">🐘 El Elefante Blanco</h5>
+        <p style="font-size:14.5px;color:var(--ink-soft);margin:8px 0">Anónimo + símbolo memorable + denuncia con prueba de obras inconclusas (causa anticorrupción que la gente vive) → Senado con apenas 150K seguidores.</p>
+        <p style="font-size:14px"><b style="color:var(--navy)">MIRA lo copia así →</b> un símbolo/IP propio + denuncia de un problema cotidiano con evidencia, sin lenguaje de iglesia.</p>
+      </div>
+      <div style="background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:20px">
+        <h5 style="font-family:'Fraunces',serif;font-size:19px;font-weight:600">🚦 El Sr Biter</h5>
+        <p style="font-size:14.5px;color:var(--ink-soft);margin:8px 0">Causa de <b>bolsillo</b> (fotomultas) + gremio vota-ble nacional + villano claro ("las multas que te roban") → Senado por voto de opinión.</p>
+        <p style="font-size:14px"><b style="color:var(--red)">MIRA lo copia así →</b> "MIRA defiende tu bolsillo": las leyes y servicios de MIRA que tocan el bolsillo del ciudadano común, empacados como contenido de servicio — con el rigor que a Biter le faltó.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="rv" style="font-size:24px;margin:34px 0 14px">1. Separa dos embudos (hoy están mezclados y se sabotean)</h3>
+  <div class="funnels">
+    <div class="funnel ret rv"><div class="fh">Embudo de RETENCIÓN — la base</div>
+      <table>
+        <tr><td>Objetivo</td><td>Mantener y movilizar a la iglesia</td></tr>
+        <tr><td>Temas</td><td>Libertad religiosa, fe, valores, persecución</td></tr>
+        <tr><td>Tono</td><td>Identidad, pertenencia, "hermanos"</td></tr>
+        <tr><td>Red</td><td>Facebook, YouTube largo</td></tr>
+        <tr><td>Métrica</td><td>Reacciones, fidelidad</td></tr>
+      </table>
+    </div>
+    <div class="funnel acq rv"><div class="fh">Embudo de ADQUISICIÓN — gente nueva</div>
+      <table>
+        <tr><td>Objetivo</td><td>Captar a quien no conoce a MIRA</td></tr>
+        <tr><td>Temas</td><td>Bolsillo, servicios, logros tangibles, gestión local</td></tr>
+        <tr><td>Tono</td><td>Cívico, útil, universal — sin códigos de iglesia</td></tr>
+        <tr><td>Red</td><td>TikTok, Reels, Shorts</td></tr>
+        <tr><td>Métrica</td><td>% de audiencia NUEVA, preguntas, guardados</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="note rv"><b>Regla de oro:</b> el contenido de adquisición NO debe usar lenguaje religioso ni narrativa de persecución. No porque la fe sea un problema, sino porque para el de afuera ese código es una <b>puerta cerrada</b>. La fe se vive en retención; se <b>demuestra con obras</b> en adquisición.</div>
+
+  <h3 class="rv" style="font-size:24px;margin:38px 0 14px">2. Copia lo que funcionó: de cada caso, una solución para MIRA</h3>
+  <div class="map">
+    <div class="maprow rv">
+      <div class="from"><div class="who">🎓 Lalis (Colombia)</div><p>Explicó EN REDES "cómo votar" en una consulta confusa → 26.718 votos.</p></div>
+      <div class="arr">→</div>
+      <div class="to"><div class="who">MIRA</div><p><b>Cierra el embudo roto:</b> cada logro/beneficio con su "cómo accedo — requisitos + link". Responder las preguntas de "Mi Casa" convierte curiosos en votantes.</p></div>
+    </div>
+    <div class="maprow rv">
+      <div class="from"><div class="who">🐘 Elefante Blanco (Colombia)</div><p>Causa monotemática + símbolo replicable + villano NO partidista ("los corruptos de corbata").</p></div>
+      <div class="arr">→</div>
+      <div class="to"><div class="who">MIRA</div><p><b>Causa:</b> "que el dinero y los servicios le sirvan a la gente". <b>Villano no sectario:</b> "los que le meten la mano al bolsillo del ciudadano" — NO "los que persiguen a la iglesia". <b>Crea un símbolo/IP</b> (hoy no tienes ninguno que viaje).</p></div>
+    </div>
+    <div class="maprow rv">
+      <div class="from"><div class="who">🎙️ Mamdani · "Liam" (NYC)</div><p>Su mayor viral (4,5M) no es él hablando: es un ciudadano contando su historia.</p></div>
+      <div class="arr">→</div>
+      <div class="to"><div class="who">MIRA</div><p><b>Cede el protagonismo</b> al ciudadano beneficiado por una ley de MIRA. Muestra el servicio en terreno, con su cara y su testimonio — no el púlpito.</p></div>
+    </div>
+    <div class="maprow rv">
+      <div class="from"><div class="who">💸 Ferreira (Brasil) · 🪓 Milei (Argentina)</div><p>Estética nativa, low-fi, "de igual a igual"; el golpe al bolsillo; cara joven relatable.</p></div>
+      <div class="arr">→</div>
+      <div class="to"><div class="who">MIRA</div><p><b>Reconstruye TikTok</b> con una cara joven y relatable + formato creador (no spot). Es donde está el no-creyente joven y donde hoy eres más débil → mayor margen.</p></div>
+    </div>
+    <div class="maprow rv">
+      <div class="from"><div class="who">📉 Saruma (Colombia) — el error</div><p>11,2M de seguidores comprados sobre maquinaria → perdió. La fama no se convirtió en voto.</p></div>
+      <div class="arr">→</div>
+      <div class="to"><div class="who">MIRA</div><p><b>NO "compres" viralidad</b> importando influencers famosos (la coalición sumó a Dr. Rawdy, 7,3M). Construye relevancia propia con causa + símbolo + figura. La fama prestada no vota.</p></div>
+    </div>
+  </div>
+
+  <h3 class="rv" style="font-size:24px;margin:40px 0 14px">3. Cinco movimientos, por impacto/costo</h3>
+  <div class="moves">
+    <div class="move rv"><div><h5>Convierte cada logro en un "explicador de servicio" <span class="pri">Quick win</span></h5><p>Formato: "¿Eres independiente/contratista? Así te beneficia esta ley — requisitos y link 👇". Cierra el loop que el 52% de la audiencia nueva está pidiendo. Costo casi nulo, impacto alto.</p></div></div>
+    <div class="move rv"><div><h5>Ana Paola Agudelo como punta de lanza de adquisición <span class="pri">Quick win</span></h5><p>Es el activo probado (2,5M / 877K). <b>Potencia su TikTok</b> —hoy subdesarrollado (~14,7K seg., sin verificar, ~10K vistas/video)— con contenido nativo, vertical, de bolsillo/servicio, sin púlpito.</p></div></div>
+    <div class="move rv"><div><h5>Reconstruye TikTok como laboratorio de gente nueva</h5><p>Cara joven y relatable + formato creador + metáfora física + tendencias. Hoy es el canal más débil → el de mayor crecimiento posible.</p></div></div>
+    <div class="move rv"><div><h5>Baja el volumen de "persecución/víctima" en adquisición</h5><p>Mantenlo solo en retención. Sobre-usarlo le da la razón al detractor ("secta/víctima") y cierra la puerta a los nuevos.</p></div></div>
+    <div class="move rv"><div><h5>Cuida las alianzas polarizantes</h5><p>El respaldo a Abelardo de la Espriella fue tu post más rechazado y dividió a tu base. Tu activo más escaso es la percepción de <b>independencia</b> — la "I" de MIRA, que tus propios comentaristas te reclaman.</p></div></div>
+    <div class="move rv"><div><h5>Activa y coordina la RED (no solo 3 senadores)</h5><p>Tu alcance real es la suma de todas tus cuentas. Amplifica desde @partidomira el contenido de servicio que tus concejales (Bedoya, Puentes) <b>ya hacen bien</b>, y <b>convierte a los 16 consejeros de juventud en creadores</b> del embudo de adquisición: es el equipo natural —joven, vota-ble, disciplinado— para llegar a gente nueva en TikTok. Activación, no descubrimiento.</p></div></div>
+  </div>
+
+  <div class="dont rv">
+    <h5>Lo que NO hacer (lección de la investigación)</h5>
+    <p><b>No "comprar" viralidad</b> con influencers famosos: la fama prestada no se convierte en voto (Saruma: 11,2M → perdió).</p>
+    <p><b>No usar bots ni inflar métricas.</b> La credibilidad es el único activo que un partido de valores no puede permitirse perder.</p>
+    <p><b>No confundir aplausos de la base con crecimiento.</b> Las reproducciones pagadas y los 👏🙏 de los fieles no son audiencia nueva.</p>
+  </div>
+
+  <div class="panel rv" style="margin-top:26px">
+    <h4>Cuadro de mando — KPIs para crecer (no para aplaudirse)</h4>
+    <div class="kv" style="gap:10px">
+      <span>⭐ <b>% de audiencia NUEVA</b> (no-seguidores), no reproducciones totales</span>
+      <span>Ratio orgánico: <b>likes+comentarios ÷ vistas</b> (perseguir el 9–12%, no el 0,06%)</span>
+      <span>Preguntas de servicio <b>respondidas / convertidas</b></span>
+      <span>Crecimiento de <b>TikTok</b> (termómetro de gente nueva)</span>
+      <span>% de comentarios <b>sin lenguaje de iglesia</b></span>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 06B FILTRO DE APLICABILIDAD ============ -->
+<section id="aplicable" class="mira"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">06·A</div><div><div class="kick">El filtro que de verdad importa</div><h2>¿Qué puede REALMENTE hacer MIRA?</h2></div></div>
+  <p class="sec-sub big rv">Un número viral no es una estrategia. Hay que separar el <strong>ACTO</strong> (a menudo irreplicable) del <strong>MECANISMO</strong> (la lógica de por qué funcionó). MIRA no tiene la presidencia, ni mega-obras, ni mega-presupuesto, ni hace pelea sucia. Esto es lo que SÍ puede ejecutar — y por qué Biter y el Elefante son los referentes correctos.</p>
+
+  <div class="callout rv"><div class="q">El video del <b>mejor hospital de Centroamérica</b> de Bukele (8,5M) <b>no te sirve como referencia</b>: tú no puedes construir un hospital. Pero su mecanismo sí — <b>"mostrar un resultado tangible que la gente vea y sienta"</b>. Tu versión a escala MIRA: el <b>"antes/después" de una obra que ayudaste a destrabar</b> — exactamente lo que hizo el Elefante Blanco, <b>sin un peso ni poder ejecutivo</b>.</div></div>
+
+  <h3 class="rv" style="font-size:23px;margin:32px 0 12px">Acto vs. Mecanismo — el re-análisis de cada referente</h3>
+  <div class="rv" style="overflow-x:auto"><table class="tbl">
+    <thead><tr><th>Referente (views)</th><th>El ACTO — ¿MIRA puede?</th><th>El MECANISMO transferible</th><th>Cómo lo ejecuta MIRA a su escala</th></tr></thead>
+    <tbody>
+      <tr><td class="first">🔴 Bukele · hospital (8,5M)</td><td class="no">Construir mega-obra · NO (sin poder ejecutivo)</td><td>Mostrar un resultado tangible</td><td>"Antes/después" de una obra que MIRA ayudó a destrabar (estilo Elefante)</td></tr>
+      <tr><td class="first">🟡 Petro · salario (11,9M)</td><td class="par">Subir el salario · NO</td><td>Comunicar un beneficio de bolsillo + cifra</td><td>Explicar un beneficio/servicio real que la gente puede usar HOY</td></tr>
+      <tr><td class="first">🔴 Milei · "SOY PRESIDENTE" (34,9M)</td><td class="no">Ser presidente · NO</td><td>La catarsis del momento-hito</td><td>Un hito propio: una victoria legislativa, una revelación con clímax</td></tr>
+      <tr><td class="first">🔴 Cabal/Vicky/Polo Polo (ataque)</td><td class="no">Insultar/ridiculizar al rival · SÍ, pero OFF-BRAND</td><td>El villano nombrado</td><td>El villano NO sectario y sin insulto: "los que te roban el bolsillo" (con dato)</td></tr>
+      <tr><td class="first">🟢 Elefante Blanco (684K–1,2M)</td><td class="yes">Disfraz + denuncia de obra inconclusa · SÍ, sin un peso</td><td>Símbolo + causa real verificable</td><td>Un personaje/símbolo propio que denuncie un problema local con prueba</td></tr>
+      <tr><td class="first">🟢 Sr Biter · "No pagues multas" (3,2M)</td><td class="yes">Tutoriales de servicio · SÍ</td><td>Nicho de servicio útil + gremio</td><td>"Truco MIRA": cómo acceder a un derecho o defenderte de un abuso</td></tr>
+      <tr><td class="first">🟢 Briceño (1,2M · ER 15,7%)</td><td class="yes">Denuncia con dato · SÍ</td><td>El dato como prueba</td><td>Control político con evidencia (sin insulto) — el ADN anticorrupción de MIRA</td></tr>
+      <tr><td class="first">🟢 Mamdani · "Liam" (4,5M)</td><td class="yes">Grabar a un ciudadano · SÍ, costo cero</td><td>Cede el protagonismo a la gente</td><td>Testimonios reales de beneficiados o afectados</td></tr>
+      <tr><td class="first">🟢 Mamdani · caminó Manhattan (3,1M)</td><td class="yes">Un acto físico creativo · SÍ, costo bajo</td><td>La metáfora física</td><td>Recorrer en persona las obras inconclusas o un problema cotidiano</td></tr>
+      <tr><td class="first">🟢 Lalis · "cómo votar"</td><td class="yes">Pedagogía · SÍ</td><td>Enseñar el "cómo"</td><td>"Cómo accedo a X beneficio / cómo me defiendo de Y"</td></tr>
+      <tr><td class="first">🟢 Dr. Rawdy · "truco" (1,5M)</td><td class="yes">Tip de servicio · SÍ</td><td>Utilidad guardable y compartible</td><td>"Truco MIRA" — el formato de mayor share, cero costo reputacional</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="rv" style="font-size:23px;margin:36px 0 14px">El veredicto: tu cancha real</h3>
+  <div class="grid g3">
+    <div class="card rv" style="border-top:3px solid var(--green)"><div class="top"><div><h3 style="font-size:19px">🟢 Tu cancha (ejecútalo)</h3></div></div><p>Todo de <b>bajo costo, creatividad y on-brand</b>: símbolo + causa real (Elefante), nicho de servicio (Biter), dato como prueba (Briceño), testimonio ciudadano (Mamdani-Liam), pedagogía (Lalis), acto físico creativo, tip de servicio (Rawdy). <b>Ninguno necesita poder ni plata.</b></p></div>
+    <div class="card rv" style="border-top:3px solid var(--gold)"><div class="top"><div><h3 style="font-size:19px">🟡 Adapta el mecanismo</h3></div></div><p>Toma la lógica, no el acto: el <b>bolsillo</b> (explica beneficios reales, no "subas el salario"), el <b>humor</b>, montarse en un <b>trend</b>, la estética de <b>acción</b> ("lo que MIRA propuso"). Funcionan a escala chica.</p></div>
+    <div class="card rv" style="border-top:3px solid var(--red)"><div class="top"><div><h3 style="font-size:19px">🔴 Olvídalo</h3></div></div><p>No aplicable o contra tu marca: <b>mega-obras</b>, "ser presidente", la <b>pelea sucia</b> y el ataque personal, <b>explotar tragedias</b>, los bots. Generan views que MIRA no puede o no debe perseguir.</p></div>
+  </div>
+
+  <div class="note rv" style="margin-top:18px"><b>La síntesis:</b> el patrón aplicable para MIRA es <b>un creador/personaje de bajo costo + una causa real + contenido de servicio/denuncia con evidencia + testimonio ciudadano + "antes/después" de wins pequeños pero reales</b>. Eso es el Elefante + Biter + Briceño + Mamdani-Liam fusionados. La presidencia, la mega-obra y la plata no están en la ecuación — y por eso mismo es ejecutable mañana.</div>
+</div></section>
+
+<!-- ============ 06C JOYAS (SECCIÓN DEDICADA) ============ -->
+<section id="joyas" class="mira"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">★</div><div><div class="kick">El plan de contenido para MIRA</div><h2>Las Joyas — qué ejecutar ya</h2></div></div>
+
+  <div class="rv" style="background:#eef5f0;border:2px solid #2f7350;border-radius:var(--r);padding:22px 26px;margin-bottom:26px">
+    <div class="kick" style="color:var(--green)">⚡ Sello de rigor</div>
+    <p style="font-size:18px;color:var(--ink);margin-top:8px;font-weight:600">Nada de esto es opinión ni "buenas ideas".</p>
+    <p style="font-size:15px;color:var(--ink-soft);margin-top:6px">Cada joya está destilada de <b>data real scrapeada en vivo</b>: <b>1.143 comentarios</b> y <b>~1.070 publicaciones</b> de los perfiles políticos más virales de Colombia y el mundo. Cada tarjeta enlaza al <b>post real</b> que la inspira — para que cualquiera lo verifique con un clic.</p>
+  </div>
+
+  <div class="viral">
+    <div class="vcard rv" style="border-left:3px solid var(--green)"><div class="vh"><span class="ic">💸</span><h5>"Tu plata esta semana"</h5></div><div class="ex"><b>Ejecutar de 0.</b> Serie semanal: una cifra que toca el bolsillo (gasolina, mínimo, servicios, una multa) + qué puede hacer la gente, con la cifra grande en pantalla.</div><div class="rep"><b>▶ Data real:</b> <a href="https://www.tiktok.com/@gustavopetrooficial/video/7600973131359997202" target="_blank" rel="noopener">Petro salario 11,9M</a> · <a href="https://www.tiktok.com/@senorbiter/video/7468455274907536645" target="_blank" rel="noopener">Biter "No pagues multas" 3,2M</a></div></div>
+    <div class="vcard rv" style="border-left:3px solid var(--green)"><div class="vh"><span class="ic">🩺</span><h5>"Truco MIRA"</h5></div><div class="ex"><b>Ejecutar de 0.</b> Tip práctico de 15s: cómo reclamar a tu EPS, devolver el IVA, sacar una cita, evitar una multa. Sin política.</div><div class="rep"><b>▶ Data real:</b> <a href="https://www.tiktok.com/@dr.rawdy/video/7649003543818505480" target="_blank" rel="noopener">Dr. Rawdy "Truco" 1,5M · 32K shares</a> — el formato de mayor share orgánico.</div></div>
+    <div class="vcard rv" style="border-left:3px solid var(--navy)"><div class="vh"><span class="ic">⚽</span><h5>"Todos somos la Selección"</h5></div><div class="ex"><b>Reinventar.</b> El tótem de la camiseta en clave de UNIÓN (deporte barrial, hinchada, jóvenes), no de pelea.</div><div class="rep"><b>▶ Data real:</b> <a href="https://www.tiktok.com/@vickydavilaperiodista/video/7646612317278358805" target="_blank" rel="noopener">la camiseta como tema viral (3M)</a> — pero sin el "jódete".</div></div>
+    <div class="vcard rv" style="border-left:3px solid var(--navy)"><div class="vh"><span class="ic">😄</span><h5>El guiño/humor que se comenta</h5></div><div class="ex"><b>Reinventar.</b> Contenido con un juego de palabras o remate cómico que invite a la gente a comentar y co-crear.</div><div class="rep"><b>▶ Data real:</b> <a href="https://www.tiktok.com/@miguelpolopolo/video/7210505662189571334" target="_blank" rel="noopener">Polo Polo → festival de chistes (9,5M)</a></div></div>
+    <div class="vcard rv" style="border-left:3px solid var(--gold)"><div class="vh"><span class="ic">🗳️</span><h5>"Mi primera vez con MIRA"</h5></div><div class="ex"><b>Replicar.</b> Testimonios reales de personas que votaron o se sumaron por primera vez gracias a una gestión concreta de MIRA.</div><div class="rep"><b>▶ Data real:</b> <a href="https://www.tiktok.com/@pactohistorico_oficial/video/7615085437476015381" target="_blank" rel="noopener">los "estrené mi cédula" del Pacto</a></div></div>
+    <div class="vcard rv" style="border-left:3px solid var(--gold)"><div class="vh"><span class="ic">⚖️</span><h5>"Lo que MIRA propuso esta semana"</h5></div><div class="ex"><b>Reinventar.</b> La estética de acción de "Moción de censura" (mayúsculas, verbo de combate) pero sobre SOLUCIONES, no censura personal.</div><div class="rep"><b>▶ Data real:</b> <a href="https://www.tiktok.com/@miguelpolopolo/video/7345644363369745669" target="_blank" rel="noopener">Polo Polo "MOCIÓN DE CENSURA" (2,5M)</a></div></div>
+    <div class="vcard rv" style="border-left:3px solid var(--red)"><div class="vh"><span class="ic">🔁</span><h5>El trend de la semana + remate de servicio</h5></div><div class="ex"><b>Ejecutar de 0.</b> Un community manager adapta cada semana el sonido/meme top de TikTok Colombia a un mensaje de servicio. Rapidez &gt; producción perfecta.</div><div class="rep"><b>▶ Data real:</b> los memes apolíticos que colaron por #petro (2,1M y 1,8M en el barrido de hashtags).</div></div>
+    <div class="vcard rv" style="border-left:3px solid var(--red)"><div class="vh"><span class="ic">🔍</span><h5>"¿Te dijeron que…?" — el dato como prueba</h5></div><div class="ex"><b>Responder.</b> Pregunta-gancho + cifra real + fuente, para responder a un bulo sin insultar. La curiosidad sin desinformar.</div><div class="rep"><b>▶ Data real:</b> <a href="https://www.tiktok.com/@mariafernandacabal/video/7394995227896974598" target="_blank" rel="noopener">"¿Ya tomaron nota de la receta?" (Cabal, 6,3M)</a> — pero limpio y verificable.</div></div>
+  </div>
+
+  <div class="note rv" style="margin-top:20px"><b>La ventaja de MIRA en todo esto:</b> el público castiga la desinformación y los golpes bajos (lo vimos en los comentarios: <em>"respete el dolor"</em>, <em>"él jamás dijo eso"</em>). MIRA puede tomar las mismas mecánicas virales —el bolsillo, el servicio, el humor, el testimonio— <b>con rigor y sin el flanco que hundió a otros</b>. Esa es la diferencia entre viralizar y ser creíble.</div>
+</div></section>
+
+<!-- ============ 06D TRENDS & PROPUESTAS ============ -->
+<section id="trends" class="mira"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">★★</div><div><div class="kick">De cómo comunicar → a QUÉ proponer</div><h2>Trends con propósito (basado en datos)</h2></div></div>
+  <p class="sec-sub big rv">No solo hooks y estilos: <strong>qué BUSCA y SIENTE la gente</strong>, y la propuesta que MIRA puede tomar con propósito y credibilidad. Cruzamos <strong>volumen de búsqueda real (Google)</strong> + el sentimiento de los comentarios + el ADN legislativo de MIRA.</p>
+
+  <div class="callout rv"><div class="q">La <b>economía digital</b> (freelancers, trabajo remoto, creadores, "LLC en el exterior") es una <b style="color:var(--amber)">bandera huérfana</b>: ni De la Espriella ni nadie la tomó en campaña. Y la señal es explosiva — <b>+600% en flujo de divisas por trabajo remoto</b> en un año, <b>+49% en contratación internacional</b> de colombianos. El Estado va a FISCALIZAR (la DIAN ya endureció el reporte); <b>nadie ofrece PROTEGER</b>. Tierra fértil sin dueño.</div><div class="src">Global66 · Deel · DIAN Res. 228/2025</div></div>
+
+  <div class="panel rv">
+    <h4>📈 Qué busca la gente — volumen real de Google (Colombia, búsquedas/mes)</h4>
+    <p class="cap">DataForSEO · Google Ads · jun-2026</p>
+    <div style="background:var(--paper-2);border:1px solid var(--line-soft);border-radius:10px;padding:16px 20px;margin-bottom:18px">
+      <div class="mono" style="font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase">La angustia #1 del país</div>
+      <div style="font-family:'Fraunces',serif;font-size:34px;font-weight:600;color:var(--red);line-height:1.1;margin-top:4px">"nueva eps" → 550.000 búsquedas/mes</div>
+      <div style="font-size:13.5px;color:var(--ink-soft);margin-top:4px">La crisis de salud es, por lejos, lo que más busca Colombia.</div>
+    </div>
+    <div class="chart" data-chart>
+      <div class="bar-row"><span class="nm">Trabajo remoto</span><div class="bar-track"><div class="bar-fill" data-w="100"></div></div><span class="bar-val">40.500</span></div>
+      <div class="bar-row"><span class="nm">Freelancer</span><div class="bar-track"><div class="bar-fill" data-w="82"></div></div><span class="bar-val">33.100</span></div>
+      <div class="bar-row"><span class="nm">Fotomultas</span><div class="bar-track"><div class="bar-fill gold" data-w="55"></div></div><span class="bar-val">22.200</span></div>
+      <div class="bar-row"><span class="nm">Comparendos</span><div class="bar-track"><div class="bar-fill mut" data-w="3.2"></div></div><span class="bar-val">1.300</span></div>
+      <div class="bar-row"><span class="nm">Nómada digital</span><div class="bar-track"><div class="bar-fill mut" data-w="2.2"></div></div><span class="bar-val">880</span></div>
+    </div>
+    <div class="note"><b>Lectura:</b> "trabajo remoto" + "freelancer" suman <b>~73.700 búsquedas/mes</b> y <b>nadie los representa</b>. "Fotomultas" 22K/mes, con pico de <b>40.500 en may-2026</b>. La economía digital y las multas son demanda real y sin dueño político.</div>
+  </div>
+
+  <h3 class="rv" style="font-size:23px;margin:34px 0 12px">Las 10 demandas con potencial de propuesta</h3>
+  <div class="rv" style="overflow-x:auto"><table class="tbl">
+    <thead><tr><th>Trend</th><th>Señal / dato real</th><th>Propuesta MIRA (con propósito)</th></tr></thead>
+    <tbody>
+      <tr><td class="first">1. Economía digital / freelancers / LLC</td><td>+600% divisas; 73K búsq/mes; bandera huérfana</td><td><b>"Estatuto del Trabajador Digital":</b> trámite simple, retención clara, anti-doble-tributación, formalizar sin perseguir</td></tr>
+      <tr><td class="first">2. Fotomultas / movilidad</td><td>7,5M fotomultas en revisión; 22K búsq/mes (pico 40K)</td><td>Recaudo 100% a vías y seguridad (MIRA <b>ya lo logró en el PND</b>); señalización previa, debido proceso</td></tr>
+      <tr><td class="first">3. Crisis EPS / salud</td><td><b>550K búsq/mes</b>; gasto de bolsillo +57%</td><td>Veeduría a EPS intervenidas, <b>garantía de entrega de medicamentos</b>, telemedicina</td></tr>
+      <tr><td class="first">4. Costo de vida (arriendo/servicios/gasolina)</td><td>Vivir solo ≈$1,6M con mínimo de $2M</td><td>Alivio de servicios a estratos 1-2 (MIRA <b>ya lo propuso</b>) + tarifa social de internet</td></tr>
+      <tr><td class="first">5. Primer empleo joven</td><td>Desempleo juvenil 17-20%; 24% NINIs</td><td><b>"Prácticas y voluntariado cuentan como experiencia"</b> (MIRA ya lo radicó)</td></tr>
+      <tr><td class="first">6. Sobreendeudamiento / gota a gota</td><td>Gota a gota &gt;60% E.A.; cobros violentos</td><td>"Borrón digno" + guerra al gota a gota + educación financiera familiar</td></tr>
+      <tr><td class="first">7. Estafas digitales / IA</td><td><b>62.299 denuncias en 2025</b> (récord); deepfakes</td><td>"Escudo digital ciudadano": alfabetización antifraude pro-familia</td></tr>
+      <tr><td class="first">8. Vivienda joven</td><td>40% arrendatarios; "Mi Casa Ya" sin cupos 2026</td><td>Reconocer el arriendo como ruta + ahorro-vivienda joven</td></tr>
+      <tr><td class="first">9. Salud mental juvenil</td><td>44,7% de jóvenes afectados; bullying 23%</td><td>"Salud mental cerca del barrio y la familia" + prevención en colegios</td></tr>
+      <tr><td class="first">10. Seguridad / robo de celular</td><td>Bogotá: 8.629 robos en 1T-2026 (96/día)</td><td>"Tu celular, tu vida": bloqueo nacional efectivo, anti-reventa</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="rv" style="font-size:23px;margin:36px 0 12px">🥇 Top 3 para MIRA</h3>
+  <div class="grid g3">
+    <div class="card rv" style="border-top:3px solid var(--navy)"><div class="top"><div><h3 style="font-size:20px">Estatuto del Trabajador Digital</h3><div class="role">Bandera huérfana · máximo retorno</div></div></div><p>Nadie la tomó (ni el presidente electo). Señal explosiva (+600% divisas), público joven y aspiracional, y un Estado que va a fiscalizar — dejando a MIRA el rol de <b>protector con propósito</b>. Encaja con su histórico "crear empresa en un día".</p></div>
+    <div class="card rv" style="border-top:3px solid var(--green)"><div class="top"><div><h3 style="font-size:20px">Fotomultas justas</h3><div class="role">Quick win · autoría comprobable</div></div></div><p>MIRA <b>ya logró</b> en el PND que el recaudo de multas vaya a vías. Indignación transversal de bolsillo, narrativa anticorrupción <b>limpia</b> (sin atacar personas), y momento perfecto (7,5M de fotomultas en revisión). Es el "Biter" de MIRA, pero con rigor.</p></div>
+    <div class="card rv" style="border-top:3px solid var(--red)"><div class="top"><div><h3 style="font-size:20px">Que la plata de la salud llegue al paciente</h3><div class="role">El dolor #1 · 550K búsq/mes</div></div></div><p>El concern más buscado y más regresivo (+57% gasto de bolsillo, peor para los pobres). MIRA ejerce su identidad de <b>servicio y anticorrupción</b> (veeduría a EPS, medicamentos garantizados) sin entrar en la guerra ideológica de la reforma.</p></div>
+  </div>
+
+  <div class="note rv" style="margin-top:18px"><b>El salto estratégico:</b> esto convierte la estrategia de "cómo comunicar" (hooks, estilos) en <b>"qué proponer"</b> — propuestas con propósito ancladas en lo que la gente realmente busca y siente. La data manda; la causa convence. <em>(Las propuestas son diseño estratégico anclado en el histórico legislativo real de MIRA; las marcadas "ya lo logró/propuso" están documentadas.)</em></div>
+</div></section>
+
+<!-- ============ 07 ARCHIVO ============ -->
+<section id="archivo"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">07</div><div><div class="kick">Evidencia</div><h2>El archivo: posts y videos reales</h2></div></div>
+  <p class="sec-sub big rv">Todo lo anterior sale de contenido real y verificable, scrapeado en vivo. Aquí están las piezas — clic para abrirlas en su red.</p>
+
+  <h3 class="archsub rv">▶ Tus 2 videos clave (MIRA) — míralos aquí mismo</h3>
+  <div class="vpair rv">
+    <div>
+      <div class="embed v"><iframe src="https://www.youtube.com/embed/vwDCqWr_2qg" title="MIRA — Subsidio Independientes y Contratistas" allowfullscreen loading="lazy"></iframe></div>
+      <p class="vmeta">🥇 <b>El #1 por vistas:</b> 2.545.652 — pero solo 1.537 likes (0,06%) = <b>pauta pagada</b>. "Subsidio Independientes y Contratistas" · Ana Paola Agudelo.</p>
+    </div>
+    <div>
+      <div class="embed h"><iframe src="https://www.youtube.com/embed/iBrFDo2p-B8" title="MIRA — Creencias religiosas (Senado)" allowfullscreen loading="lazy"></iframe></div>
+      <p class="vmeta">🔥 <b>El #1 ORGÁNICO:</b> 211.829 vistas · 19.905 likes (9,4%) · 4.233 comentarios. "No acepta lenguaje destructivo contra las creencias religiosas" — la resonancia REAL de tu base.</p>
+    </div>
+  </div>
+
+  <h3 class="archsub rv">📂 Las piezas reales de MIRA, por red</h3>
+  <div class="postgrid">
+    <a class="plink anchor rv" href="https://www.youtube.com/shorts/vwDCqWr_2qg" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-yt">YouTube</span><span class="own">@partidomira</span></div><h6>Agudelo — Subsidio Independientes y Contratistas</h6><div class="pm">2.545.652 vistas · pauta</div></a>
+    <a class="plink rv" href="https://www.youtube.com/shorts/mKonUiNXpSM" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-yt">YouTube</span><span class="own">@partidomira</span></div><h6>"El poder de la Mujer"</h6><div class="pm">1.937.917 vistas</div></a>
+    <a class="plink rv" href="https://www.youtube.com/shorts/7_2krGY0Yts" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-yt">YouTube</span><span class="own">@partidomira</span></div><h6>Virgüez — "el único que pasó el polígrafo"</h6><div class="pm">1.421.533 vistas</div></a>
+    <a class="plink anchor rv" href="https://www.youtube.com/watch?v=mv6YVzwlVuA" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-yt">YouTube</span><span class="own">C. Baena · 2014</span></div><h6>"RECHAZO al Gobierno… persecución contra MIRA"</h6><div class="pm">259.207 vistas · 13.428 likes (orgánico)</div></a>
+    <a class="plink rv" href="https://www.youtube.com/watch?v=YjGS0wTQw3U" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-yt">YouTube</span><span class="own">C. Baena · 25 años</span></div><h6>Intervención en los 25 años del MIRA</h6><div class="pm">155.408 vistas · 18.330 likes (11,8% ⭐)</div></a>
+    <a class="plink rv" href="https://www.tiktok.com/@manuelvirguezp/video/7601487925372652818" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">@manuelvirguezp</span></div><h6>"Llamado al respeto por la fe de millones"</h6><div class="pm">81K vistas · el mejor TikTok del partido</div></a>
+    <a class="plink rv" href="https://www.tiktok.com/@partidomira/video/7616855803189873940" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">@partidomira</span></div><h6>"🚨 Fraude electoral en los escrutinios"</h6><div class="pm">21K vistas</div></a>
+    <a class="plink anchor rv" href="https://www.instagram.com/p/DZyUhTLtnxd/" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-ig">Instagram</span><span class="own">@anapaolaagudelo</span></div><h6>"Mi Casa en Colombia" (logro para la diáspora)</h6><div class="pm">281.714 vistas · 19.997 likes · 1.163 coment.</div></a>
+    <a class="plink rv" href="https://www.instagram.com/p/DYnqzuNNhqz/" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-ig">Instagram</span><span class="own">@anapaolaagudelo</span></div><h6>"El odio y el vandalismo no por encima de la democracia"</h6><div class="pm">54.901 vistas · 11.062 likes</div></a>
+    <a class="plink lose rv" href="https://www.instagram.com/p/DZ3djX9M2f3/" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-ig">Instagram</span><span class="own">@partidomira</span></div><h6>Felicitación a Abelardo de la Espriella</h6><div class="pm">9.334 likes · el post MÁS polarizante (32% neg.)</div></a>
+    <a class="plink anchor rv" href="https://www.facebook.com/100044213990264/posts/1627318478751936" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-fb">Facebook</span><span class="own">Ana Paola Agudelo</span></div><h6>"Mi Casa en Colombia" — el techo de FB</h6><div class="pm">877.000 vistas · 17K reacciones · 1.518 coment.</div></a>
+    <a class="plink rv" href="https://www.facebook.com/100044624220901/posts/1546908646806595" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-fb">Facebook</span><span class="own">Partido MIRA</span></div><h6>"La libertad religiosa, pilar de un gobierno justo"</h6><div class="pm">271.000 vistas · 15K reacciones</div></a>
+    <a class="plink rv" href="https://www.tiktok.com/@anapaolaagudelo" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">@anapaolaagudelo</span></div><h6>Su TikTok SÍ existe (subdesarrollado)</h6><div class="pm">14,7K seguidores · ~10K vistas/video · 352 videos</div></a>
+  </div>
+
+  <h3 class="archsub rv">🌎 Los virales que estudiamos (referencias para replicar)</h3>
+  <div class="postgrid">
+    <a class="plink anchor rv" href="https://www.instagram.com/p/DZGe0L5zgjI/" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-ig">Instagram</span><span class="own">🐘 Elefante Blanco</span></div><h6>"Ambos candidatos evadieron mi invitación"</h6><div class="pm">1.230.301 vistas · 120K likes</div></a>
+    <a class="plink rv" href="https://www.tiktok.com/@elefantescol/video/7548488310084193592" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">🐘 Elefante Blanco</span></div><h6>"Al dueño de Envigado le incomodó mi investigación"</h6><div class="pm">345.000 vistas · 31K likes</div></a>
+    <a class="plink rv" href="https://www.tiktok.com/@jotapehernandez/video/7444162486669970744" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">JotaPe Hernández</span></div><h6>Video viral (3-dic-2024)</h6><div class="pm">6.000.000 vistas · 351K likes</div></a>
+    <a class="plink rv" href="https://www.tiktok.com/@cofradiacambio/video/7260657552847883525" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">Hernán Muriel · Cofradía</span></div><h6>Sátira "el machismo que anda rondando"</h6><div class="pm">5.500.000 vistas</div></a>
+    <a class="plink rv" href="https://www.tiktok.com/@smilelalis08/video/7553660607698881848" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">Lalis</span></div><h6>Colombia en la ONU / soberanía</h6><div class="pm">1.600.000 vistas · 204K likes</div></a>
+    <a class="plink rv" href="https://www.tiktok.com/@medicenwally/video/7387883558251023622" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">Wally</span></div><h6>"Ahora uno entiende muchas cosas…"</h6><div class="pm">844.900 vistas · 42K likes</div></a>
+    <a class="plink lose rv" href="https://www.tiktok.com/@sarumaoficial/video/7649557424243936530" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">Felipe Saruma (perdió)</span></div><h6>"La Cajonera" (contenido musical, no político)</h6><div class="pm">3.300.000 vistas — pero audiencia no vota-ble</div></a>
+    <a class="plink anchor rv" href="https://www.tiktok.com/@zohran_k_mamdani/video/7588968577248627998" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">Zohran Mamdani</span></div><h6>"Liam" — la voz del ciudadano</h6><div class="pm">4.500.000 vistas · 611K likes</div></a>
+    <a class="plink rv" href="https://www.tiktok.com/@zohran_k_mamdani/video/7519107375941422366" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">Zohran Mamdani</span></div><h6>"Walk the length of Manhattan"</h6><div class="pm">3.100.000 vistas · 187K likes</div></a>
+    <a class="plink rv" href="https://www.tiktok.com/@javiermileii/video/7311007641864637701" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">Javier Milei</span></div><h6>"¡SOY PRESIDENTE!"</h6><div class="pm">34.900.000 vistas · 3M likes</div></a>
+    <a class="plink rv" href="https://www.tiktok.com/@nayibbukele/video/7646983477908294930" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">Nayib Bukele</span></div><h6>"El mejor hospital de Centroamérica"</h6><div class="pm">8.500.000 vistas · 1,1M likes</div></a>
+    <a class="plink rv" href="https://www.instagram.com/p/DEz20G0RodB/" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-ig">Instagram</span><span class="own">Nikolás Ferreira</span></div><h6>El video del PIX — "el bolsillo del pueblo"</h6><div class="pm">~350.000.000 vistas · 9,4M likes</div></a>
+    <a class="plink rv" href="https://www.youtube.com/watch?v=rq3QXIVR0bs" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-yt">YouTube</span><span class="own">AOC · 2018</span></div><h6>"The Courage to Change" (video-cine de origen)</h6><div class="pm">~1.600.000 vistas</div></a>
+    <a class="plink rv" href="https://www.tiktok.com/@jordanbardella/video/7646093623074852128" target="_blank" rel="noopener"><span class="ext">↗</span><div class="pf"><span class="plat p-tt">TikTok</span><span class="own">Jordan Bardella</span></div><h6>"Tocas a un policía, duermes en prisión"</h6><div class="pm">1.700.000 vistas · 201K likes</div></a>
+  </div>
+
+  <div class="note rv" style="margin-top:24px"><b>Nota:</b> los videos de YouTube se reproducen embebidos; los enlaces de TikTok, Instagram y Facebook abren la publicación original en su plataforma (requieren conexión). Cifras = snapshot del scraping de jun-2026.</div>
+</div></section>
+
+<footer><div class="wrap">
+  <h4>Ficha técnica de la investigación</h4>
+  <div class="statband" style="margin-top:8px;margin-bottom:8px">
+    <div><div class="n">1.143</div><div class="l">Comentarios reales scrapeados</div></div>
+    <div><div class="n">~1.070</div><div class="l">Publicaciones y videos analizados</div></div>
+    <div><div class="n">30+</div><div class="l">Perfiles políticos estudiados</div></div>
+    <div><div class="n">200+</div><div class="l">Fuentes web verificables</div></div>
+  </div>
+  <p class="mono"><b style="color:var(--ink)">Herramientas:</b> Apify (scrapers de TikTok, Instagram, YouTube y Facebook + comentarios) · Perplexity · Brave Search · DataForSEO · orquestación multi-agente. &nbsp;·&nbsp; <b style="color:var(--ink)">Plataformas auditadas:</b> YouTube, TikTok, Instagram, Facebook y X. &nbsp;·&nbsp; <b style="color:var(--ink)">Cómputo:</b> ~3 millones de tokens procesados (estimado).</p>
+  <p class="mono" style="margin-top:10px"><b style="color:var(--ink)">Verificación de canales:</b> handles confirmados en vivo. Correcciones aplicadas — Ana Paola Agudelo SÍ tiene TikTok (@anapaolaagudelo, subdesarrollado, 14,7K); enlace de Fidias corregido. Aydeé Lizarazo y Gloria Díaz: sin TikTok público; Carlos Baena: @baenacol existe pero sin videos. Cobertura ampliada a TODA la red (Senado, Cámara, diputados, concejales, ediles, consejeros de juventud): MIRA tiene <b>0 Cámara propia</b> e Irma Luz Herrera sale; el dato de Samir Bedoya se corrigió de 67K (research) a <b>5,4K (scraping en vivo)</b>.</p>
+  <h4 style="margin-top:26px">Metodología & límites</h4>
+  <p class="mono">Investigación en 3 capas: inteligencia web con fuentes verificables (prensa, Registraduría, TSE, Câmara) · scraping real vía Apify + DataForSEO (jun-2026) · síntesis estratégica.<br>
+  Datos cuantitativos: ~1.070 publicaciones y videos + 1.143 comentarios reales (735 del estudio comparado + 228 de la auditoría de MIRA + 180 del benchmark de viralidad). Incluye el <b>benchmark de viralidad de Colombia</b> (todos los partidos + figuras virales: Petro, Polo Polo, Cabal, Abelardo, Vicky, Briceño…) y el estudio de caso del senador "Sr Biter".<br>
+  Límites: cifras de seguidores/vistas son snapshots y fluctúan; en Facebook el 45% de posts no expone views_count; el sentimiento se midió sobre Instagram. Se distinguió rigurosamente el contenido del PARTIDO del de la IGLESIA (IDMJI / María Luisa Piraquive).</p>
+  <div class="files">
+    <span>Investigacion_Fenomenos_Politicos_Digitales_LATAM.md</span>
+    <span>Manual_de_Produccion_de_Contenido.md</span>
+    <span>Plan_90_Dias_Solo_Redes.md</span>
+    <span>MIRA_Estrategia_Crecimiento_Digital.md</span>
+  </div>
+  <p class="mono" style="margin-top:14px;color:var(--muted);font-size:10.5px">Costo operativo aproximado (scraping + APIs): ~USD $6 en créditos · Datos al 23-jun-2026.</p>
+  <p class="mono" style="margin-top:16px;color:var(--line)">— Del clic al cargo · Dossier de estrategia política digital · 2026 —</p>
+</div></footer>
+
+<script>
+// progress bar
+const prog=document.getElementById('progress');
+addEventListener('scroll',()=>{const h=document.documentElement;const s=h.scrollTop/(h.scrollHeight-h.clientHeight);prog.style.width=(s*100)+'%';},{passive:true});
+// reveal + chart fill
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');if(e.target.matches('[data-chart]')){e.target.querySelectorAll('.bar-fill').forEach(b=>{b.style.width=b.dataset.w+'%';});}io.unobserve(e.target);}});},{threshold:.12});
+document.querySelectorAll('.rv,[data-chart]').forEach(el=>io.observe(el));
+// active nav
+const links=[...document.querySelectorAll('nav a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+addEventListener('scroll',()=>{let i=secs.length-1;for(let j=0;j<secs.length;j++){if(secs[j]&&secs[j].getBoundingClientRect().top<140)i=j;}links.forEach(l=>l.classList.remove('on'));if(links[i])links[i].classList.add('on');},{passive:true});
+</script>
+</body>
+</html>

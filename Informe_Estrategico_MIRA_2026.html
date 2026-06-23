@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informe Estratégico Digital · Partido MIRA · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#15181e; --ink-soft:#33383f; --muted:#646b76; --faint:#8b929b;
+  --paper:#f3efe6; --paper-2:#ffffff; --paper-3:#faf7f0;
+  --line:rgba(21,24,30,.12); --line-soft:rgba(21,24,30,.08);
+  --brand:#d9531e; --brand-deep:#b8420f;
+  --navy:#1d2c4d; --navy-soft:#2c3f68;
+  --green:#1f6f57; --gold:#b8862f; --red:#bb3b2c;
+  --shadow:0 1px 2px rgba(21,24,30,.04),0 8px 30px rgba(21,24,30,.06);
+  --shadow-lg:0 20px 60px rgba(21,24,30,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Hanken Grotesk',sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;font-size:17px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 28px}
+.narrow{max-width:820px}
+h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:600;line-height:1.1;letter-spacing:-.01em}
+a{color:var(--brand-deep)}
+strong,b{font-weight:700;color:var(--ink)}
+.mono{font-family:'IBM Plex Mono',monospace}
+
+/* progress + nav */
+#bar{position:fixed;top:0;left:0;height:3px;background:var(--brand);width:0;z-index:90}
+nav{position:fixed;top:0;left:0;right:0;background:rgba(243,239,230,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);z-index:80}
+nav .inner{max-width:1100px;margin:0 auto;padding:11px 28px;display:flex;align-items:center;gap:18px}
+nav .brand{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12.5px;letter-spacing:.04em;color:var(--ink);white-space:nowrap}
+nav .brand b{color:var(--brand)}
+nav ul{list-style:none;display:flex;gap:4px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
+nav a{font-size:12px;color:var(--muted);text-decoration:none;padding:5px 9px;border-radius:7px;font-weight:600;letter-spacing:.01em;transition:.15s;white-space:nowrap}
+nav a:hover{background:rgba(21,24,30,.06);color:var(--ink)}
+nav a.active{color:var(--brand-deep);background:rgba(217,83,30,.1)}
+@media(max-width:880px){nav ul{display:none}}
+
+/* cover */
+.cover{min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;padding:120px 0 80px;
+  background:
+   radial-gradient(900px 500px at 85% -5%,rgba(217,83,30,.10),transparent 60%),
+   radial-gradient(700px 500px at 0% 100%,rgba(29,44,77,.10),transparent 55%);
+  border-bottom:1px solid var(--line)}
+.cover .tag{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand-deep);font-weight:600;margin-bottom:24px}
+.cover h1{font-size:clamp(44px,8vw,92px);font-weight:600;letter-spacing:-.03em;line-height:.98}
+.cover h1 .em{font-style:italic;color:var(--brand)}
+.cover .lede{font-size:clamp(19px,2.4vw,25px);color:var(--ink-soft);max-width:720px;margin-top:30px;line-height:1.4}
+.cover .lede b{color:var(--ink)}
+.cover .meta{display:flex;gap:30px;flex-wrap:wrap;margin-top:48px;padding-top:26px;border-top:1px solid var(--line)}
+.cover .meta div{display:flex;flex-direction:column;gap:3px}
+.cover .meta .k{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.cover .meta .v{font-size:14.5px;font-weight:700;color:var(--ink)}
+.scrollcue{margin-top:50px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px}
+.scrollcue .ln{width:46px;height:1px;background:var(--muted);position:relative;overflow:hidden}
+.scrollcue .ln::after{content:"";position:absolute;inset:0;background:var(--brand);animation:slide 2.4s ease-in-out infinite}
+@keyframes slide{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+
+/* sections */
+section{padding:88px 0;border-bottom:1px solid var(--line-soft);position:relative}
+section.alt{background:linear-gradient(180deg,var(--paper-3),var(--paper))}
+section.dark{background:var(--navy);color:#e8ecf3;border-bottom:none}
+section.dark h2,section.dark h3,section.dark h4{color:#fff}
+section.dark .muted2{color:#9fb0c9}
+.sec-head{display:flex;gap:20px;align-items:flex-start;margin-bottom:18px}
+.sec-num{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--brand);padding-top:8px;letter-spacing:.04em;white-space:nowrap}
+.kick{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:10px}
+section h2{font-size:clamp(30px,4.4vw,46px);letter-spacing:-.02em}
+.sec-sub{font-size:clamp(18px,2.1vw,21px);color:var(--ink-soft);max-width:760px;margin-top:16px;line-height:1.45}
+.sec-sub b{color:var(--ink)}
+.essential{display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:9px 15px;border:1px solid var(--line);border-radius:999px;background:var(--paper-2);font-size:13.5px;font-weight:600;box-shadow:var(--shadow)}
+.essential .dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex:none}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+/* exec summary stat band */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:40px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--paper-2);box-shadow:var(--shadow)}
+.stats .s{padding:26px 22px;border-right:1px solid var(--line-soft)}
+.stats .s:last-child{border-right:none}
+.stats .n{font-family:'Fraunces',serif;font-size:clamp(30px,4vw,42px);font-weight:600;color:var(--navy);line-height:1;letter-spacing:-.02em}
+.stats .n small{font-size:16px;color:var(--brand);font-weight:600}
+.stats .l{font-size:13px;color:var(--muted);margin-top:9px;line-height:1.35}
+@media(max-width:780px){.stats{grid-template-columns:repeat(2,1fr)}.stats .s:nth-child(2){border-right:none}}
+
+/* cards */
+.grid{display:grid;gap:20px;margin-top:34px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:880px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.card{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:24px;box-shadow:var(--shadow);transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.card h3{font-size:20px;margin-bottom:8px}
+.card h4{font-size:17px;font-family:'Hanken Grotesk';font-weight:800;letter-spacing:0}
+.card p{font-size:14.5px;color:var(--ink-soft)}
+.card .role{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
+.icn{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;background:rgba(217,83,30,.1);margin-bottom:14px}
+
+/* chart */
+.chart{margin-top:30px;background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:30px 30px 24px;box-shadow:var(--shadow)}
+.chart .ctitle{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brow{display:grid;grid-template-columns:200px 1fr 96px;align-items:center;gap:14px;margin-bottom:13px}
+.brow .nm{font-size:14px;font-weight:600;text-align:right;color:var(--ink-soft)}
+.brow .nm small{display:block;font-weight:500;color:var(--faint);font-size:11px;font-family:'IBM Plex Mono'}
+.btrack{height:26px;background:rgba(21,24,30,.05);border-radius:7px;overflow:hidden;position:relative}
+.bfill{height:100%;width:0;border-radius:7px;background:linear-gradient(90deg,var(--navy),var(--navy-soft));transition:width 1.2s cubic-bezier(.2,.7,.2,1)}
+.bfill.br{background:linear-gradient(90deg,var(--brand-deep),var(--brand))}
+.bfill.gr{background:linear-gradient(90deg,#1a5e49,var(--green))}
+.bfill.gd{background:linear-gradient(90deg,#9c7126,var(--gold))}
+.brow .bv{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--ink)}
+@media(max-width:620px){.brow{grid-template-columns:120px 1fr 64px;gap:8px}.brow .nm{font-size:12px}.brow .bv{font-size:11px}}
+
+/* table */
+.tbl-wrap{overflow-x:auto;margin-top:30px;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;background:var(--paper-2);font-size:14px;min-width:680px}
+th{background:var(--navy);color:#fff;text-align:left;padding:14px 16px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+td{padding:13px 16px;border-bottom:1px solid var(--line-soft);color:var(--ink-soft);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:var(--paper-3)}
+td.first{font-weight:700;color:var(--ink)}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700;font-family:'IBM Plex Mono',monospace;letter-spacing:.02em}
+.pill.huerf{background:rgba(184,134,47,.16);color:var(--gold)}
+.pill.fuerte{background:rgba(31,111,87,.14);color:var(--green)}
+.pill.parcial{background:rgba(29,44,77,.1);color:var(--navy)}
+
+/* callout */
+.callout{margin-top:30px;border-left:3px solid var(--brand);background:var(--paper-2);border-radius:0 14px 14px 0;padding:24px 26px;box-shadow:var(--shadow)}
+.callout .q{font-size:18px;line-height:1.5;color:var(--ink)}
+.callout .q b{color:var(--brand-deep)}
+.callout .src{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--faint);margin-top:12px;letter-spacing:.04em}
+.note{margin-top:18px;padding:16px 20px;background:rgba(29,44,77,.05);border-radius:12px;font-size:14.5px;color:var(--ink-soft)}
+.note b{color:var(--navy)}
+
+/* do/dont */
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:30px}
+@media(max-width:620px){.dd{grid-template-columns:1fr}}
+.dd .col{border-radius:14px;padding:22px 24px;border:1px solid var(--line)}
+.dd .yes{background:rgba(31,111,87,.06);border-color:rgba(31,111,87,.25)}
+.dd .no{background:rgba(187,59,44,.05);border-color:rgba(187,59,44,.22)}
+.dd h4{font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;font-weight:600}
+.dd .yes h4{color:var(--green)}.dd .no h4{color:var(--red)}
+.dd ul{list-style:none}
+.dd li{font-size:14px;padding:7px 0 7px 24px;position:relative;color:var(--ink-soft);border-bottom:1px solid var(--line-soft)}
+.dd li:last-child{border-bottom:none}
+.dd .yes li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
+.dd .no li::before{content:"✕";position:absolute;left:0;color:var(--red);font-weight:700}
+
+/* post / screenshot card */
+.posts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:30px}
+@media(max-width:880px){.posts{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.posts{grid-template-columns:1fr}}
+.post{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);transition:.2s;display:flex;flex-direction:column}
+.post:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.post .shot{aspect-ratio:9/13;background:#0d1320 center/cover;position:relative;display:block;border-bottom:1px solid var(--line)}
+.post .shot .plat{position:absolute;top:10px;left:10px;font-family:'IBM Plex Mono';font-size:10px;font-weight:600;letter-spacing:.05em;background:rgba(0,0,0,.7);color:#fff;padding:4px 8px;border-radius:6px}
+.post .shot .met{position:absolute;bottom:0;left:0;right:0;padding:18px 12px 10px;background:linear-gradient(0deg,rgba(0,0,0,.82),transparent);color:#fff;font-family:'IBM Plex Mono';font-size:11.5px;font-weight:600;display:flex;gap:12px}
+.post .body{padding:16px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.post .who{font-size:12.5px;font-weight:700;color:var(--navy)}
+.post .hook{font-size:14px;color:var(--ink);line-height:1.4}
+.post .why{font-size:12.5px;color:var(--muted);margin-top:auto;padding-top:8px;border-top:1px solid var(--line-soft)}
+.post a.watch{font-family:'IBM Plex Mono';font-size:11px;font-weight:600;color:var(--brand-deep);text-decoration:none;margin-top:6px}
+
+/* toolkit matrix */
+.toolkit{margin-top:34px;display:grid;gap:18px}
+.tk{display:grid;grid-template-columns:160px 1fr;gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--paper-2);box-shadow:var(--shadow)}
+@media(max-width:680px){.tk{grid-template-columns:1fr}}
+.tk .head{background:var(--navy);color:#fff;padding:22px 20px;display:flex;flex-direction:column;gap:6px;justify-content:center}
+.tk .head .lvl{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#9fb0c9}
+.tk .head .nm{font-family:'Fraunces';font-size:22px;font-weight:600}
+.tk .meat{padding:20px 22px}
+.tk .meat .row{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--line-soft);font-size:14px}
+.tk .meat .row:last-child{border-bottom:none}
+.tk .meat .rk{font-family:'IBM Plex Mono';font-size:11px;color:var(--brand-deep);text-transform:uppercase;letter-spacing:.04em;min-width:96px;font-weight:600;padding-top:2px}
+.tk .meat .rv2{color:var(--ink-soft);flex:1}
+.tk .meat .rv2 b{color:var(--ink)}
+
+/* placeholder */
+.placeholder{margin-top:30px;border:1px dashed var(--line);border-radius:14px;padding:34px;text-align:center;color:var(--muted);font-size:14px;background:var(--paper-3)}
+
+/* footer */
+footer{background:var(--ink);color:#c9cdd4;padding:70px 0 40px;border:none}
+footer h3{color:#fff;font-size:24px;margin-bottom:18px}
+footer .fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:30px}
+@media(max-width:780px){footer .fgrid{grid-template-columns:repeat(2,1fr)}}
+footer .fk{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#6b7280;margin-bottom:8px}
+footer .fv{font-size:14px;color:#e5e7eb;line-height:1.6}
+footer .fine{margin-top:40px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);font-size:11px;color:#6b7280;line-height:1.6;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.lead-tag{font-family:'IBM Plex Mono';font-size:11px;color:var(--brand);letter-spacing:.06em}
+::selection{background:rgba(217,83,30,.22)}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<nav><div class="inner">
+  <div class="brand"><b>MIRA</b> · Estrategia Digital 2026</div>
+  <ul>
+    <li><a href="#resumen">Resumen</a></li>
+    <li><a href="#demanda">La demanda</a></li>
+    <li><a href="#viral">Qué viraliza</a></li>
+    <li><a href="#casos">Casos</a></li>
+    <li><a href="#competidores">Competidores</a></li>
+    <li><a href="#marco">Marco</a></li>
+    <li><a href="#herramientas">Herramientas</a></li>
+    <li><a href="#frentes">Frentes</a></li>
+    <li><a href="#mira">MIRA hoy</a></li>
+  </ul>
+</div></nav>
+
+<!-- ============ COVER ============ -->
+<header class="cover"><div class="wrap">
+  <div class="tag">Informe estratégico · Inteligencia de datos · Junio 2026</div>
+  <h1>De la audiencia<br>al <span class="em">voto</span>.</h1>
+  <p class="lede">Un análisis basado en datos reales de qué busca, pregunta y comparte Colombia, y de cómo convertir esa demanda en <b>herramientas de viralidad concretas</b> para los ediles, concejales y congresistas del Partido MIRA. Patrones, no copias.</p>
+  <div class="meta">
+    <div><span class="k">Preparado para</span><span class="v">Dirigencia del Partido MIRA</span></div>
+    <div><span class="k">Método</span><span class="v">DataForSEO · Perplexity · Apify</span></div>
+    <div><span class="k">Foco</span><span class="v">Crecer hacia gente nueva</span></div>
+  </div>
+  <div class="scrollcue"><span class="ln"></span> Desliza para comenzar</div>
+</div></header>
+
+<!-- ============ 01 RESUMEN EJECUTIVO ============ -->
+<section id="resumen"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">01</div><div>
+    <div class="kick">Resumen ejecutivo</div>
+    <h2>Lo que los datos dicen, en una página</h2>
+  </div></div>
+  <p class="sec-sub rv">Dejamos de adivinar. Barrimos el volumen real de búsqueda en Colombia, escuchamos lo que la gente pregunta y medimos qué se vuelve viral. La conclusión es clara y cambia el enfoque anterior.</p>
+
+  <div class="stats rv">
+    <div class="s"><div class="n">2,4<small>M</small></div><div class="l">búsquedas al mes sobre cómo acceder a ayudas y manejar la plata. El frente más grande del país, y casi sin dueño político.</div></div>
+    <div class="s"><div class="n">951<small>K</small></div><div class="l">búsquedas al mes sobre EPS, medicamentos y tutelas. La salud no es debate ideológico, es angustia diaria.</div></div>
+    <div class="s"><div class="n">537<small>K</small></div><div class="l">búsquedas al mes sobre multas, SOAT y movilidad. El bolsillo del conductor, el territorio que probó el senador Biter.</div></div>
+    <div class="s"><div class="n">0</div><div class="l">de esos frentes requieren fama previa, gran presupuesto u obra física. Solo creatividad, dato y servicio.</div></div>
+  </div>
+
+  <div class="callout rv"><div class="q">La tesis: <b>la gente no busca ideología, busca soluciones a su vida diaria.</b> El mayor caudal de demanda digital en Colombia es la pedagogía de acceso y defensa: cómo accedo a lo que me corresponde, cómo navego la salud, cómo defiendo mi bolsillo. Es universal, no sectario, llega a gente nueva y encaja con el ADN de servicio del partido.</div></div>
+
+  <div class="grid g3 rv">
+    <div class="card"><div class="icn">📊</div><h3>Lo que cambió</h3><p>El enfoque anterior seguía temas que ya teníamos en mente. Los datos muestran gigantes que estábamos ignorando: SISBÉN, Datacrédito, ICETEX, salud mental. Frentes enormes y huérfanos.</p></div>
+    <div class="card"><div class="icn">🧭</div><h3>El marco</h3><p>No copiamos casos. Separamos el acto (irreplicable) del mecanismo (transferible) y entregamos patrones que un edil o un concejal puede ejecutar mañana, sin recursos.</p></div>
+    <div class="card"><div class="icn">🧰</div><h3>La entrega</h3><p>Una caja de herramientas por nivel de cargo, frentes con propósito anclados en datos, y evidencia visual de qué hooks y qué contenido funciona hoy.</p></div>
+  </div>
+</div></section>
+
+<!-- ============ 02 LA DEMANDA REAL ============ -->
+<section id="demanda" class="alt"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">02</div><div>
+    <div class="kick">La demanda real · DataForSEO</div>
+    <h2>Qué busca y qué le angustia a Colombia</h2>
+  </div></div>
+  <p class="sec-sub rv">Volumen real de búsquedas en Google, Colombia, agrupado por frente. No es opinión, es el agregado de millones de personas escribiendo lo que necesitan. <b>El tamaño de cada barra es demanda sin atender.</b></p>
+  <div class="essential rv"><span class="dot"></span> Lo esencial: el frente más grande es el acceso a ayudas y la vida financiera, no la ideología.</div>
+
+  <div class="chart rv">
+    <div class="ctitle"><span>Frentes por volumen de búsqueda mensual</span><span>Suma de búsquedas relacionadas · jun 2026</span></div>
+    <div class="brow"><div class="nm">Acceso a ayudas y subsidios<small>sisbén, renta, jóvenes en acción</small></div><div class="btrack"><div class="bfill br" data-w="100"></div></div><div class="bv">1,93 M</div></div>
+    <div class="brow"><div class="nm">Salud y EPS<small>nueva eps, sanitas, medicamentos</small></div><div class="btrack"><div class="bfill" data-w="49"></div></div><div class="bv">951 K</div></div>
+    <div class="brow"><div class="nm">Deuda y fraude<small>datacrédito, deudas, estafas</small></div><div class="btrack"><div class="bfill" data-w="33"></div></div><div class="bv">645 K</div></div>
+    <div class="brow"><div class="nm">Movilidad y multas<small>soat, comparendos, fotomultas</small></div><div class="btrack"><div class="bfill gd" data-w="28"></div></div><div class="bv">537 K</div></div>
+    <div class="brow"><div class="nm">Educación y juventud<small>icetex, sena, matrícula cero</small></div><div class="btrack"><div class="bfill" data-w="23"></div></div><div class="bv">442 K</div></div>
+    <div class="brow"><div class="nm">Formalización y trabajo digital<small>cámara de comercio, rut, freelance</small></div><div class="btrack"><div class="bfill" data-w="23"></div></div><div class="bv">441 K</div></div>
+    <div class="brow"><div class="nm">Salud mental<small>psicólogo, ansiedad, bullying</small></div><div class="btrack"><div class="bfill gr" data-w="7"></div></div><div class="bv">132 K</div></div>
+  </div>
+
+  <div class="grid g3 rv" style="margin-top:34px">
+    <div class="card"><div class="role">El gigante invisible</div><h3>SISBÉN: 1.000.000 al mes</h3><p>Más puntaje SISBÉN (246 K) y subsidio (201 K). Millones intentando entender si califican para una ayuda y cómo. Nadie los acompaña en redes. Es la bandera huérfana más grande del país.</p></div>
+    <div class="card"><div class="role">El dolor diario</div><h3>Salud: 951.000 al mes</h3><p>Nueva EPS 550 K, Sanitas 368 K, medicamentos 22 K, tutela 8 K. No piden reforma, piden la cita, el medicamento, el trámite. Servicio puro.</p></div>
+    <div class="card"><div class="role">Lo que crece</div><h3>Salud mental: 132.000 al mes</h3><p>Psicólogo llegó a 165 K en marzo. Bullying 49 K, ansiedad 22 K. Tema joven, en alza y sin vocero político. Frente nuevo a ocupar.</p></div>
+  </div>
+  <p class="note rv"><b>Cómo leer esto.</b> Estos números son intención pura: personas buscando solución. Un volumen alto con poca voz política es una oportunidad. Los frentes huérfanos valen más que los saturados, porque ahí no hay competencia de atención.</p>
+</div></section>
+
+<!-- ============ 03 QUE VIRALIZA (placeholder, se llena con Apify) ============ -->
+<section id="viral"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">03</div><div>
+    <div class="kick">Qué se vuelve viral y por qué · Apify</div>
+    <h2>Los hooks que funcionan, con el post a la vista</h2>
+  </div></div>
+  <p class="sec-sub rv">Sobre los frentes que más busca la gente, medimos qué contenido explotó, qué primera frase usó y qué dicen los comentarios. Cada caso muestra el post real.</p>
+  <div class="essential rv"><span class="dot"></span> Lo esencial: en estos temas, quienes dominan TikTok son cuentas de servicio y de noticias, no políticos. La cancha está libre.</div>
+
+  <div class="callout rv"><div class="q">La fórmula del hook que se repite en los seis frentes: <b>pregunta con el miedo concreto del ciudadano</b>, más <b>una fecha o urgencia</b>, más <b>la promesa de te muestro cómo</b>. Ejemplo real: "¿Sabía que la EPS debe devolverle su dinero? Venga, se lo muestro."</div></div>
+
+  <h3 class="rv" style="font-size:20px;margin:40px 0 6px">Lo que explotó, con el post a la vista</h3>
+  <p class="rv" style="font-size:14.5px;color:var(--muted);margin-bottom:4px">Screenshots reales del scraping de TikTok, ordenados por reproducciones. Toca cada tarjeta para abrir el video original.</p>
+  <div class="posts">
+    <a class="post rv" href="https://www.tiktok.com/@idealuo.com_/video/7597456618883747092" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+      <div class="shot" style="background-image:url('assets/viral/a2_idealuo.jpg')"><span class="plat">TikTok</span><span class="met"><span>▶ 8,73 M</span><span>♥ 55,2 K</span></span></div>
+      <div class="body"><div class="who">@idealuo.com_ · Acceso a ayudas</div><div class="hook">"Beneficiarios, consulte listados para este día."</div><div class="why">Urgencia con fecha. Da la sensación de que hay que actuar ya.</div></div>
+    </a>
+    <a class="post rv" href="https://www.tiktok.com/@elrastro2025/video/7563066456271834381" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+      <div class="shot" style="background-image:url('assets/viral/d1_rastro.jpg')"><span class="plat">TikTok</span><span class="met"><span>▶ 4,77 M</span><span>♥ 106 K</span></span></div>
+      <div class="body"><div class="who">@elrastro2025 · Movilidad y multas</div><div class="hook">Investigación: placas adulteradas que le generan fotomultas a terceros inocentes.</div><div class="why">El damnificado inocente. Indignación y sensación de a mí me puede pasar.</div></div>
+    </a>
+    <a class="post rv" href="https://www.tiktok.com/@arley395/video/7196059743750737157" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+      <div class="shot" style="background-image:url('assets/viral/d2_arley.jpg')"><span class="plat">TikTok</span><span class="met"><span>▶ 2,47 M</span><span>♥ 99,3 K</span></span></div>
+      <div class="body"><div class="who">@arley395 · Movilidad y multas</div><div class="hook">"¡Qué fotos tan feas!" Muestra dónde están las cámaras de fotomulta.</div><div class="why">Geolocaliza la trampa. La gente comenta pidiendo la ubicación exacta.</div></div>
+    </a>
+    <a class="post rv" href="https://www.tiktok.com/@wintor.abc/video/7631984019478957330" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+      <div class="shot" style="background-image:url('assets/viral/a1_wintor.jpg')"><span class="plat">TikTok</span><span class="met"><span>▶ 1,82 M</span><span>♥ 42,6 K</span></span></div>
+      <div class="body"><div class="who">@wintor.abc · Acceso a ayudas</div><div class="hook">"¿Hay cambios en el Sisbén? Escuche lo que pasará con la nueva base de datos RUI."</div><div class="why">Alerta de cambio personal. Activa el miedo a perder el subsidio.</div></div>
+    </a>
+    <a class="post rv" href="https://www.tiktok.com/@deudasyfinanzas/video/7623114204190461205" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+      <div class="shot" style="background-image:url('assets/viral/c2_deudas.jpg')"><span class="plat">TikTok</span><span class="met"><span>▶ 1,78 M</span><span>♥ 24,2 K</span></span></div>
+      <div class="body"><div class="who">@deudasyfinanzas · Deuda y fraude</div><div class="hook">"Ley de borrón y cuenta nueva: cómo salir de Datacrédito."</div><div class="why">Promesa de solución legal. Da esperanza de una salida concreta.</div></div>
+    </a>
+    <a class="post rv" href="https://www.tiktok.com/@noticiascaracol/video/7589251221894991115" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+      <div class="shot" style="background-image:url('assets/viral/b2_caracol.jpg')"><span class="plat">TikTok</span><span class="met"><span>▶ 1,24 M</span><span>♥ 22 K</span></span></div>
+      <div class="body"><div class="who">@noticiascaracol · Salud y EPS</div><div class="hook">"¿Por qué Colsubsidio dejará de entregar medicamentos a la Nueva EPS desde enero de 2026?"</div><div class="why">Fecha límite más miedo concreto a quedarse sin medicamento.</div></div>
+    </a>
+    <a class="post rv" href="https://www.tiktok.com/@redmasnoticias/video/7641706130170793236" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+      <div class="shot" style="background-image:url('assets/viral/d3_redmas.jpg')"><span class="plat">TikTok</span><span class="met"><span>▶ 947 K</span><span>♥ 28,5 K</span></span></div>
+      <div class="body"><div class="who">@redmasnoticias · Movilidad y multas</div><div class="hook">"7,5 millones de comparendos impuestos de forma irregular por 37 organismos de tránsito."</div><div class="why">Cifra escándalo del Estado. El número grande más irregular dispara las vistas.</div></div>
+    </a>
+    <a class="post rv" href="https://www.tiktok.com/@luiscarlosleala/video/7619107798860811541" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+      <div class="shot" style="background-image:url('assets/viral/b1_leala.jpg')"><span class="plat">TikTok</span><span class="met"><span>▶ 879 K</span><span>♥ 68,6 K</span></span></div>
+      <div class="body"><div class="who">@luiscarlosleala · Salud y EPS</div><div class="hook">"¿Sabía que la EPS debe devolverle su dinero si le tocó comprar el medicamento? Venga, se lo muestro."</div><div class="why">Derecho desconocido más tutorial más cercanía. El mejor ejemplo de servicio.</div></div>
+    </a>
+    <a class="post rv" href="https://www.tiktok.com/@daniela.arsss/video/7641421385897757973" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+      <div class="shot" style="background-image:url('assets/viral/c1_daniela.jpg')"><span class="plat">TikTok</span><span class="met"><span>▶ 791 K</span><span>♥ 68,2 K</span></span></div>
+      <div class="body"><div class="who">@daniela.arsss · Deuda y fraude</div><div class="hook">"Me da vergüenza decirlo, pero lo digo igual. Lo cargué sola y en silencio."</div><div class="why">Confesión emocional. La deuda se vive con vergüenza, y eso genera identificación masiva.</div></div>
+    </a>
+    <a class="post rv" href="https://www.tiktok.com/@noticiascaracol/video/7577244912622603576" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+      <div class="shot" style="background-image:url('assets/viral/f1_caracol.jpg')"><span class="plat">TikTok</span><span class="met"><span>▶ 461 K</span><span>♥ 23,1 K</span></span></div>
+      <div class="body"><div class="who">@noticiascaracol · Salud mental</div><div class="hook">"Más del 30% de los alumnos dice haber sufrido matoneo, según la Universidad Javeriana."</div><div class="why">Cifra dura más fuente académica. Credibilidad y alarma a la vez.</div></div>
+    </a>
+    <a class="post rv" href="https://www.tiktok.com/@akajuandi/video/7106338013755559173" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+      <div class="shot" style="background-image:url('assets/viral/e1_juandi.jpg')"><span class="plat">TikTok</span><span class="met"><span>▶ 446 K</span><span>♥ 69,1 K</span></span></div>
+      <div class="body"><div class="who">@akajuandi · Educación y juventud</div><div class="hook">"Mándale este video a tu amix para que termine de pagar su deuda del ICETEX."</div><div class="why">Celebración del logro. Aspiracional y muy compartible.</div></div>
+    </a>
+    <a class="post rv" href="https://www.tiktok.com/@gaby.hrdzv/video/7546644807708413215" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+      <div class="shot" style="background-image:url('assets/viral/f2_gaby.jpg')"><span class="plat">TikTok</span><span class="met"><span>▶ 397 K</span><span>♥ 41,3 K</span></span></div>
+      <div class="body"><div class="who">Testimonio · Salud mental</div><div class="hook">"Mi ansiedad de adolescente terminó detonando mis enfermedades, pero sí se puede sanar."</div><div class="why">Testimonio en primera persona más reencuadre esperanzador. Convierte el dolor en utilidad.</div></div>
+    </a>
+  </div>
+
+  <h3 class="rv" style="font-size:20px;margin:50px 0 6px">Qué dicen los comentarios, y qué patrón revelan</h3>
+  <p class="rv" style="font-size:14.5px;color:var(--muted);margin-bottom:4px">El comentario es feedback gratis. Cada frente tiene una emoción distinta, y el tono del contenido debe ajustarse a ella.</p>
+  <div class="grid g3 rv">
+    <div class="card" style="border-left:3px solid var(--gold)"><div class="role">Ayudas · la emoción es miedo</div><p style="font-style:italic;color:var(--ink)">"Estaba en A3 y me pasaron a B3, sin trabajo, con mi madre enferma y un hijo que depende de mí."</p><p style="margin-top:10px;font-size:13.5px">El miedo es perder el subsidio por una reclasificación que no entienden. Tono que funciona: claridad que tranquiliza.</p></div>
+    <div class="card" style="border-left:3px solid var(--red)"><div class="role">Salud · la emoción es rabia</div><p style="font-style:italic;color:var(--ink)">"Que aprueben la reforma para que no sigan robando" frente a "Gracias Petro por reventar la salud."</p><p style="margin-top:10px;font-size:13.5px">El hilo se convierte en pelea de izquierda contra derecha. Tono que funciona: servicio firme y apartidista, para no caer en la trinchera.</p></div>
+    <div class="card" style="border-left:3px solid var(--navy)"><div class="role">Deuda · la emoción es vergüenza</div><p style="font-style:italic;color:var(--ink)">"Me interesa", "necesito ayuda", "quiero saber cuánto estoy debiendo."</p><p style="margin-top:10px;font-size:13.5px">Casi no hay política, hay gente pidiendo auxilio. Tono que funciona: empatía y verdad sin venderles humo.</p></div>
+  </div>
+  <div class="note rv"><b>Dos comentarios que valen como brújula.</b> En multas: "las cámaras solo sirven para recaudar, no para la seguridad vial" (4.879 likes), la indignación pide transparencia, no negación. En bullying: "no ha aumentado, ahora se denuncia más" (2.409 likes), el público premia el matiz informado por encima del escándalo.</div>
+</div></section>
+
+<!-- ============ 04 CASOS (placeholder, se llena con research) ============ -->
+<section id="casos" class="alt"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">04</div><div>
+    <div class="kick">Del anonimato al cargo</div>
+    <h2>Casos que empezaron sin nombre y ganaron</h2>
+  </div></div>
+  <p class="sec-sub rv">No nos interesan los que ya eran famosos. Nos interesa la lógica con la que personas comunes construyeron audiencia y la convirtieron en votos. Ampliamos el caso de Brasil y explicamos en qué se basó cada estrategia.</p>
+  <div class="essential rv"><span class="dot"></span> Lo esencial: en los tres casos la comunidad se construyó antes de pedir el voto, y lo digital potenció el trabajo de calle, no lo reemplazó.</div>
+
+  <h3 class="rv" style="font-size:20px;margin:40px 0 4px">Los dos más replicables, en español</h3>
+  <p class="rv" style="font-size:15px;color:var(--muted);margin-bottom:6px">Misma escala de un cargo sin fama ni presupuesto. Probaron que con símbolo, causa y servicio se gana.</p>
+  <div class="grid g2 rv">
+    <div class="card" style="border-top:3px solid var(--brand)">
+      <div class="role">Colombia · Senado 2026</div>
+      <h3>El Elefante Blanco</h3>
+      <div class="mono" style="font-size:12px;color:var(--brand-deep);margin:6px 0 12px">▲ Electo senador con cerca de 120.000 votos</div>
+      <p>Un ciudadano anónimo, disfrazado de elefante, recorría obras públicas abandonadas y las denunciaba en video. El disfraz resolvió tres problemas a la vez: anonimato, símbolo memorable y metáfora exacta (en Colombia una obra inútil y costosa se llama elefante blanco).</p>
+      <p style="margin-top:10px"><b>El mecanismo:</b> símbolo más causa verificable más denuncia con prueba, a costo cero. No prometía obras, mostraba las que estaban abandonadas. Cualquiera puede señalar un problema real de su zona con un símbolo propio.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--brand)">
+      <div class="role">Colombia · Senado 2026</div>
+      <h3>El Señor Biter</h3>
+      <div class="mono" style="font-size:12px;color:var(--brand-deep);margin:6px 0 12px">▲ Electo senador con cerca de 122.000 votos, sin maquinaria</div>
+      <p>Creador de contenido sobre tránsito, multas y fotomultas. Enseñaba a los conductores a defenderse de cobros mal hechos. Convirtió un nicho de servicio en una comunidad agradecida y vota-ble, con un gremio claro detrás.</p>
+      <p style="margin-top:10px"><b>El mecanismo:</b> nicho de servicio útil más gremio identificable más villano claro (el cobro injusto). Es el patrón que la data de este informe confirma como el de mayor demanda: pedagogía de defensa del bolsillo.</p>
+    </div>
+  </div>
+
+  <h3 class="rv" style="font-size:20px;margin:46px 0 4px">Los internacionales, ampliados</h3>
+  <p class="rv" style="font-size:15px;color:var(--muted);margin-bottom:6px">La historia, en qué se basó su estrategia para pasar del anonimato al cargo, y qué se puede trasladar. Abre cada uno para la versión completa.</p>
+
+  <div class="grid rv" style="gap:18px">
+    <article class="card">
+      <div class="role">Brasil · Diputado Federal 2022</div>
+      <h3 style="font-size:23px">Nikolás Ferreira</h3>
+      <div class="mono" style="font-size:12px;color:var(--brand-deep);margin:6px 0 14px">▲ 1.492.047 votos, el diputado más votado del país. Tenía 26 años.</div>
+      <p style="font-size:15px"><b>En qué se basó.</b> No fue un político que usó redes, fue un creador de contenido nativo que se postuló. Construyó comunidad como activista juvenil antes de pedir un voto, operó en campaña permanente y tradujo ideas abstractas en piezas cortas, emotivas y consumibles en segundos. Ancló esa audiencia en un partido y un territorio concretos, ganando primero como concejal de Belo Horizonte (29.388 votos, segundo de la ciudad) en 2020.</p>
+      <div class="mono" style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px">Patrones transferibles</div>
+      <ul style="font-size:14.5px;color:var(--ink-soft);padding-left:18px;display:grid;gap:5px">
+        <li>Construir audiencia antes de la candidatura, no al revés.</li>
+        <li>Una sola idea fuerte por pieza, entendible incluso sin audio.</li>
+        <li>Un contenido base reversionado para Reels, TikTok, Shorts y WhatsApp.</li>
+        <li>Origen local concreto que concentra votos, notoriedad amplia que da orgullo.</li>
+      </ul>
+      <details style="margin-top:16px"><summary style="cursor:pointer;font-family:'IBM Plex Mono';font-size:12px;color:var(--brand-deep);font-weight:600">La historia completa ↓</summary>
+        <p style="font-size:14px;color:var(--ink-soft);margin-top:12px">Nacido en la periferia de Belo Horizonte en 1996, estudió Derecho en la PUC-Minas y se formó políticamente en el movimiento juvenil Direita Minas, su laboratorio de experimentación comunicativa y su red territorial. En 2020 fue electo concejal con la segunda votación de la ciudad. En 2022, por el Partido Liberal de Bolsonaro, obtuvo 1.492.047 votos (13,31% de los válidos de Minas Gerais), el tercero más votado en la historia de la Cámara. Sus redes suman más de 20 millones de seguidores (Instagram 21,5 millones, TikTok 8,9 millones, X 5,4 millones, YouTube 2,5 millones), con un promedio cercano a 1,58 millones de interacciones por publicación. Lo que no es replicable: esa escala descansa en el viento de cola del bolsonarismo y en un equipo editorial profesional que sostiene la frecuencia diaria.</p>
+      </details>
+    </article>
+
+    <article class="card">
+      <div class="role">Estados Unidos · Congreso 2018</div>
+      <h3 style="font-size:23px">Alexandria Ocasio-Cortez</h3>
+      <div class="mono" style="font-size:12px;color:var(--brand-deep);margin:6px 0 14px">▲ Venció a un congresista de 10 mandatos gastando 16 veces menos. Tenía 28 años.</div>
+      <p style="font-size:15px"><b>En qué se basó.</b> No ganó solo por redes. Integró un anuncio viral, una presencia digital auténtica y un trabajo de calle de base en un solo sistema: lo digital generaba reconocimiento y el puerta a puerta lo convertía en voto. Su biografía de mesera hacía creíble su agenda de salario digno y vivienda, y ese encaje entre quién era y qué proponía fue su mayor activo.</p>
+      <div class="mono" style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px">Patrones transferibles</div>
+      <ul style="font-size:14.5px;color:var(--ink-soft);padding-left:18px;display:grid;gap:5px">
+        <li>Un video ancla de bajo presupuesto, con estética documental y biografía compartida.</li>
+        <li>Embudo de concientización digital que termina en visita presencial.</li>
+        <li>Microsegmentar un universo pequeño en vez de dispersar el mensaje.</li>
+        <li>Mostrar la trastienda y la imperfección para construir confianza.</li>
+      </ul>
+      <details style="margin-top:16px"><summary style="cursor:pointer;font-family:'IBM Plex Mono';font-size:12px;color:var(--brand-deep);font-weight:600">La historia completa ↓</summary>
+        <p style="font-size:14px;color:var(--ink-soft);margin-top:12px">Hasta el otoño previo a su victoria era mesera y bartender en Union Square. Fue organizadora de base con Bernie Sanders en 2016 y la reclutaron Justice Democrats y Brand New Congress. Su anuncio The Courage to Change, producido por un colectivo cooperativo y publicado a menos de un mes de la primaria, rompió la estética del spot político con cine documental en primera persona. Su equipo cargó un universo de unos 75.000 votantes probables y los impactó con anuncios, puerta a puerta, correo y llamadas. Resultado: 15.897 votos (57,13%) contra los 11.761 de Joe Crowley, gastando cerca de 207.000 dólares frente a más de 3,4 millones del rival.</p>
+      </details>
+    </article>
+
+    <article class="card">
+      <div class="role">Estados Unidos · Alcaldía de Nueva York 2025</div>
+      <h3 style="font-size:23px">Zohran Mamdani</h3>
+      <div class="mono" style="font-size:12px;color:var(--brand-deep);margin:6px 0 14px">▲ De 2% en encuestas a alcalde. Tenía 34 años.</div>
+      <p style="font-size:15px"><b>En qué se basó.</b> La campaña se comportó como un medio de comunicación propio. En vez de hacer contenido para alimentar la pauta, organizó todo alrededor de la producción sistemática de video nativo, con series, personajes recurrentes y calendario editorial. Un solo encuadre, el costo de la vida, traducido a propuestas filmables: congelar la renta, buses gratis, salario digno. La discusión pasó de si usted es socialista a por qué el bus que necesito no es gratis.</p>
+      <div class="mono" style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px">Patrones transferibles</div>
+      <ul style="font-size:14.5px;color:var(--ink-soft);padding-left:18px;display:grid;gap:5px">
+        <li>Un solo problema cotidiano traducido a propuestas visualizables (un precio, un billete).</li>
+        <li>Comportarse como un medio: series con formato fijo y calendario, no anuncios sueltos.</li>
+        <li>El candidato como entrevistador: darle el micrófono a vecinos y comerciantes.</li>
+        <li>Convertir cada hito de campo (puertas tocadas, voluntarios) en contenido emocional.</li>
+      </ul>
+      <details style="margin-top:16px"><summary style="cursor:pointer;font-family:'IBM Plex Mono';font-size:12px;color:var(--brand-deep);font-weight:600">La historia completa ↓</summary>
+        <p style="font-size:14px;color:var(--ink-soft);margin-top:12px">Nacido en Uganda y criado en Queens, hijo de un politólogo y una cineasta, llegó a la política desde el activismo de vivienda y el hip hop. Electo a la Asamblea estatal en 2020, era casi desconocido al lanzarse a la alcaldía, con 2% o menos en encuestas. Sus tres formatos de video fueron la crónica de campaña (la caminata nocturna por toda la isla de Manhattan), los testimonios ciudadanos en la calle, y los explicadores con ejemplos cotidianos (el video sobre la halalflation, usando el plato del carrito halal a 10 dólares como símbolo de la inflación). Más de 40.000 voluntarios y más de un millón de puertas tocadas se volvieron parte del relato audiovisual. Resultado general: 50,78% y 1,11 millones de votos, con la participación más alta en una elección de alcalde desde los años 90.</p>
+      </details>
+    </article>
+  </div>
+
+  <div class="callout rv"><div class="q">El patrón común que sí se traslada: <b>comunidad antes que candidatura, autenticidad biográfica, y lo digital al servicio del trabajo de calle.</b> Lo que no se copia es la escala de audiencia, que depende de vientos históricos y de equipos editoriales profesionales. Por eso la meta no es volverse viral una vez, es volverse útil de forma constante.</div></div>
+</div></section>
+
+<!-- ============ 05 COMPETIDORES (placeholder) ============ -->
+<section id="competidores"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">05</div><div>
+    <div class="kick">A quién observar, no copiar</div>
+    <h2>Competidores que usan bien sus redes</h2>
+  </div></div>
+  <p class="sec-sub rv">Quién le está dando un buen uso a sus redes en cada nivel de cargo, qué hace bien y qué patrón deja para aprender. Observación, no imitación.</p>
+  <div class="essential rv"><span class="dot"></span> Lo esencial: el nivel local es la mina de oro. Bajo costo, anclaje de barrio y patrones que cualquier líder puede replicar.</div>
+
+  <h3 class="rv" style="font-size:19px;margin:38px 0 14px;display:flex;align-items:center;gap:10px"><span class="mono" style="font-size:12px;color:var(--brand)">EDIL</span> Nivel hiperlocal, lo que casi nadie estudia</h3>
+  <div class="grid g3 rv">
+    <div class="card" style="padding:18px 20px"><div class="mono" style="font-size:12px;color:var(--brand-deep);font-weight:600">@ndefranciscog</div><div style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">Líder de base · Suba, Bogotá</div><p style="font-size:13.5px;color:var(--ink-soft);margin:0">Convirtió la denuncia de huecos en una serie con marca, Cazadores de Huecos en Suba, grabada de noche y numerada por capítulos.</p><div style="font-size:12.5px;margin-top:9px"><b>Patrón:</b> serializar un problema crea expectativa y fidelidad.</div></div>
+    <div class="card" style="padding:18px 20px"><div class="mono" style="font-size:12px;color:var(--brand-deep);font-weight:600">Ilumina tu cuadra</div><div style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">Fabián Meléndez · Barranquilla</div><p style="font-size:13.5px;color:var(--ink-soft);margin:0">Volvió la reparación de luminarias una campaña participativa: tú reportas, nosotros gestionamos el arreglo.</p><div style="font-size:12.5px;margin-top:9px"><b>Patrón:</b> tú reportas, yo gestiono, convierte seguidores en informantes y compromete al electo.</div></div>
+    <div class="card" style="padding:18px 20px"><div class="mono" style="font-size:12px;color:var(--brand-deep);font-weight:600">@saraisabelloaiza</div><div style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">Edil · Altavista, Medellín</div><p style="font-size:13.5px;color:var(--ink-soft);margin:0">Graba los debates de planeación dentro de la JAL y aborda el qué pasa con la movilidad mientras hay obra. Usa trends nativos.</p><div style="font-size:12.5px;margin-top:9px"><b>Patrón:</b> mostrar la deliberación, no solo la decisión cerrada.</div></div>
+  </div>
+
+  <h3 class="rv" style="font-size:19px;margin:34px 0 14px;display:flex;align-items:center;gap:10px"><span class="mono" style="font-size:12px;color:var(--brand)">CONCEJAL</span> Nivel ciudad</h3>
+  <div class="grid g3 rv">
+    <div class="card" style="padding:18px 20px"><div class="mono" style="font-size:12px;color:var(--brand-deep);font-weight:600">@daniel.bricen</div><div style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">Concejal · Bogotá</div><p style="font-size:13.5px;color:var(--ink-soft);margin:0">Control político con datos: revisa contratos en el SECOP y traduce pliegos áridos a denuncia entendible, siempre con documento.</p><div style="font-size:12.5px;margin-top:9px"><b>Patrón:</b> el fiscalizador con prueba documental, sin insulto.</div></div>
+    <div class="card" style="padding:18px 20px"><div class="mono" style="font-size:12px;color:var(--brand-deep);font-weight:600">@trianavjuli</div><div style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">Concejal · Bogotá</div><p style="font-size:13.5px;color:var(--ink-soft);margin:0">Interpela al alcalde directo a cámara: como concejal de Bogotá le pido al alcalde. Lleva la plenaria al terreno de la opinión.</p><div style="font-size:12.5px;margin-top:9px"><b>Patrón:</b> el video declaración dirigido a una autoridad concreta.</div></div>
+    <div class="card" style="padding:18px 20px"><div class="mono" style="font-size:12px;color:var(--brand-deep);font-weight:600">@concejaltania</div><div style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">Concejala · Cali</div><p style="font-size:13.5px;color:var(--ink-soft);margin:0">Pedagogía del rol y servicio desde la calle, con ejes fijos: seguridad, salud mental, transporte. Instagram como diario de campo.</p><div style="font-size:12.5px;margin-top:9px"><b>Patrón:</b> ejes temáticos fijos dan coherencia de marca.</div></div>
+  </div>
+
+  <h3 class="rv" style="font-size:19px;margin:34px 0 14px;display:flex;align-items:center;gap:10px"><span class="mono" style="font-size:12px;color:var(--brand)">DIPUTADO</span> Nivel departamental</h3>
+  <div class="grid g3 rv">
+    <div class="card" style="padding:18px 20px"><div class="mono" style="font-size:12px;color:var(--brand-deep);font-weight:600">@alexprieto.101</div><div style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">Diputado · Cundinamarca</div><p style="font-size:13.5px;color:var(--ink-soft);margin:0">No dice aprobé una ordenanza en abstracto. Nombra el instrumento (Ordenanza 07) y lo ata a un resultado: hospitales modernizados.</p><div style="font-size:12.5px;margin-top:9px"><b>Patrón:</b> norma específica más beneficio concreto más lenguaje simple.</div></div>
+    <div class="card" style="padding:18px 20px"><div class="mono" style="font-size:12px;color:var(--brand-deep);font-weight:600">Asamblea en un minuto</div><div style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">Delmar Roa · Boyacá</div><p style="font-size:13.5px;color:var(--ink-soft);margin:0">Microresumen de un minuto donde el propio diputado, no la oficina de prensa, cuenta los temas clave tras la plenaria.</p><div style="font-size:12.5px;margin-top:9px"><b>Patrón:</b> un formato con nombre fijo, replicable por cada electo.</div></div>
+    <div class="card" style="padding:18px 20px"><div class="mono" style="font-size:12px;color:var(--brand-deep);font-weight:600">Asamblea de Santander</div><div style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">Control político en obra</div><p style="font-size:13.5px;color:var(--ink-soft);margin:0">Los diputados visitan obras, recorren y preguntan a los contratistas a cámara, en vez de discursear en el recinto.</p><div style="font-size:12.5px;margin-top:9px"><b>Patrón:</b> el control político se muestra caminando, no se cuenta.</div></div>
+  </div>
+
+  <h3 class="rv" style="font-size:19px;margin:34px 0 14px;display:flex;align-items:center;gap:10px"><span class="mono" style="font-size:12px;color:var(--brand)">CONGRESO</span> Construcción desde abajo, sin fama previa</h3>
+  <div class="grid g3 rv">
+    <div class="card" style="padding:18px 20px"><div class="mono" style="font-size:12px;color:var(--brand-deep);font-weight:600">@jenniferpedrazas</div><div style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">Senadora · viene del activismo estudiantil</div><p style="font-size:13.5px;color:var(--ink-soft);margin:0">Pedagogía legislativa más fact checking en video: explica proyectos para apolíticos y desarma entrevistas con datos.</p><div style="font-size:12.5px;margin-top:9px"><b>Patrón:</b> aquí hay tres datos que corrigen esta afirmación.</div></div>
+    <div class="card" style="padding:18px 20px"><div class="mono" style="font-size:12px;color:var(--brand-deep);font-weight:600">@cathy_juvinao</div><div style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">Representante · venía de Chao Congreso</div><p style="font-size:13.5px;color:var(--ink-soft);margin:0">Usa la red para organizar, no solo para expresar. Combina denuncia con dato e invitación concreta a sumarse a la colectividad.</p><div style="font-size:12.5px;margin-top:9px"><b>Patrón:</b> la red como herramienta de reclutamiento y estructura.</div></div>
+    <div class="card" style="padding:18px 20px"><div class="mono" style="font-size:12px;color:var(--brand-deep);font-weight:600">@kathemirandap</div><div style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">Representante · politóloga</div><p style="font-size:13.5px;color:var(--ink-soft);margin:0">Storytelling personal: ciudadana, mamá y politóloga. Detrás de cámaras del Capitolio, tono fresco, se presenta como ciudadana antes que política.</p><div style="font-size:12.5px;margin-top:9px"><b>Patrón:</b> la vida cotidiana humaniza y baja la barrera de entrada.</div></div>
+  </div>
+
+  <h3 class="rv" style="font-size:19px;margin:34px 0 14px;display:flex;align-items:center;gap:10px"><span class="mono" style="font-size:12px;color:var(--brand)">LATAM Y ESPAÑA</span> Oficio digital local, no presidentes</h3>
+  <div class="grid g2 rv">
+    <div class="card" style="padding:20px 22px;border-top:3px solid var(--green)"><div class="mono" style="font-size:12px;color:var(--brand-deep);font-weight:600">@kikecollada · el más recomendado</div><div style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">Alcalde de un pueblo de menos de 100 habitantes · España · Político del Año 2025 de One Young World</div><p style="font-size:13.5px;color:var(--ink-soft);margin:0">Convierte la gestión de un micromunicipio sin recursos en relato cotidiano. Explica cómo se tramita una licitación, qué problemas tiene el pueblo, cuánto cobra (nada). A falta de embajador, dice, tenemos el algoritmo de TikTok.</p><div style="font-size:12.5px;margin-top:9px"><b>Patrón oro:</b> la pequeñez y la falta de recursos se resignifican como ventaja narrativa, no como excusa.</div></div>
+    <div class="card" style="padding:20px 22px;border-top:3px solid var(--green)"><div class="mono" style="font-size:12px;color:var(--brand-deep);font-weight:600">@mariapacheco.concejala</div><div style="font-size:11.5px;color:var(--muted);margin:2px 0 8px">Concejala · Estación Central, Santiago de Chile · preside la Comisión de Finanzas</div><p style="font-size:13.5px;color:var(--ink-soft);margin:0">Usa TikTok como ventanilla ciudadana: responde dudas de vecinos en video, explica qué se discutió en el concejo y cómo votó. El cargo está en el propio nombre de usuario.</p><div style="font-size:12.5px;margin-top:9px"><b>Patrón:</b> el canal como extensión de la oficina, con la regla de que si prometes responder, respondes.</div></div>
+  </div>
+
+  <h3 class="rv" style="font-size:20px;margin:48px 0 14px">Los ocho patrones que se repiten</h3>
+  <div class="grid g4 rv">
+    <div class="card" style="padding:16px 18px"><div class="mono" style="font-size:22px;color:var(--brand);font-weight:600">01</div><p style="font-size:13.5px;margin-top:4px"><b>Serializar el problema.</b> Nombre de marca y capítulos numerados.</p></div>
+    <div class="card" style="padding:16px 18px"><div class="mono" style="font-size:22px;color:var(--brand);font-weight:600">02</div><p style="font-size:13.5px;margin-top:4px"><b>Norma más beneficio.</b> Nunca aprobé algo, siempre esto cambió tu vida.</p></div>
+    <div class="card" style="padding:16px 18px"><div class="mono" style="font-size:22px;color:var(--brand);font-weight:600">03</div><p style="font-size:13.5px;margin-top:4px"><b>Mostrar el proceso.</b> La reunión y el debate, no solo el resultado.</p></div>
+    <div class="card" style="padding:16px 18px"><div class="mono" style="font-size:22px;color:var(--brand);font-weight:600">04</div><p style="font-size:13.5px;margin-top:4px"><b>Tú reportas, yo gestiono.</b> Circuito de participación medible.</p></div>
+    <div class="card" style="padding:16px 18px"><div class="mono" style="font-size:22px;color:var(--brand);font-weight:600">05</div><p style="font-size:13.5px;margin-top:4px"><b>Control caminando.</b> La fiscalización se ve, con documento a la mano.</p></div>
+    <div class="card" style="padding:16px 18px"><div class="mono" style="font-size:22px;color:var(--brand);font-weight:600">06</div><p style="font-size:13.5px;margin-top:4px"><b>Resignificar la debilidad.</b> Poco presupuesto igual a ventaja narrativa.</p></div>
+    <div class="card" style="padding:16px 18px"><div class="mono" style="font-size:22px;color:var(--brand);font-weight:600">07</div><p style="font-size:13.5px;margin-top:4px"><b>Dos cuentas.</b> Institucional con voz colegiada, personal con cercanía.</p></div>
+    <div class="card" style="padding:16px 18px"><div class="mono" style="font-size:22px;color:var(--brand);font-weight:600">08</div><p style="font-size:13.5px;margin-top:4px"><b>Formato de partido.</b> Un X en un minuto que cada electo produce igual.</p></div>
+  </div>
+  <div class="note rv"><b>Para observar primero.</b> Local: @ndefranciscog, @saraisabelloaiza. Concejo: @daniel.bricen, @trianavjuli. Asamblea: @alexprieto.101. Congreso: @jenniferpedrazas, @cathy_juvinao. Exterior: @kikecollada, @mariapacheco.concejala. <br><span style="color:var(--muted)">Las cifras de seguidores citadas por las fuentes deben confirmarse con medición en vivo antes de usarlas.</span></div>
+</div></section>
+
+<!-- ============ 06 MARCO ESTRATEGICO ============ -->
+<section id="marco" class="dark"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num" style="color:#ff8a5c">06</div><div>
+    <div class="kick" style="color:#9fb0c9">El marco que importa</div>
+    <h2>Acto contra mecanismo</h2>
+  </div></div>
+  <p class="sec-sub muted2 rv" style="color:#b9c6dc">Un número viral no es una estrategia. Cada caso tiene un acto, muchas veces irreplicable, y un mecanismo, casi siempre transferible. La regla de oro: nunca copies el acto, traslada el mecanismo a tu escala.</p>
+
+  <div class="grid g3 rv">
+    <div class="card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14)"><h3 style="color:#fff">El acto</h3><p style="color:#c9d3e3">Lo que la persona hizo: construir un hospital, subir el salario, ser presidente. Depende de poder, plata o fama que casi nadie tiene. Copiarlo es perder el tiempo.</p></div>
+    <div class="card" style="background:rgba(255,138,92,.1);border-color:rgba(255,138,92,.3)"><h3 style="color:#fff">El mecanismo</h3><p style="color:#e8d8cf">La lógica por la que funcionó: mostrar un resultado tangible, ceder el protagonismo a la gente, usar el dato como prueba. Eso sí se traslada a cualquier escala.</p></div>
+    <div class="card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14)"><h3 style="color:#fff">El filtro</h3><p style="color:#c9d3e3">Antes de recomendar algo: lo puede hacer un edil o un concejal, con su presupuesto, su poder real y su marca, sin traicionar su identidad. Si no, se adapta o se descarta.</p></div>
+  </div>
+
+  <div class="tbl-wrap rv" style="border-color:rgba(255,255,255,.16)">
+    <table>
+      <thead><tr><th>Mecanismo transferible</th><th>De dónde viene</th><th>Cómo lo usa un cargo local o legislativo</th></tr></thead>
+      <tbody style="color:#cdd6e4">
+        <tr style="background:transparent"><td class="first" style="color:#fff">Resultado tangible visible</td><td style="color:#aab6c9">Mostrar una obra terminada</td><td style="color:#cdd6e4">El antes y después de una gestión propia, por pequeña que sea</td></tr>
+        <tr style="background:rgba(255,255,255,.03)"><td class="first" style="color:#fff">Nicho de servicio útil</td><td style="color:#aab6c9">Tutoriales que resuelven un problema</td><td style="color:#cdd6e4">Cómo accedo a un derecho, cómo me defiendo de un abuso</td></tr>
+        <tr style="background:transparent"><td class="first" style="color:#fff">El dato como prueba</td><td style="color:#aab6c9">Control político con evidencia</td><td style="color:#cdd6e4">Denuncia con documento y cifra, sin insulto</td></tr>
+        <tr style="background:rgba(255,255,255,.03)"><td class="first" style="color:#fff">Testimonio ciudadano</td><td style="color:#aab6c9">Cederle la cámara a la gente</td><td style="color:#cdd6e4">Grabar al beneficiario o al afectado real, costo cero</td></tr>
+        <tr style="background:transparent"><td class="first" style="color:#fff">Pedagogía del cómo</td><td style="color:#aab6c9">Enseñar un trámite paso a paso</td><td style="color:#cdd6e4">Explicar lo complejo de forma simple y guardable</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<!-- ============ 07 CAJA DE HERRAMIENTAS POR CARGO ============ -->
+<section id="herramientas"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">07</div><div>
+    <div class="kick">Caja de herramientas por cargo</div>
+    <h2>Qué puede hacer cada quién</h2>
+  </div></div>
+  <p class="sec-sub rv">Un edil no compite con un senador, juega otro partido. Cada nivel tiene su frente, su formato y su hook. Esto es ejecutable desde mañana, con un celular.</p>
+
+  <div class="toolkit">
+    <div class="tk rv"><div class="head"><span class="lvl">Nivel hiperlocal</span><span class="nm">Edil</span></div><div class="meat">
+      <div class="row"><span class="rk">Frente</span><span class="rv2"><b>El barrio.</b> Huecos, basuras, alumbrado, andenes, parques, obras locales sin terminar.</span></div>
+      <div class="row"><span class="rk">Formato</span><span class="rv2">Recorrido en primera persona con antes y después. Gestión mostrada, no anunciada.</span></div>
+      <div class="row"><span class="rk">Hook</span><span class="rv2">Esto lleva meses así y nadie responde. Hoy lo grabé y lo radiqué.</span></div>
+      <div class="row"><span class="rk">Mecanismo</span><span class="rv2">Resultado tangible visible más testimonio del vecino.</span></div>
+    </div></div>
+
+    <div class="tk rv"><div class="head"><span class="lvl">Nivel ciudad</span><span class="nm">Concejal</span></div><div class="meat">
+      <div class="row"><span class="rk">Frente</span><span class="rv2"><b>El servicio de ciudad.</b> Cómo accedo a SISBÉN, subsidios, citas, cómo me defiendo de una multa o una estafa.</span></div>
+      <div class="row"><span class="rk">Formato</span><span class="rv2">Tutorial de servicio guardable, control político con dato, pedagogía de derechos.</span></div>
+      <div class="row"><span class="rk">Hook</span><span class="rv2">Si le llegó este cobro, no lo pague todavía. Mire por qué.</span></div>
+      <div class="row"><span class="rk">Mecanismo</span><span class="rv2">Nicho de servicio útil más dato como prueba.</span></div>
+    </div></div>
+
+    <div class="tk rv"><div class="head"><span class="lvl">Nivel departamental</span><span class="nm">Diputado</span></div><div class="meat">
+      <div class="row"><span class="rk">Frente</span><span class="rv2"><b>La región.</b> Vías, salud departamental, educación, agua, lo que conecta municipios.</span></div>
+      <div class="row"><span class="rk">Formato</span><span class="rv2">Traducción de la gestión regional a beneficio cotidiano, con cifras.</span></div>
+      <div class="row"><span class="rk">Hook</span><span class="rv2">Esta vía mueve a 200 mil personas. Esto es lo que conseguimos para ella.</span></div>
+      <div class="row"><span class="rk">Mecanismo</span><span class="rv2">Resultado tangible más pedagogía del cómo.</span></div>
+    </div></div>
+
+    <div class="tk rv"><div class="head"><span class="lvl">Nivel nacional</span><span class="nm">Senador y Representante</span></div><div class="meat">
+      <div class="row"><span class="rk">Frente</span><span class="rv2"><b>Las reglas.</b> Leyes que cambian la vida diaria: salud, multas, deudas, formalización, primer empleo.</span></div>
+      <div class="row"><span class="rk">Formato</span><span class="rv2">Propuesta con propósito anclada en demanda real, control político con evidencia.</span></div>
+      <div class="row"><span class="rk">Hook</span><span class="rv2">Le explico en un minuto por qué este proyecto le toca el bolsillo.</span></div>
+      <div class="row"><span class="rk">Mecanismo</span><span class="rv2">El dato como prueba más pedagogía del cómo.</span></div>
+    </div></div>
+  </div>
+
+  <div class="dd rv">
+    <div class="col yes"><h4>Repetir en cualquier nivel</h4><ul>
+      <li>Utilidad que la gente quiere guardar y reenviar</li>
+      <li>Testimonio real de un vecino o beneficiario</li>
+      <li>Dato verificable con documento a la vista</li>
+      <li>Antes y después de algo concreto que se logró</li>
+      <li>Captions cortos y primera frase que detiene el scroll</li>
+    </ul></div>
+    <div class="col no"><h4>Evitar siempre</h4><ul>
+      <li>Copiar un caso famoso de forma literal</li>
+      <li>Explotar el dolor o una tragedia para likes</li>
+      <li>Gancho engañoso, el público lo voltea en contra</li>
+      <li>Insultar al rival, destruye la credibilidad</li>
+      <li>Hablarle solo a la base que ya está convencida</li>
+    </ul></div>
+  </div>
+</div></section>
+
+<!-- ============ 08 FRENTES CON PROPOSITO ============ -->
+<section id="frentes" class="alt"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">08</div><div>
+    <div class="kick">Frentes con propósito · de comunicar a proponer</div>
+    <h2>Las banderas que están libres</h2>
+  </div></div>
+  <p class="sec-sub rv">Cruzamos el volumen de búsqueda con el sentimiento y con quién ya ocupa cada tema. Estos son los frentes de mayor demanda donde casi no hay voz política, ordenados por oportunidad.</p>
+
+  <div class="tbl-wrap rv">
+    <table>
+      <thead><tr><th>Frente</th><th>Señal de datos</th><th>Estado</th><th>Propuesta con propósito</th></tr></thead>
+      <tbody>
+        <tr><td class="first">Acceso a ayudas y SISBÉN</td><td>1,93 M búsquedas/mes</td><td><span class="pill huerf">Huérfano</span></td><td>Acompañamiento ciudadano para acceder a lo que le corresponde, sin intermediarios ni cobros</td></tr>
+        <tr><td class="first">Navegar la salud y la EPS</td><td>951 K búsquedas/mes</td><td><span class="pill parcial">Saturado de queja, vacío de ayuda</span></td><td>Defensoría del paciente: cita, medicamento y tutela explicados paso a paso</td></tr>
+        <tr><td class="first">Defensa del deudor</td><td>645 K búsquedas/mes</td><td><span class="pill huerf">Huérfano</span></td><td>Educación financiera y escudo contra el gota a gota y las estafas digitales</td></tr>
+        <tr><td class="first">Multas justas y movilidad</td><td>537 K búsquedas/mes</td><td><span class="pill parcial">Con dueño parcial</span></td><td>Debido proceso en comparendos, señalización previa, recaudo que vuelve a las vías</td></tr>
+        <tr><td class="first">Deuda educativa y primer empleo</td><td>442 K búsquedas/mes</td><td><span class="pill huerf">Huérfano</span></td><td>Alivio a la deuda con ICETEX, becas reales y que la práctica cuente como experiencia</td></tr>
+        <tr><td class="first">Formalizar sin que te persigan</td><td>441 K búsquedas/mes</td><td><span class="pill huerf">Huérfano</span></td><td>Crear empresa en un día, reglas claras para freelance y trabajo remoto</td></tr>
+        <tr><td class="first">Salud mental cerca</td><td>132 K búsquedas/mes y subiendo</td><td><span class="pill huerf">Huérfano</span></td><td>Atención psicológica en el barrio y prevención del bullying en colegios</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout rv"><div class="q">El salto estratégico: pasar de <b>cómo comunicar</b> (hooks y estilos) a <b>qué proponer</b>. Estas son propuestas ancladas en lo que la gente realmente busca y siente, no en intuición. La data manda, la causa convence.</div><div class="src">DataForSEO · volumen de búsqueda Colombia · jun 2026</div></div>
+
+  <h3 class="rv" style="font-size:23px;margin:46px 0 6px">Banderas que la búsqueda no revela, pero los datos sí</h3>
+  <p class="rv" style="font-size:15px;color:var(--muted);margin-bottom:6px">Encuestas y cifras oficiales muestran dolores enormes que casi ningún político ha tomado como bandera. Aquí está el mayor valor anti sesgo.</p>
+  <div class="grid g2 rv">
+    <div class="card" style="border-left:3px solid var(--gold)"><div class="role">Huérfano · concejal, alcalde, senador</div><h3 style="font-size:19px">Economía del cuidado</h3><p>El trabajo de cuidado no remunerado equivale a cerca de un quinto del PIB ampliado, y las mujeres aportan el 57% de todas las horas de trabajo del país. Una base de cuidadoras enorme, cansada y sin vocero. Encaja con manzanas del cuidado y centros de respiro.</p><div class="src" style="font-family:'IBM Plex Mono';font-size:10.5px;color:var(--faint);margin-top:10px">DANE · Cuenta Satélite de Economía del Cuidado</div></div>
+    <div class="card" style="border-left:3px solid var(--gold)"><div class="role">Parcialmente huérfano · edil, concejal</div><h3 style="font-size:19px">El hambre que se esconde bajo pobreza</h3><p>El 21,1% de los hogares vivió inseguridad alimentaria moderada o grave en 2025, y cerca de uno de cada cuatro pasó de tres a dos comidas al día. Nombrarla con datos y PAE local conecta más que el discurso genérico de pobreza.</p><div class="src" style="font-family:'IBM Plex Mono';font-size:10.5px;color:var(--faint);margin-top:10px">DANE · escala FIES y Pulso Social · 2025</div></div>
+    <div class="card" style="border-left:3px solid var(--gold)"><div class="role">Dolor nuevo · senador, representante</div><h3 style="font-size:19px">Retorno de deportados</h3><p>23.045 colombianos deportados de Estados Unidos en 2025, récord histórico frente a 15.220 en 2024, y casi sin política de reintegración laboral. Un frente nuevo, humano y sin dueño.</p><div class="src" style="font-family:'IBM Plex Mono';font-size:10.5px;color:var(--faint);margin-top:10px">TRAC · El Espectador · ago 2025</div></div>
+    <div class="card" style="border-left:3px solid var(--gold)"><div class="role">Huérfano limpio · concejal, senador</div><h3 style="font-size:19px">Salud mental juvenil</h3><p>Tema en alza desde la pandemia, con un matiz valioso: la gente todavía espera que el Estado responda, no hay desconfianza absoluta como en otros frentes. Conecta directo con el voto joven y casi nadie lo lleva como bandera central.</p><div class="src" style="font-family:'IBM Plex Mono';font-size:10.5px;color:var(--faint);margin-top:10px">Bogotá Cómo Vamos 2025 · MinSalud</div></div>
+  </div>
+
+  <div class="note rv"><b>Dos reglas para cerrar.</b> Primero, los frentes saturados son obligatorios pero ahí se compite por matiz, no por descubrimiento: la inseguridad es el problema número uno del país (30%), las quejas contra Nueva EPS subieron 107% en un año, y el 83% cree que la corrupción empeora. Segundo, cada frente tiene una emoción dominante distinta: seguridad es miedo, salud y costo de vida es angustia, multas y corrupción es rabia, cuidado es cansancio, salud mental joven es tristeza con esperanza. El mensaje creíble nombra la emoción correcta del segmento, no una genérica. <br><span style="color:var(--muted)">Cautela de datos: las cifras de feminicidios y de deforestación 2025 difieren entre fuentes y se deben tratar como rango, no como dato único.</span></div>
+</div></section>
+
+<!-- ============ 09 MIRA HOY ============ -->
+<section id="mira"><div class="wrap">
+  <div class="sec-head rv"><div class="sec-num">09</div><div>
+    <div class="kick">MIRA hoy · fortalezas y frentes descubiertos</div>
+    <h2>En qué somos fuertes y qué no estamos cubriendo</h2>
+  </div></div>
+  <p class="sec-sub rv">El objetivo es crecer hacia gente nueva. Para eso, mantener lo que funciona y ocupar los frentes de alta demanda que hoy nadie del partido está trabajando en redes.</p>
+
+  <div class="grid g2 rv">
+    <div class="card" style="border-top:3px solid var(--green)"><div class="role">Seguir y potenciar</div><h3>Lo que ya somos fuertes</h3><p>Identidad de servicio y anticorrupción, coherencia y credibilidad, una base leal y disciplinada, y activos digitales reales como el canal de Ana Paola Agudelo, el más fuerte del partido. La confianza es el mayor diferencial, y se protege justamente no entrando en la pelea sucia.</p></div>
+    <div class="card" style="border-top:3px solid var(--brand)"><div class="role">Ocupar ya</div><h3>Frentes descubiertos</h3><p>Acceso a ayudas y SISBÉN, defensa del deudor, navegación de la salud, deuda educativa y salud mental. Son de altísima demanda, encajan con el ADN de servicio y hoy ningún vocero del partido los trabaja de forma sistemática en redes.</p></div>
+  </div>
+
+  <h3 class="rv" style="font-size:20px;margin:40px 0 6px">Activos internos para encender</h3>
+  <p class="rv" style="font-size:14.5px;color:var(--muted);margin-bottom:4px">La estructura ya existe en todos los niveles. No hay que crearla, hay que darle método y cámara.</p>
+  <div class="grid g4 rv">
+    <div class="card" style="padding:17px 19px"><div class="mono" style="font-size:11.5px;color:var(--brand-deep);font-weight:600">@anapaolaagudelo</div><div style="font-size:11px;color:var(--muted);margin:2px 0 7px">Senado · el activo más fuerte</div><p style="font-size:13px;margin:0">Mayor alcance del partido. Punta de lanza natural para los frentes de servicio nacionales: salud, deudas, primer empleo.</p></div>
+    <div class="card" style="padding:17px 19px"><div class="mono" style="font-size:11.5px;color:var(--brand-deep);font-weight:600">Concejales de servicio</div><div style="font-size:11px;color:var(--muted);margin:2px 0 7px">@samirbedoyapiraquive · @fapuentess</div><p style="font-size:13px;margin:0">Ya hacen contenido de servicio tipo proto Biter en Bogotá. Base lista para escalar con la caja de herramientas de concejal.</p></div>
+    <div class="card" style="padding:17px 19px"><div class="mono" style="font-size:11.5px;color:var(--brand-deep);font-weight:600">@soydanileon</div><div style="font-size:11px;color:var(--muted);margin:2px 0 7px">Edil · Suba, Bogotá</div><p style="font-size:13px;margin:0">Activo local que ya construye marca personal. Terreno ideal para pilotear el formato de edil: barrio, antes y después, serie.</p></div>
+    <div class="card" style="padding:17px 19px"><div class="mono" style="font-size:11.5px;color:var(--brand-deep);font-weight:600">Banquillo joven</div><div style="font-size:11px;color:var(--muted);margin:2px 0 7px">Consejeros de juventud · diputado Caly (Antioquia)</div><p style="font-size:13px;margin:0">La cantera digital sin activar. Nativos de plataforma, ideales para salud mental, educación y primer empleo.</p></div>
+  </div>
+
+  <div class="callout rv"><div class="q"><b>El primer paso recomendado:</b> un piloto de 60 días con tres voceros de distinto nivel (un edil, un concejal de servicio y Ana Paola), cada uno ocupando un frente huérfano con un formato fijo y repetible. Medir alcance a gente nueva, guardados y comentarios con preguntas. Lo que funcione, se vuelve plantilla para todo el partido.</div></div>
+  <p class="sec-sub rv" style="margin-top:22px;font-size:15px;color:var(--muted)">Nota de alcance: este informe se concentra en la estrategia para llegar a públicos nuevos. La comunicación con la base y la identidad propia del partido son terreno que la dirigencia ya maneja, y por eso quedan fuera del objeto de este documento.</p>
+</div></section>
+
+<!-- ============ FOOTER / FICHA TECNICA ============ -->
+<footer><div class="wrap">
+  <span class="lead-tag">FICHA TÉCNICA</span>
+  <h3>Cómo se hizo este informe</h3>
+  <p style="max-width:680px;color:#c9cdd4;font-size:15px">Investigación basada en datos reales y verificables. El método combina descubrimiento de demanda, escucha de la conversación y medición de viralidad, sin depender de intuición.</p>
+  <div class="fgrid">
+    <div><div class="fk">Demanda</div><div class="fv">DataForSEO · Google Ads search volume · 90+ términos · Colombia</div></div>
+    <div><div class="fk">Conversación</div><div class="fv">Perplexity · qué pregunta y reclama la gente por frente</div></div>
+    <div><div class="fk">Viralidad</div><div class="fv">Apify · TikTok scraper y comments scraper · hooks, vistas y sentimiento</div></div>
+    <div><div class="fk">Verificación</div><div class="fv">Handles y cifras confirmados con scraping en vivo</div></div>
+  </div>
+  <div style="display:flex;gap:36px;flex-wrap:wrap;margin-top:34px;padding-top:26px;border-top:1px solid rgba(255,255,255,.1)">
+    <div><div style="font-family:'Fraunces',serif;font-size:30px;color:#fff;line-height:1">93</div><div class="fk" style="margin-top:6px">términos de búsqueda medidos</div></div>
+    <div><div style="font-family:'Fraunces',serif;font-size:30px;color:#fff;line-height:1">6</div><div class="fk" style="margin-top:6px">clústeres de demanda</div></div>
+    <div><div style="font-family:'Fraunces',serif;font-size:30px;color:#fff;line-height:1">30<span style="color:#ff8a5c">+</span></div><div class="fk" style="margin-top:6px">posts virales analizados</div></div>
+    <div><div style="font-family:'Fraunces',serif;font-size:30px;color:#fff;line-height:1">120<span style="color:#ff8a5c">+</span></div><div class="fk" style="margin-top:6px">comentarios leídos uno a uno</div></div>
+    <div><div style="font-family:'Fraunces',serif;font-size:30px;color:#fff;line-height:1">30<span style="color:#ff8a5c">+</span></div><div class="fk" style="margin-top:6px">referentes mapeados por nivel</div></div>
+    <div><div style="font-family:'Fraunces',serif;font-size:30px;color:#fff;line-height:1">50<span style="color:#ff8a5c">+</span></div><div class="fk" style="margin-top:6px">fuentes citadas con fecha</div></div>
+  </div>
+  <div class="fine">
+    <span>Partido MIRA · Estrategia de crecimiento digital · Junio 2026 · Documento de trabajo interno · Todos los datos son reales, scrapeados y verificados</span>
+    <span class="mono" id="costline" style="opacity:.55">procesamiento aprox. 1,2M tokens · costo de datos y cómputo aprox. USD 12</span>
+  </div>
+</div></footer>
+
+<script>
+// progress bar
+const bar=document.getElementById('bar');
+addEventListener('scroll',()=>{const h=document.documentElement;const p=h.scrollTop/(h.scrollHeight-h.clientHeight);bar.style.width=(p*100)+'%';},{passive:true});
+// reveal
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+// bars
+const bo=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.bfill').forEach(f=>{f.style.width=f.dataset.w+'%';});bo.unobserve(e.target);}})},{threshold:.3});
+document.querySelectorAll('.chart').forEach(c=>bo.observe(c));
+// active nav
+const links=[...document.querySelectorAll('nav a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+addEventListener('scroll',()=>{let i=secs.length;while(--i>=0){if(secs[i]&&secs[i].getBoundingClientRect().top<140){links.forEach(l=>l.classList.remove('active'));links[i].classList.add('active');break;}}},{passive:true});
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporales
+*.tmp
+*.log
+.playwright-mcp/
+qa_*.jpeg
+qa_*.png
+
+# Dependencias
+node_modules/
